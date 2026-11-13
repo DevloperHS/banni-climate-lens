@@ -227,7 +227,7 @@ The two records cover slightly different boxes, but that is far too small to exp
 
 ### 6.4 Does the answer change if we change the rules?
 
-A second review session re-ran the test with different cut-off values and with a map from an earlier year (`scripts/09_robustness.py`, results in `results/robustness_tests.json`). "Rain removed" here uses CHIRPS.
+We re-ran the test with different cut-off values and with a map from an earlier year (`scripts/09_robustness.py`, results in `results/robustness_tests.json`). "Rain removed" here uses CHIRPS.
 
 | Rules used | High / low pixels | High Prosopis, rain removed | Low Prosopis, rain removed | Difference, high minus low |
 |---|---|---|---|---|

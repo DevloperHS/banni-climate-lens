@@ -47,6 +47,7 @@ Select a region and period, retrieve satellite-derived series from **Google Eart
 - [Documentation](#-documentation)
 - [Stack](#-stack)
 - [Layout](#-layout)
+- [Further exploration](#-further-exploration)
 
 ## 🧭 How it works
 
@@ -79,7 +80,9 @@ flowchart LR
 
 ## 📊 Project status
 
-Legend: ✅ done · ⚠️ done with a limitation · ⏳ in progress · ⛔ not done
+Areas covered so far. What is still open is listed under [Further exploration](#-further-exploration).
+
+Legend: ✅ done · ⚠️ done with a limitation · ℹ️ design choice
 
 | | Area | State |
 |:-:|---|---|
@@ -89,12 +92,11 @@ Legend: ✅ done · ⚠️ done with a limitation · ⏳ in progress · ⛔ not 
 | ✅ | **Trend dashboards** (`/dashboards`) | Rain and Green, Water and Heat, Where It Changed: one map and one year slider, a result card per factor, a "before you trust this" box and a sources panel, all computed from stored data (`/api/dashboards/{id}`). |
 | ✅ | **Handover reproduction** | `/api/statistics/handover-reproduction`: all 9 handover figures reproduce from the real data (`python -m app.cli reproduce`). |
 | ✅ | **Aqua / EVI checks** (brief s.7) | Aqua NDVI (`MODIS/061/MYD13Q1`) and Terra EVI (`MOD13Q1`) extracted with the handover protocol. Trend and rain-removed tests are repeated over the common years 2002-2024 (`python -m app.cli checks`, `/api/statistics/sensor-index-checks`, *Sensor and index checks* panel on Rain and Green). On the real data both agree with Terra NDVI in the monsoon and the dry season. |
-| ⚠️ | **Geometry** | Handover rectangle (9,751 km²) is used. **No verified grassland polygon found**; support for supplying one is built. |
-| ⛔ | **Landsat species-level classification** | **Not attempted** (no ground-truth labels). Landsat NDVI comparison with MODIS is implemented. A separate Sentinel-2 Prosopis map was made for the research below. |
+| ⚠️ | **Geometry** | Handover rectangle (9,751 km²) is used; support for supplying a grassland polygon is built. |
+| ✅ | **Landsat NDVI** | Landsat NDVI is extracted and compared with MODIS. |
 | ✅ | **Prosopis research** (`research/prosopis_rf/`) | Sentinel-2 random forest with 159 hand-labelled points (accuracy 0.96 by the script's test, 0.76 with whole locations held out), Prosopis vs no-Prosopis greening trends, robustness checks and the 25 % "remove the factor" test. **Prosopis is not the driver of the greening.** See [Reproduce the Prosopis research](#8-reproduce-the-prosopis-research). |
-| ⏳ | **Farming test** (`research/prosopis_rf/scripts/12_farming_test.py`) | Farmland map export running; results not yet in the report. |
-| ⚠️ | **Groundwater** | No automatic CGWB / India-WRIS download (the portal requires a sign-in with CAPTCHA). Measured levels are analysed from a CSV upload (`lat`/`lon` columns place wells on the Water and Heat map). **No well data uploaded yet.** |
-| ⚠️ | **Salinity** | Landsat spectral proxy (SI1) extracted, but **unvalidated** for Banni until compared with field EC measurements. |
+| ⚠️ | **Groundwater** | Measured levels are analysed from a CSV upload (`lat`/`lon` columns place wells on the Water and Heat map). |
+| ⚠️ | **Salinity** | Landsat spectral proxy (SI1) extracted. |
 | ✅ | **Final phase** | Security, pipeline, report generator, new analyses and deployment assets are implemented and tested. See [`docs/FINAL_COMPLETION_REPORT.md`](docs/FINAL_COMPLETION_REPORT.md) for item-by-item status (COMPLETE / BLOCKED / NOT IMPLEMENTED). |
 | ℹ️ | **Database** | File-based store (JSON + GeoTIFF) rather than PostgreSQL/PostGIS. See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). |
 
@@ -468,3 +470,23 @@ Every script, its inputs and its outputs are described in [`research/prosopis_rf
         ├── README.md    how each file is made
         └── REPORT.md    findings in plain language
 ```
+
+## 🔭 Further exploration
+
+Areas not covered yet. Each one would make the results stronger or answer what is still open.
+
+Legend: ⛔ not done
+
+| | Area | State |
+|:-:|---|---|
+| ⛔ | **Farming test** (`research/prosopis_rf/scripts/12_farming_test.py`) | Remove farmland pixels (ESA WorldCover, Dynamic World) and apply the same 25 % rule as for Prosopis, to see whether farmland explains the greening. |
+| ⛔ | **Banni grassland polygon** | No verified boundary found. About 73 % of the handover rectangle is not Banni, so every trend should be repeated inside the real grassland. |
+| ⛔ | **Groundwater wells** | No automatic CGWB / India-WRIS download (the portal requires a sign-in with CAPTCHA). **No well data uploaded yet**; the `water_table` series is an ET + soil-moisture proxy, not measured levels. |
+| ⛔ | **Salinity validation** | The SI1 proxy is **unvalidated** for Banni until compared with field EC measurements. |
+| ⛔ | **Landsat species-level classification** | **Not attempted** (no ground-truth labels for Landsat). |
+| ⛔ | **Wet years at the end of the record** | Drop 2020 to 2024 (the wettest years) and test whether the greening trend survives. |
+| ⛔ | **Rainfall check against IMD** | IMERG reads about 1.8 times CHIRPS over Kutch. Compare both with IMD gridded rainfall, and repeat the platform's +0.0017 per year result with CHIRPS over the full rectangle. |
+| ⛔ | **Better Prosopis map** | Add a farmland (and possibly open grassland) class, and more mixed and saline-brush points until accuracy with whole locations held out passes 80 %. |
+| ⛔ | **Stricter accuracy checks** | 20 seeds or leave-one-site-out, reported with and without field site LTM_30; label 2017 imagery to measure the 2017 map's accuracy. |
+| ⛔ | **Dry-season NDVI check** | Repeat the Prosopis tests on March to May NDVI, so the outcome is not the same season the map was made from. |
+| ⛔ | **Other landscape-wide causes** | Soil moisture, soil salinity change, grazing pressure and non-linear rain effects (timing, extreme years) are not yet separated. |
