@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "C:\Users\asus\Documents\Side-Projects\GlobalClimateLens-main\.venv\Lib\site-packages\ee\data.py", line 361, in _execute_cloud_call
+    return call.execute(num_retries=num_retries)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\asus\Documents\Side-Projects\GlobalClimateLens-main\.venv\Lib\site-packages\googleapiclient\_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\asus\Documents\Side-Projects\GlobalClimateLens-main\.venv\Lib\site-packages\googleapiclient\http.py", line 1018, in execute
+    raise HttpError(resp, content, uri=self.uri)
+googleapiclient.errors.HttpError: <HttpError 400 when requesting https://earthengine.googleapis.com/v1/projects/banni-trend-2026/value:compute?prettyPrint=false&alt=json returned "Image.load: Image asset 'projects/banni-trend-2026/assets/banni_prosopis_class_fractions_python' not found (does not exist or caller does not have access).". Details: "Image.load: Image asset 'projects/banni-trend-2026/assets/banni_prosopis_class_fractions_python' not found (does not exist or caller does not have access).">
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\asus\Documents\Side-Projects\GlobalClimateLens-main\research\prosopis_rf\scripts\08_robustness_checks.py", line 49, in <module>
+    reducer=ee.Reducer.count(), geometry=roi, crs=mp["crs"], crsTransform=mp["transform"], maxPixels=1e9).getInfo()
+                                                                                                          ^^^^^^^^^
+  File "C:\Users\asus\Documents\Side-Projects\GlobalClimateLens-main\.venv\Lib\site-packages\ee\computedobject.py", line 108, in getInfo
+    return data.computeValue(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\asus\Documents\Side-Projects\GlobalClimateLens-main\.venv\Lib\site-packages\ee\data.py", line 1082, in computeValue
+    return _execute_cloud_call(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\asus\Documents\Side-Projects\GlobalClimateLens-main\.venv\Lib\site-packages\ee\data.py", line 363, in _execute_cloud_call
+    raise _translate_cloud_exception(e)  # pylint: disable=raise-missing-from
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ee.ee_exception.EEException: Image.load: Image asset 'projects/banni-trend-2026/assets/banni_prosopis_class_fractions_python' not found (does not exist or caller does not have access).

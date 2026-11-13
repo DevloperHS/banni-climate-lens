@@ -1,0 +1,142 @@
+{
+  "2023_40_5": {
+    "modis_pixels": {
+      "hi": 8763,
+      "lo": 43105
+    },
+    "hi": {
+      "raw": {
+        "direction": "increasing",
+        "p": 0.002281249640504912,
+        "sen_slope": 0.006282924783135063
+      },
+      "rain_removed": {
+        "direction": "increasing",
+        "p": 0.021065443548514473,
+        "sen_slope": 0.0034405338269810487
+      }
+    },
+    "lo": {
+      "raw": {
+        "direction": "increasing",
+        "p": 0.0003223560606209208,
+        "sen_slope": 0.004806802292973986
+      },
+      "rain_removed": {
+        "direction": "increasing",
+        "p": 0.003160052923044443,
+        "sen_slope": 0.0028573389849400757
+      }
+    },
+    "gap_hi_minus_lo": {
+      "direction": "no significant trend",
+      "p": 0.06283881974106831,
+      "sen_slope": 0.0015060855246843113
+    }
+  },
+  "2023_30_10": {
+    "modis_pixels": {
+      "hi": 11806,
+      "lo": 47336
+    },
+    "hi": {
+      "raw": {
+        "direction": "increasing",
+        "p": 0.0019316135357636544,
+        "sen_slope": 0.006362352954072638
+      },
+      "rain_removed": {
+        "direction": "increasing",
+        "p": 0.02727273655786444,
+        "sen_slope": 0.003479676796869135
+      }
+    },
+    "lo": {
+      "raw": {
+        "direction": "increasing",
+        "p": 0.0002191471228452091,
+        "sen_slope": 0.004877776332595658
+      },
+      "rain_removed": {
+        "direction": "increasing",
+        "p": 0.004337594636827813,
+        "sen_slope": 0.002950231081541274
+      }
+    },
+    "gap_hi_minus_lo": {
+      "direction": "increasing",
+      "p": 0.039516712961947364,
+      "sen_slope": 0.0014035571879000394
+    }
+  },
+  "2023_50_2": {
+    "modis_pixels": {
+      "hi": 6447,
+      "lo": 39063
+    },
+    "hi": {
+      "raw": {
+        "direction": "increasing",
+        "p": 0.0026880064370089496,
+        "sen_slope": 0.006000940257934519
+      },
+      "rain_removed": {
+        "direction": "increasing",
+        "p": 0.034998629495426536,
+        "sen_slope": 0.0033954833922065514
+      }
+    },
+    "lo": {
+      "raw": {
+        "direction": "increasing",
+        "p": 0.0003223560606209208,
+        "sen_slope": 0.004747125641965576
+      },
+      "rain_removed": {
+        "direction": "increasing",
+        "p": 0.007952706286745492,
+        "sen_slope": 0.002879901335369456
+      }
+    },
+    "gap_hi_minus_lo": {
+      "direction": "no significant trend",
+      "p": 0.08698814891833662,
+      "sen_slope": 0.0015567740334185975
+    }
+  },
+  "2017_40_5": {
+    "modis_pixels": {
+      "hi": 7881,
+      "lo": 44716
+    },
+    "hi": {
+      "raw": {
+        "direction": "increasing",
+        "p": 0.0019316135357636544,
+        "sen_slope": 0.006794109434671147
+      },
+      "rain_removed": {
+        "direction": "increasing",
+        "p": 0.02727273655786444,
+        "sen_slope": 0.003928666506233246
+      }
+    },
+    "lo": {
+      "raw": {
+        "direction": "increasing",
+        "p": 0.0002660979627469029,
+        "sen_slope": 0.0049706601459812705
+      },
+      "rain_removed": {
+        "direction": "increasing",
+        "p": 0.003706522671735435,
+        "sen_slope": 0.0029976457478118976
+      }
+    },
+    "gap_hi_minus_lo": {
+      "direction": "no significant trend",
+      "p": 0.0701839854914923,
+      "sen_slope": 0.00193894437182332
+    }
+  }
+}

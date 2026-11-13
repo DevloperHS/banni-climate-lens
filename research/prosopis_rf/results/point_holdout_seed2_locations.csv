@@ -1,0 +1,170 @@
+loc_id,split,class_code,class_name,source,location,test_pixels,test_pixels_correct,test_pixel_accuracy
+pros_02,test,1,Prosopis woodland,hand-picked,"69.17293 E, 23.43808 N",11,11,1.0
+pros_03,test,1,Prosopis woodland,hand-picked,"69.13924 E, 23.60355 N",11,11,1.0
+pros_09,test,1,Prosopis woodland,hand-picked,"69.69629 E, 23.45748 N",11,11,1.0
+pros_10,test,1,Prosopis woodland,hand-picked,"69.60358 E, 23.40224 N",11,10,0.909
+pros_13,test,1,Prosopis woodland,hand-picked,"69.69709 E, 23.45398 N",11,11,1.0
+pros_15,test,1,Prosopis woodland,hand-picked,"69.69440 E, 23.45613 N",11,11,1.0
+pros_21,test,1,Prosopis woodland,hand-picked,"69.77984 E, 23.82765 N",14,14,1.0
+pros_22,test,1,Prosopis woodland,hand-picked,"69.77930 E, 23.82900 N",14,14,1.0
+pros_25,test,1,Prosopis woodland,hand-picked,"69.78793 E, 23.83224 N",14,13,0.929
+pros_26,test,1,Prosopis woodland,hand-picked,"69.03954 E, 23.47327 N",14,14,1.0
+pros_28,test,1,Prosopis woodland,hand-picked,"69.45241 E, 23.43796 N",14,14,1.0
+pros_30,test,1,Prosopis woodland,hand-picked,"69.44756 E, 23.43904 N",14,14,1.0
+pros_31,test,1,Prosopis woodland,hand-picked,"69.02256 E, 23.53902 N",14,14,1.0
+mix_02,test,2,Mixed,hand-picked,"69.45643 E, 23.64047 N",11,10,0.909
+mix_03,test,2,Mixed,hand-picked,"69.07968 E, 23.59735 N",11,11,1.0
+mix_06,test,2,Mixed,hand-picked,"69.80139 E, 23.81025 N",11,9,0.818
+mix_07,test,2,Mixed,hand-picked,"69.58094 E, 23.72293 N",11,11,1.0
+mix_10,test,2,Mixed,hand-picked,"69.14813 E, 23.60031 N",11,11,1.0
+mix_13,test,2,Mixed,hand-picked,"69.03306 E, 23.67227 N",11,7,0.636
+mix_19,test,2,Mixed,hand-picked,"69.54052 E, 23.58064 N",11,11,1.0
+mix_25,test,2,Mixed,hand-picked,"69.18990 E, 23.52135 N",11,11,1.0
+mix_26,test,2,Mixed,hand-picked,"69.41412 E, 23.41760 N",11,0,0.0
+water_01,test,3,Wetland/water,hand-picked,"69.03090 E, 23.80028 N",11,11,1.0
+water_04,test,3,Wetland/water,hand-picked,"69.26806 E, 23.86118 N",11,11,1.0
+water_05,test,3,Wetland/water,hand-picked,"69.50090 E, 23.86981 N",11,11,1.0
+water_08,test,3,Wetland/water,hand-picked,"69.59145 E, 23.85445 N",11,11,1.0
+water_15,test,3,Wetland/water,hand-picked,"69.41197 E, 23.80432 N",11,11,1.0
+water_22,test,3,Wetland/water,hand-picked,"69.10825 E, 23.89595 N",11,11,1.0
+water_23,test,3,Wetland/water,hand-picked,"69.52273 E, 23.87062 N",11,11,1.0
+water_26,test,3,Wetland/water,hand-picked,"69.41520 E, 23.83909 N",11,11,1.0
+water_27,test,3,Wetland/water,hand-picked,"69.40954 E, 23.83936 N",11,11,1.0
+water_35,test,3,Wetland/water,hand-picked,"69.30553 E, 23.59885 N",14,14,1.0
+water_36,test,3,Wetland/water,hand-picked,"69.32548 E, 23.59427 N",14,14,1.0
+water_37,test,3,Wetland/water,hand-picked,"69.32709 E, 23.58403 N",14,14,1.0
+water_39,test,3,Wetland/water,hand-picked,"69.32063 E, 23.58780 N",14,14,1.0
+water_44,test,3,Wetland/water,hand-picked,"69.32763 E, 23.59265 N",14,14,1.0
+water_45,test,3,Wetland/water,hand-picked,"69.31982 E, 23.60155 N",14,14,1.0
+water_47,test,3,Wetland/water,hand-picked,"69.30041 E, 23.59535 N",14,14,1.0
+LTM_30,test,4,Saline brushland,Zenodo field site,"UTM42N 538758 E, 2612081 N",120,25,0.208
+brush_01,test,4,Saline brushland,hand-picked,"69.30471 E, 23.70137 N",11,0,0.0
+brush_04,test,4,Saline brushland,hand-picked,"69.33597 E, 23.78088 N",11,11,1.0
+brush_13,test,4,Saline brushland,hand-picked,"69.65909 E, 23.70488 N",11,11,1.0
+brush_15,test,4,Saline brushland,hand-picked,"69.41628 E, 23.78788 N",11,11,1.0
+brush_22,test,4,Saline brushland,hand-picked,"69.58337 E, 23.61783 N",11,11,1.0
+brush_23,test,4,Saline brushland,hand-picked,"69.19772 E, 23.77414 N",11,11,1.0
+brush_25,test,4,Saline brushland,hand-picked,"69.75531 E, 23.55288 N",11,10,0.909
+brush_28,test,4,Saline brushland,hand-picked,"69.68012 E, 23.55181 N",11,11,1.0
+GORE-PROS,train,1,Prosopis woodland,Zenodo field site,"UTM42N 553001 E, 2626757 N",,,
+LTM_10,train,1,Prosopis woodland,Zenodo field site,"UTM42N 526996 E, 2620503 N",,,
+pros_01,train,1,Prosopis woodland,hand-picked,"69.17993 E, 23.44805 N",,,
+pros_04,train,1,Prosopis woodland,hand-picked,"69.51249 E, 23.77117 N",,,
+pros_05,train,1,Prosopis woodland,hand-picked,"69.69063 E, 23.45263 N",,,
+pros_06,train,1,Prosopis woodland,hand-picked,"69.61625 E, 23.41571 N",,,
+pros_07,train,1,Prosopis woodland,hand-picked,"69.08588 E, 23.54857 N",,,
+pros_08,train,1,Prosopis woodland,hand-picked,"69.69386 E, 23.46153 N",,,
+pros_11,train,1,Prosopis woodland,hand-picked,"69.73240 E, 23.75689 N",,,
+pros_12,train,1,Prosopis woodland,hand-picked,"69.02363 E, 23.71835 N",,,
+pros_14,train,1,Prosopis woodland,hand-picked,"69.18910 E, 23.45344 N",,,
+pros_16,train,1,Prosopis woodland,hand-picked,"69.61328 E, 23.40897 N",,,
+pros_17,train,1,Prosopis woodland,hand-picked,"69.83669 E, 23.71215 N",,,
+pros_18,train,1,Prosopis woodland,hand-picked,"69.05760 E, 23.66030 N",,,
+pros_19,train,1,Prosopis woodland,hand-picked,"69.07673 E, 23.62984 N",,,
+pros_20,train,1,Prosopis woodland,hand-picked,"69.84964 E, 23.89098 N",,,
+pros_23,train,1,Prosopis woodland,hand-picked,"69.00612 E, 23.69318 N",,,
+pros_24,train,1,Prosopis woodland,hand-picked,"69.05787 E, 23.66703 N",,,
+pros_27,train,1,Prosopis woodland,hand-picked,"69.45052 E, 23.43284 N",,,
+pros_29,train,1,Prosopis woodland,hand-picked,"69.33383 E, 23.43581 N",,,
+pros_32,train,1,Prosopis woodland,hand-picked,"69.03550 E, 23.46168 N",,,
+pros_33,train,1,Prosopis woodland,hand-picked,"69.02715 E, 23.48890 N",,,
+pros_34,train,1,Prosopis woodland,hand-picked,"69.03280 E, 23.48405 N",,,
+pros_35,train,1,Prosopis woodland,hand-picked,"69.42842 E, 23.41371 N",,,
+pros_36,train,1,Prosopis woodland,hand-picked,"69.45753 E, 23.44416 N",,,
+pros_37,train,1,Prosopis woodland,hand-picked,"69.03496 E, 23.46896 N",,,
+pros_38,train,1,Prosopis woodland,hand-picked,"69.35323 E, 23.45575 N",,,
+pros_39,train,1,Prosopis woodland,hand-picked,"69.55832 E, 23.41452 N",,,
+LTM_15,train,2,Mixed,Zenodo field site,"UTM42N 530767 E, 2612166 N",,,
+LTM_18,train,2,Mixed,Zenodo field site,"UTM42N 530747 E, 2624128 N",,,
+LTM_26,train,2,Mixed,Zenodo field site,"UTM42N 534745 E, 2624301 N",,,
+LTM_44,train,2,Mixed,Zenodo field site,"UTM42N 546265 E, 2611982 N",,,
+mix_01,train,2,Mixed,hand-picked,"69.04060 E, 23.43484 N",,,
+mix_04,train,2,Mixed,hand-picked,"69.29689 E, 23.66095 N",,,
+mix_05,train,2,Mixed,hand-picked,"69.81729 E, 23.42730 N",,,
+mix_08,train,2,Mixed,hand-picked,"69.24407 E, 23.68844 N",,,
+mix_09,train,2,Mixed,hand-picked,"69.76231 E, 23.81941 N",,,
+mix_11,train,2,Mixed,hand-picked,"69.03575 E, 23.67550 N",,,
+mix_12,train,2,Mixed,hand-picked,"69.02821 E, 23.68413 N",,,
+mix_14,train,2,Mixed,hand-picked,"69.31549 E, 23.69599 N",,,
+mix_15,train,2,Mixed,hand-picked,"69.55318 E, 23.77953 N",,,
+mix_16,train,2,Mixed,hand-picked,"69.76501 E, 23.46153 N",,,
+mix_17,train,2,Mixed,hand-picked,"69.53001 E, 23.79004 N",,,
+mix_18,train,2,Mixed,hand-picked,"69.51357 E, 23.42272 N",,,
+mix_20,train,2,Mixed,hand-picked,"69.23087 E, 23.67577 N",,,
+mix_21,train,2,Mixed,hand-picked,"69.44242 E, 23.67766 N",,,
+mix_22,train,2,Mixed,hand-picked,"69.53728 E, 23.70488 N",,,
+mix_23,train,2,Mixed,hand-picked,"69.30040 E, 23.71970 N",,,
+mix_24,train,2,Mixed,hand-picked,"69.14005 E, 23.63858 N",,,
+mix_27,train,2,Mixed,hand-picked,"69.19583 E, 23.42892 N",,,
+mix_28,train,2,Mixed,hand-picked,"69.84451 E, 23.83693 N",,,
+mix_29,train,2,Mixed,hand-picked,"69.16242 E, 23.57714 N",,,
+mix_30,train,2,Mixed,hand-picked,"69.39257 E, 23.65826 N",,,
+mix_31,train,2,Mixed,hand-picked,"69.07860 E, 23.61729 N",,,
+mix_32,train,2,Mixed,hand-picked,"69.12037 E, 23.46422 N",,,
+mix_33,train,2,Mixed,hand-picked,"69.22656 E, 23.43754 N",,,
+mix_34,train,2,Mixed,hand-picked,"69.58849 E, 23.71188 N",,,
+water_02,train,3,Wetland/water,hand-picked,"69.34163 E, 23.85795 N",,,
+water_03,train,3,Wetland/water,hand-picked,"69.10933 E, 23.86685 N",,,
+water_06,train,3,Wetland/water,hand-picked,"69.02524 E, 23.89164 N",,,
+water_07,train,3,Wetland/water,hand-picked,"69.38637 E, 23.86145 N",,,
+water_09,train,3,Wetland/water,hand-picked,"69.27614 E, 23.84663 N",,,
+water_10,train,3,Wetland/water,hand-picked,"69.36939 E, 23.84097 N",,,
+water_11,train,3,Wetland/water,hand-picked,"69.01932 E, 23.89595 N",,,
+water_12,train,3,Wetland/water,hand-picked,"69.49255 E, 23.89891 N",,,
+water_13,train,3,Wetland/water,hand-picked,"69.69440 E, 23.82615 N",,,
+water_14,train,3,Wetland/water,hand-picked,"69.48231 E, 23.89945 N",,,
+water_16,train,3,Wetland/water,hand-picked,"69.31738 E, 23.86900 N",,,
+water_17,train,3,Wetland/water,hand-picked,"69.45401 E, 23.89460 N",,,
+water_18,train,3,Wetland/water,hand-picked,"69.02578 E, 23.89514 N",,,
+water_19,train,3,Wetland/water,hand-picked,"69.10124 E, 23.85660 N",,,
+water_20,train,3,Wetland/water,hand-picked,"69.09208 E, 23.86280 N",,,
+water_21,train,3,Wetland/water,hand-picked,"69.42221 E, 23.86900 N",,,
+water_24,train,3,Wetland/water,hand-picked,"69.05866 E, 23.86145 N",,,
+water_25,train,3,Wetland/water,hand-picked,"69.48042 E, 23.89299 N",,,
+water_28,train,3,Wetland/water,hand-picked,"69.27372 E, 23.84124 N",,,
+water_29,train,3,Wetland/water,hand-picked,"69.48527 E, 23.81753 N",,,
+water_30,train,3,Wetland/water,hand-picked,"69.55750 E, 23.83424 N",,,
+water_31,train,3,Wetland/water,hand-picked,"69.31820 E, 23.58484 N",,,
+water_32,train,3,Wetland/water,hand-picked,"69.09883 E, 23.63631 N",,,
+water_33,train,3,Wetland/water,hand-picked,"69.31011 E, 23.59912 N",,,
+water_34,train,3,Wetland/water,hand-picked,"69.32467 E, 23.58160 N",,,
+water_38,train,3,Wetland/water,hand-picked,"69.31604 E, 23.58565 N",,,
+water_40,train,3,Wetland/water,hand-picked,"69.31038 E, 23.59292 N",,,
+water_41,train,3,Wetland/water,hand-picked,"69.31982 E, 23.58403 N",,,
+water_42,train,3,Wetland/water,hand-picked,"69.31308 E, 23.59697 N",,,
+water_43,train,3,Wetland/water,hand-picked,"69.33491 E, 23.58026 N",,,
+water_46,train,3,Wetland/water,hand-picked,"69.10503 E, 23.63739 N",,,
+water_48,train,3,Wetland/water,hand-picked,"69.31362 E, 23.60101 N",,,
+water_49,train,3,Wetland/water,hand-picked,"69.31577 E, 23.59481 N",,,
+water_50,train,3,Wetland/water,hand-picked,"69.31631 E, 23.59346 N",,,
+water_51,train,3,Wetland/water,hand-picked,"69.31119 E, 23.60128 N",,,
+water_52,train,3,Wetland/water,hand-picked,"69.32548 E, 23.58700 N",,,
+water_53,train,3,Wetland/water,hand-picked,"69.10665 E, 23.63523 N",,,
+LTM_29,train,4,Saline brushland,Zenodo field site,"UTM42N 538760 E, 2608103 N",,,
+LTM_36,train,4,Saline brushland,Zenodo field site,"UTM42N 542770 E, 2608166 N",,,
+LTM_43,train,4,Saline brushland,Zenodo field site,"UTM42N 546742 E, 2608154 N",,,
+brush_02,train,4,Saline brushland,hand-picked,"69.21120 E, 23.72832 N",,,
+brush_03,train,4,Saline brushland,hand-picked,"69.19530 E, 23.80567 N",,,
+brush_05,train,4,Saline brushland,hand-picked,"69.20042 E, 23.75797 N",,,
+brush_06,train,4,Saline brushland,hand-picked,"69.88224 E, 23.57444 N",,,
+brush_07,train,4,Saline brushland,hand-picked,"69.88062 E, 23.64020 N",,,
+brush_08,train,4,Saline brushland,hand-picked,"69.58741 E, 23.78815 N",,,
+brush_09,train,4,Saline brushland,hand-picked,"69.60600 E, 23.76767 N",,,
+brush_10,train,4,Saline brushland,hand-picked,"69.87954 E, 23.60220 N",,,
+brush_11,train,4,Saline brushland,hand-picked,"69.72674 E, 23.68925 N",,,
+brush_12,train,4,Saline brushland,hand-picked,"69.67419 E, 23.59196 N",,,
+brush_14,train,4,Saline brushland,hand-picked,"69.87846 E, 23.63131 N",,,
+brush_16,train,4,Saline brushland,hand-picked,"69.67688 E, 23.69167 N",,,
+brush_17,train,4,Saline brushland,hand-picked,"69.64373 E, 23.78222 N",,,
+brush_18,train,4,Saline brushland,hand-picked,"69.53189 E, 23.58307 N",,,
+brush_19,train,4,Saline brushland,hand-picked,"69.82187 E, 23.68170 N",,,
+brush_20,train,4,Saline brushland,hand-picked,"69.89302 E, 23.53725 N",,,
+brush_21,train,4,Saline brushland,hand-picked,"69.86957 E, 23.62376 N",,,
+brush_24,train,4,Saline brushland,hand-picked,"69.31980 E, 23.80163 N",,,
+brush_26,train,4,Saline brushland,hand-picked,"69.86068 E, 23.54130 N",,,
+brush_27,train,4,Saline brushland,hand-picked,"69.83265 E, 23.51920 N",,,
+brush_29,train,4,Saline brushland,hand-picked,"69.17104 E, 23.80621 N",,,
+brush_30,train,4,Saline brushland,hand-picked,"69.86876 E, 23.66230 N",,,
+brush_31,train,4,Saline brushland,hand-picked,"69.20122 E, 23.76417 N",,,
+brush_32,train,4,Saline brushland,hand-picked,"69.38286 E, 23.76282 N",,,
+brush_33,train,4,Saline brushland,hand-picked,"69.12496 E, 23.73722 N",,,
