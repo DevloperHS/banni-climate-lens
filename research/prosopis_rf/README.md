@@ -19,30 +19,14 @@ The findings and their limits are in [REPORT.md](REPORT.md).
 | `labelling/visual_labels.csv` | One decision per candidate after looking at its image chip: accepted, relabelled or rejected |
 | `labelling/training_points.csv` | Final points (at least 150 m apart): 39 Prosopis, 34 mixed, 53 water, 33 saline brush |
 | `labelling/sheets/` | Image chips used for labelling (git-ignored: Esri imagery; regenerate with `02_make_chips.py`) |
-| `scripts/` | Reproducible steps 01-06 (below); 07 (one location-holdout run in detail) and 09 (cutoff and 2017-map robustness) were added by the parallel review session; 04b and 08 are its earlier drafts, superseded by 09; 10 compares pure saline-brush (no woody) pixels with woody ones; 11 removes Prosopis pixels from the area and applies the 25 % effect rule |
+| `scripts/` | Reproducible steps 01-06 (below); 07 (one location-holdout run in detail) and 09 (cutoff and 2017-map robustness) were added by the parallel review session; 04b and 08 are its earlier drafts, superseded by 09; 10 compares pure saline-brush (no woody) pixels with woody ones; 11 removes Prosopis pixels from the area and applies the 25 % effect rule; 12a exports farmland shares and 12 applies the same rule to farmland |
 | `results/` | Accuracy (`rf_accuracy_*.json`), class shares, the exported CSV (Drive copy + full precision), trend tests, class map image, console screenshot, run logs |
 | `../../data/extras/prosopis_rf/` | Local copies of the exported CSV |
 
 ## Steps
 
-Run from the repository root with the project venv (`.\.venv\Scripts\Activate.ps1`) and Earth Engine signed in.
-
-```powershell
-python research\prosopis_rf\scripts\01_candidate_points.py            # round-1 candidates, 70 per class
-python research\prosopis_rf\scripts\02_make_chips.py                  # image chips for visual labelling
-python research\prosopis_rf\scripts\01b_candidate_points_round2.py    # extra Prosopis + inland water candidates
-python research\prosopis_rf\scripts\02_make_chips.py candidates_round2.csv r2_
-python research\prosopis_rf\scripts\01c_candidate_points_round3.py    # extra Prosopis on new patches
-python research\prosopis_rf\scripts\02_make_chips.py candidates_round3.csv r3_
-#   -> decisions recorded by eye in labelling\visual_labels.csv
-python research\prosopis_rf\scripts\03_build_training_points.py       # spaced points + gee\manual_points.js
-python research\prosopis_rf\scripts\04_run_rf_python.py               # Python cross-check of the whole script
-python research\prosopis_rf\scripts\05_analyse_trends.py              # trend tests on the exported CSV
-python research\prosopis_rf\scripts\06_point_holdout_accuracy.py      # stricter accuracy (whole locations held out)
-```
-
-In the Code Editor: paste `gee/stage1_classmap.js`, Run, start the `banni_rf_classmap_2023` task; when it has finished,
-paste `gee/stage2_table.js`, Run, start the `banni_ndvi_by_prosopis_chirps` task and download the CSV from Drive.
+The full, ordered commands to reproduce every result (training points, the three Code Editor runs, and scripts 04 to 12)
+are in the main README: [Reproduce the Prosopis research](../../README.md#8-reproduce-the-prosopis-research).
 
 ## Why there are two stages
 

@@ -43,6 +43,7 @@ Select a region and period, retrieve satellite-derived series from **Google Eart
   - [5. Run the app](#5-run-the-app)
   - [6. Tests](#6-tests)
   - [7. Docker (optional)](#7-docker-optional)
+  - [8. Reproduce the Prosopis research](#8-reproduce-the-prosopis-research)
 - [Documentation](#-documentation)
 - [Stack](#-stack)
 - [Layout](#-layout)
@@ -78,7 +79,7 @@ flowchart LR
 
 ## 📊 Project status
 
-Legend: ✅ done · ⚠️ done with a limitation · ⛔ not done
+Legend: ✅ done · ⚠️ done with a limitation · ⏳ in progress · ⛔ not done
 
 | | Area | State |
 |:-:|---|---|
@@ -89,7 +90,9 @@ Legend: ✅ done · ⚠️ done with a limitation · ⛔ not done
 | ✅ | **Handover reproduction** | `/api/statistics/handover-reproduction`: all 9 handover figures reproduce from the real data (`python -m app.cli reproduce`). |
 | ✅ | **Aqua / EVI checks** (brief s.7) | Aqua NDVI (`MODIS/061/MYD13Q1`) and Terra EVI (`MOD13Q1`) extracted with the handover protocol. Trend and rain-removed tests are repeated over the common years 2002-2024 (`python -m app.cli checks`, `/api/statistics/sensor-index-checks`, *Sensor and index checks* panel on Rain and Green). On the real data both agree with Terra NDVI in the monsoon and the dry season. |
 | ⚠️ | **Geometry** | Handover rectangle (9,751 km²) is used. **No verified grassland polygon found**; support for supplying one is built. |
-| ⛔ | **Landsat species-level classification** | **Not attempted** (no ground-truth labels). Landsat NDVI comparison with MODIS is implemented. |
+| ⛔ | **Landsat species-level classification** | **Not attempted** (no ground-truth labels). Landsat NDVI comparison with MODIS is implemented. A separate Sentinel-2 Prosopis map was made for the research below. |
+| ✅ | **Prosopis research** (`research/prosopis_rf/`) | Sentinel-2 random forest with 159 hand-labelled points (accuracy 0.96 by the script's test, 0.76 with whole locations held out), Prosopis vs no-Prosopis greening trends, robustness checks and the 25 % "remove the factor" test. **Prosopis is not the driver of the greening.** See [Reproduce the Prosopis research](#8-reproduce-the-prosopis-research). |
+| ⏳ | **Farming test** (`research/prosopis_rf/scripts/12_farming_test.py`) | Farmland map export running; results not yet in the report. |
 | ⚠️ | **Groundwater** | No automatic CGWB / India-WRIS download (the portal requires a sign-in with CAPTCHA). Measured levels are analysed from a CSV upload (`lat`/`lon` columns place wells on the Water and Heat map). **No well data uploaded yet.** |
 | ⚠️ | **Salinity** | Landsat spectral proxy (SI1) extracted, but **unvalidated** for Banni until compared with field EC measurements. |
 | ✅ | **Final phase** | Security, pipeline, report generator, new analyses and deployment assets are implemented and tested. See [`docs/FINAL_COMPLETION_REPORT.md`](docs/FINAL_COMPLETION_REPORT.md) for item-by-item status (COMPLETE / BLOCKED / NOT IMPLEMENTED). |
@@ -306,11 +309,113 @@ docker compose up --build                      # API + built frontend in one con
 
 The app is then served on <http://127.0.0.1:8000>. See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
 
+### 8. Reproduce the Prosopis research
+
+Tests whether the spread of *Prosopis juliflora*, or farmland, explains why Banni is greener than its rain explains. The answer so far: **Prosopis is not the driver** (greening also happens where there are no trees or bushes at all). Full findings, in plain language: [`research/prosopis_rf/REPORT.md`](research/prosopis_rf/REPORT.md).
+
+> [!NOTE]
+> **Before you start**
+> - Step 3 is done: Earth Engine signed in and `GCL_EE_PROJECT` set in `.env`.
+> - You can open the [Earth Engine Code Editor](https://code.earthengine.google.com/) with the same Google account and project.
+> - The whole run uses about **20 EECU-hours** of the free Community tier's 150 per month (three map exports of about 7 each).
+> - Earth Engine export tasks can take from minutes to a few hours. Scripts that start one wait for it to finish.
+
+```mermaid
+flowchart LR
+    A["8.1 Training points"] --> B["8.2 Code Editor<br/>accuracy, class map, table"] --> C["8.3 Python<br/>accuracy checks and trend tests"]
+```
+
+#### 8.1 Training points
+
+```powershell
+cd research\prosopis_rf\scripts
+python 03_build_training_points.py
+```
+
+Rebuilds `labelling/training_points.csv` and `gee/manual_points.js` from the committed by-eye decisions in `labelling/visual_labels.csv` (39 Prosopis woodland, 34 mixed, 53 water, 33 saline brush points, at least 150 m apart). The output is identical to the committed files.
+
+<details>
+<summary><b>Redo the labelling from scratch (optional)</b></summary>
+
+Candidates are drawn at random, so a new run gives new points that must be judged by eye again. Run the three candidate rounds, each followed by its image sheets:
+
+```powershell
+python 01_candidate_points.py
+python 02_make_chips.py
+python 01b_candidate_points_round2.py
+python 02_make_chips.py candidates_round2.csv r2_
+python 01c_candidate_points_round3.py
+python 02_make_chips.py candidates_round3.csv r3_
+```
+
+Then look at every sheet in `labelling/sheets/`, record one decision per candidate (accept, relabel or reject) in `labelling/visual_labels.csv`, and run `python 03_build_training_points.py`.
+
+> [!CAUTION]
+> The sheets are cut from **Esri World Imagery**, whose terms do not allow the tiles to be shared or redistributed. They stay on your machine (`labelling/sheets/` and `data/cache/esri_tiles/` are git-ignored). Delete them when labelling is done.
+
+</details>
+
+#### 8.2 Earth Engine Code Editor
+
+In `gee/stage1_classmap.js` and `gee/stage2_table.js`, replace `banni-trend-2026` with **your project ID** (one line in each file). Then paste each file below into the Code Editor, in order, and press **Run**:
+
+| # | Paste | Then |
+|:-:|---|---|
+| 1 | `gee/banni_rf_with_points.js` | The console prints **Overall accuracy** and **Kappa** (about 0.96 and 0.95). Do not start its export task: it fails by design (the original script's bug, see REPORT section 5). |
+| 2 | `gee/stage1_classmap.js` | **Tasks** tab > **Run** `banni_rf_classmap_2023`. Wait until it has finished. |
+| 3 | `gee/stage2_table.js` | **Tasks** tab > **Run** `banni_ndvi_by_prosopis_chirps`. Download the CSV from Google Drive and save it as `research/prosopis_rf/results/banni_ndvi_by_prosopis_chirps.csv` (replaces the committed copy). |
+
+#### 8.3 Accuracy checks and trend tests
+
+Still in `research\prosopis_rf\scripts`, venv activated:
+
+```powershell
+python 04_run_rf_python.py
+python 05_analyse_trends.py
+python 06_point_holdout_accuracy.py
+python 07_point_holdout_detail.py
+python 09_robustness.py
+python 10_brush_vs_woody.py
+python 11_remove_prosopis.py
+python 12a_export_cropland.py
+python 12_farming_test.py
+cd ..\..\..
+```
+
+| Script | What it does | Writes to `results/` |
+|---|---|---|
+| `04_run_rf_python.py` | Runs the Code Editor script again through Python as a cross-check | `rf_accuracy_python.json`, `banni_ndvi_by_prosopis_chirps_python.csv` |
+| `05_analyse_trends.py` | Main test: greening in high- vs low-Prosopis pixels, with rain removed (CHIRPS and IMERG) | `trend_tests.json` |
+| `06_point_holdout_accuracy.py` | Stricter accuracy: whole locations held out, 5 seeds | `rf_accuracy_point_holdout.json` |
+| `07_point_holdout_detail.py` | One of those runs in full detail, location by location (seed 2) | `point_holdout_seed2.json`, `point_holdout_seed2_locations.csv` |
+| `09_robustness.py` | Other cutoffs (30/10, 50/2) and masks from a 2017 map. Exports `banni_rf_classmap_2017` first if missing | `robustness_tests.json`, `robustness_series.csv` |
+| `10_brush_vs_woody.py` | Pixels with no trees or bushes vs woody pixels. Needs the 2017 map from `09` | `brush_vs_woody_tests.json`, `brush_vs_woody_series.csv` |
+| `11_remove_prosopis.py` | Removes Prosopis pixels and applies the 25 % effect rule | `remove_prosopis_tests.json`, `remove_prosopis_series.csv` |
+| `12a_export_cropland.py` | Exports farmland shares (ESA WorldCover, Dynamic World) as an asset | `banni_cropland_fractions_modis` asset |
+| `12_farming_test.py` | Removes farmland pixels and applies the 25 % effect rule, in the script box and the platform box | `farming_tests.json`, `farming_series.csv` |
+
+`04_run_rf_python.py --own-map` exports its own 2023 map instead of reading the Code Editor one (about 7 more EECU-hours). `04b_export_class_maps.py` and `08_robustness_checks.py` are earlier drafts replaced by `09`; you do not need to run them.
+
+**What you should see**
+
+| Check | Expected |
+|---|---|
+| Accuracy, script's own test (`1` in 8.2) | about 0.96, kappa about 0.95 (varies slightly between runs) |
+| Accuracy, whole locations held out (`06`) | about 0.76 |
+| High minus low Prosopis greening (`05`) | +0.0015 per year, p = 0.063 (not significant) |
+| No trees or bushes, rain removed (`10`) | still greening, p = 0.001 to 0.002 |
+| Prosopis woodland removed (`11`) | trend changes by less than 13 %: neutral |
+
+Every script, its inputs and its outputs are described in [`research/prosopis_rf/README.md`](research/prosopis_rf/README.md).
+
 ## 📚 Documentation
 
 | Document | Covers |
 |---|---|
 | [Final completion report](docs/FINAL_COMPLETION_REPORT.md) | Item-by-item project status |
+| [Prosopis research report](research/prosopis_rf/REPORT.md) | Does Prosopis explain Banni's greening? Findings in plain language |
+| [Prosopis research files](research/prosopis_rf/README.md) | Every research script, its inputs and outputs |
+| [Known issues](docs/KNOWN_ISSUES.md) | Open problems, including the original script's export bug and IMERG vs CHIRPS |
 | [Security review](docs/SECURITY_REVIEW.md) | Security controls and findings |
 | [Validation report](docs/SCIENTIFIC_VALIDATION_REPORT.md) | Scientific validation of the results |
 | [Dataset verification](docs/DATASET_VERIFICATION.md) | Dataset IDs, bands and units checked against the catalogue |
@@ -349,8 +454,17 @@ The app is then served on <http://127.0.0.1:8000>. See [`docs/DEPLOYMENT.md`](do
 ├── data/
 │   ├── processed/       extracted Banni data (committed)
 │   ├── raw/             raw extraction records (committed)
+│   ├── extras/          banni_rf.js as received, and copies of its exported table
 │   ├── sample/          synthetic sample (git-ignored)
-│   └── cache/           job logs (git-ignored)
+│   └── cache/           job logs, Esri image tiles (git-ignored)
 ├── data-templates/      CSV templates for wells, field EC and ground truth
-└── docs/                documentation
+├── docs/                documentation
+└── research/
+    └── prosopis_rf/
+        ├── gee/         Earth Engine Code Editor scripts
+        ├── labelling/   candidates, by-eye decisions, final training points
+        ├── scripts/     Python steps 01 to 12
+        ├── results/     accuracy, trend tests, tables, map image
+        ├── README.md    how each file is made
+        └── REPORT.md    findings in plain language
 ```
