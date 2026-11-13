@@ -1,0 +1,11 @@
+MODIS pixels per group: {'brush_loose': 15462, 'brush_pure': 13216, 'brush_stable': 11270, 'mixed': 16401, 'woodland': 8763}
+2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024 
+group          pixels  mean NDVI  raw                    %/decade  rain removed (CHIRPS)   rain removed (IMERG)    
+brush_pure      13216      0.105  +0.00219/yr p=0.004       20.8%  +0.00168/yr p=0.002     +0.00141/yr p=0.002     
+brush_loose     15462      0.115  +0.00276/yr p=0.000       23.9%  +0.00195/yr p=0.001     +0.00160/yr p=0.002     
+brush_stable    11270      0.106  +0.00216/yr p=0.004       20.3%  +0.00163/yr p=0.001     +0.00135/yr p=0.002     
+mixed           16401      0.307  +0.00596/yr p=0.003       19.4%  +0.00332/yr p=0.021     +0.00243/yr p=0.018     
+woodland         8763      0.356  +0.00628/yr p=0.002       17.7%  +0.00344/yr p=0.021     +0.00324/yr p=0.027     
+gap woodland - brush_pure    +0.00404/yr p=0.024
+gap woodland - brush_stable  +0.00410/yr p=0.021
+gap woodland - mixed         +0.00040/yr p=0.333

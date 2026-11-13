@@ -19,7 +19,7 @@ The findings and their limits are in [REPORT.md](REPORT.md).
 | `labelling/visual_labels.csv` | One decision per candidate after looking at its image chip: accepted, relabelled or rejected |
 | `labelling/training_points.csv` | Final points (at least 150 m apart): 39 Prosopis, 34 mixed, 53 water, 33 saline brush |
 | `labelling/sheets/` | Image chips used for labelling (git-ignored: Esri imagery; regenerate with `02_make_chips.py`) |
-| `scripts/` | Reproducible steps 01-06 (below) |
+| `scripts/` | Reproducible steps 01-06 (below); 07 (one location-holdout run in detail) and 09 (cutoff and 2017-map robustness) were added by the parallel review session; 04b and 08 are its earlier drafts, superseded by 09; 10 compares pure saline-brush (no woody) pixels with woody ones |
 | `results/` | Accuracy (`rf_accuracy_*.json`), class shares, the exported CSV (Drive copy + full precision), trend tests, class map image, console screenshot, run logs |
 | `../../data/extras/prosopis_rf/` | Local copies of the exported CSV |
 

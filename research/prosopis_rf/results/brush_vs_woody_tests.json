@@ -1,0 +1,245 @@
+{
+  "modis_pixels": {
+    "brush_loose": 15462,
+    "brush_pure": 13216,
+    "brush_stable": 11270,
+    "mixed": 16401,
+    "woodland": 8763
+  },
+  "groups": {
+    "brush_pure": {
+      "mean_ndvi": 0.10529762242396679,
+      "raw": {
+        "direction": "increasing",
+        "p": 0.004250886536555143,
+        "z": 2.85891799890069,
+        "sen_slope_per_year": 0.002187922439691107,
+        "n": 24,
+        "period": "2001-2024",
+        "relative_slope_pct_per_decade": 20.77846003855367
+      },
+      "rain_removed_chirps": {
+        "r2_rain": 0.2930751731709895,
+        "residual_trend": {
+          "direction": "increasing",
+          "p": 0.0016318152580183654,
+          "z": 3.150159181883656,
+          "sen_slope_per_year": 0.001678779039537608,
+          "n": 24,
+          "period": "2001-2024"
+        },
+        "year_term": {
+          "coef_per_year": 0.0017956648223990542,
+          "p": 0.00024454896234959094
+        }
+      },
+      "rain_removed_imerg": {
+        "r2_rain": 0.39393243366540986,
+        "residual_trend": {
+          "direction": "increasing",
+          "p": 0.0016318152580183654,
+          "z": 3.150159181883656,
+          "sen_slope_per_year": 0.0014085604922226237,
+          "n": 24,
+          "period": "2001-2024"
+        },
+        "year_term": {
+          "coef_per_year": 0.001656177528828362,
+          "p": 0.0004495925972827898
+        }
+      }
+    },
+    "brush_loose": {
+      "mean_ndvi": 0.11515062897839794,
+      "raw": {
+        "direction": "increasing",
+        "p": 9.848625298358726e-05,
+        "z": 3.894291272092394,
+        "sen_slope_per_year": 0.0027551978092020023,
+        "n": 24,
+        "period": "2001-2024",
+        "relative_slope_pct_per_decade": 23.926901951346462
+      },
+      "rain_removed_chirps": {
+        "r2_rain": 0.33741467438775286,
+        "residual_trend": {
+          "direction": "increasing",
+          "p": 0.0009703488881898092,
+          "z": 3.2989855999254036,
+          "sen_slope_per_year": 0.0019469565066257916,
+          "n": 24,
+          "period": "2001-2024"
+        },
+        "year_term": {
+          "coef_per_year": 0.002126067627417407,
+          "p": 0.0001360856586415124
+        }
+      },
+      "rain_removed_imerg": {
+        "r2_rain": 0.4446214457773059,
+        "residual_trend": {
+          "direction": "increasing",
+          "p": 0.0016318152580183654,
+          "z": 3.150159181883656,
+          "sen_slope_per_year": 0.0016002319906255696,
+          "n": 24,
+          "period": "2001-2024"
+        },
+        "year_term": {
+          "coef_per_year": 0.0019491987259961773,
+          "p": 0.00023994325814919877
+        }
+      }
+    },
+    "brush_stable": {
+      "mean_ndvi": 0.10634718876724103,
+      "raw": {
+        "direction": "increasing",
+        "p": 0.004061877908092981,
+        "z": 2.87331585841825,
+        "sen_slope_per_year": 0.002155116186654339,
+        "n": 24,
+        "period": "2001-2024",
+        "relative_slope_pct_per_decade": 20.2649097887409
+      },
+      "rain_removed_chirps": {
+        "r2_rain": 0.286547774581116,
+        "residual_trend": {
+          "direction": "increasing",
+          "p": 0.0011565816777279192,
+          "z": 3.249376793911488,
+          "sen_slope_per_year": 0.0016294297280660215,
+          "n": 24,
+          "period": "2001-2024"
+        },
+        "year_term": {
+          "coef_per_year": 0.0017722257159870627,
+          "p": 0.00021176387309968105
+        }
+      },
+      "rain_removed_imerg": {
+        "r2_rain": 0.38805728093506553,
+        "residual_trend": {
+          "direction": "increasing",
+          "p": 0.0016318152580183654,
+          "z": 3.150159181883656,
+          "sen_slope_per_year": 0.0013487491997689225,
+          "n": 24,
+          "period": "2001-2024"
+        },
+        "year_term": {
+          "coef_per_year": 0.001636872264046863,
+          "p": 0.0003868244106590412
+        }
+      }
+    },
+    "mixed": {
+      "mean_ndvi": 0.3066264522848419,
+      "raw": {
+        "direction": "increasing",
+        "p": 0.0026880064370089496,
+        "z": 3.0013327638419085,
+        "sen_slope_per_year": 0.005957606999726615,
+        "n": 24,
+        "period": "2001-2024",
+        "relative_slope_pct_per_decade": 19.429527215715463
+      },
+      "rain_removed_chirps": {
+        "r2_rain": 0.6668020931693805,
+        "residual_trend": {
+          "direction": "increasing",
+          "p": 0.021065443548514473,
+          "z": 2.306809479647087,
+          "sen_slope_per_year": 0.0033161108138639542,
+          "n": 24,
+          "period": "2001-2024"
+        },
+        "year_term": {
+          "coef_per_year": 0.0035948501637738913,
+          "p": 0.004760704836862292
+        }
+      },
+      "rain_removed_imerg": {
+        "r2_rain": 0.7613200871230545,
+        "residual_trend": {
+          "direction": "increasing",
+          "p": 0.018452126856443263,
+          "z": 2.3564182856610025,
+          "sen_slope_per_year": 0.0024339125930555087,
+          "n": 24,
+          "period": "2001-2024"
+        },
+        "year_term": {
+          "coef_per_year": 0.0028574537549814214,
+          "p": 0.011327929101454965
+        }
+      }
+    },
+    "woodland": {
+      "mean_ndvi": 0.3558221577790081,
+      "raw": {
+        "direction": "increasing",
+        "p": 0.002281249640504912,
+        "z": 3.0509415698558247,
+        "sen_slope_per_year": 0.006282924783135063,
+        "n": 24,
+        "period": "2001-2024",
+        "relative_slope_pct_per_decade": 17.65748603839681
+      },
+      "rain_removed_chirps": {
+        "r2_rain": 0.5859737658293585,
+        "residual_trend": {
+          "direction": "increasing",
+          "p": 0.021065443548514473,
+          "z": 2.306809479647087,
+          "sen_slope_per_year": 0.0034405338269810487,
+          "n": 24,
+          "period": "2001-2024"
+        },
+        "year_term": {
+          "coef_per_year": 0.004123320088850766,
+          "p": 0.0062779996730863395
+        }
+      },
+      "rain_removed_imerg": {
+        "r2_rain": 0.6913864349746872,
+        "residual_trend": {
+          "direction": "increasing",
+          "p": 0.02727273655786444,
+          "z": 2.207591867619255,
+          "sen_slope_per_year": 0.0032420775244169364,
+          "n": 24,
+          "period": "2001-2024"
+        },
+        "year_term": {
+          "coef_per_year": 0.0033555837168955955,
+          "p": 0.013692395569690426
+        }
+      }
+    }
+  },
+  "gap_woodland_minus_brush_pure": {
+    "direction": "increasing",
+    "p": 0.02399553835367718,
+    "z": 2.257200673633171,
+    "sen_slope_per_year": 0.004040299597271797,
+    "n": 24,
+    "period": "2001-2024"
+  },
+  "gap_woodland_minus_brush_stable": {
+    "direction": "increasing",
+    "p": 0.021065443548514473,
+    "z": 2.306809479647087,
+    "sen_slope_per_year": 0.004101784285403165,
+    "n": 24,
+    "period": "2001-2024"
+  },
+  "gap_woodland_minus_mixed": {
+    "direction": "no significant trend",
+    "p": 0.33335824348826115,
+    "z": 0.967371717271359,
+    "sen_slope_per_year": 0.00040329238502716177,
+    "n": 24,
+    "period": "2001-2024"
+  }
+}
