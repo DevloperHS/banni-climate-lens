@@ -15,8 +15,8 @@ Select a region and period, retrieve satellite-derived series (Google Earth Engi
 | Area | State |
 |---|---|
 | Frontend (11 pages), backend API, statistics engine, pixel analysis, exports, reports | Implemented and tested (see *Tests*) |
-| Earth Engine extraction (`backend/app/gee/extract.py`) | Implemented and **run against live Earth Engine** (12-13 Nov 2026): NDVI, rainfall, ET, soil moisture, LST day/night, Landsat NDVI, JRC + MNDWI surface water, MCD12Q1 land cover, GRACE (CRI mascons) and the raster stacks. |
-| Real Banni results | Stored under `data/processed/` (git-ignored). `python -m app.cli reproduce` reproduces all 9 handover figures. |
+| Earth Engine extraction (`backend/app/gee/extract.py`) | Implemented. Stored series include `retrieval_date` and `kind=observed`; the repository has no independent Earth Engine execution log. |
+| Stored Banni series | Stored under `data/processed/` (git-ignored). `python -m app.cli reproduce` reproduces all 9 handover figures from the stored series. |
 | Trend dashboards (`/dashboards`) | Rain and Green, Water and Heat, Where It Changed: one map and one year slider, a result card per factor, a 'before you trust this' box and a sources panel, all computed from stored data (`/api/dashboards/{id}`). |
 | Handover reproduction | Implemented (`/api/statistics/handover-reproduction`); all 9 handover figures reproduce from the real data (`python -m app.cli reproduce`). |
 | Aqua / EVI checks (brief s.7) | Aqua NDVI (`MODIS/061/MYD13Q1`) and Terra EVI (`MOD13Q1`) extracted with the handover protocol; trend and rain-removed tests repeated over the common years 2002-2024 (`python -m app.cli checks`, `/api/statistics/sensor-index-checks`, *Sensor and index checks* panel on Rain and Green). On the real data both agree with Terra NDVI in the monsoon and the dry season. |
@@ -26,6 +26,16 @@ Select a region and period, retrieve satellite-derived series (Google Earth Engi
 | Salinity | No satellite product integrated; reported as such in the UI. |
 | Final phase (security, pipeline, report generator, new analyses, deployment assets) | Implemented and tested; see `docs/FINAL_COMPLETION_REPORT.md` for item-by-item status (COMPLETE / BLOCKED / NOT IMPLEMENTED) |
 | Database | File-based store (JSON + GeoTIFF) rather than PostgreSQL/PostGIS; see `docs/ARCHITECTURE.md`. |
+
+## Known limitations
+
+- The analysis window is a rectangle, not a verified Banni grassland polygon: 23.20–23.95 °N, 68.80–69.95 °E (about 9,751 km²).
+- No groundwater/well observations are included in the repository.
+- `handover_water_table_*.json` contains ET and GLDAS soil moisture, not wells or depth-to-water.
+- Salinity is an unvalidated SI1 proxy, not field-EC data.
+- NDVI cannot distinguish *Prosopis* from native grass.
+- The headline trend uses `ndvi` (no SummaryQA filter and no water mask).
+- Demonstration mode is off by default.
 
 ## Quick start (Windows PowerShell; adapt paths on macOS/Linux)
 
