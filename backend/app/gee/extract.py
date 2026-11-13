@@ -179,6 +179,25 @@ def annual_handover_water_table(ee, region, y0, y1):
     return rows
 
 
+def raw_artifact_provenance_base(key: str) -> dict:
+    """Dataset description for a raw artifact. Each artifact describes the products it actually read: the water table holds
+    MODIS ET and GLDAS soil moisture (not wells, not NDVI), so it must not inherit the NDVI catalogue entry."""
+    if key == "ndvi_annual_image_mean":
+        return {**spec_dict("ndvi"),
+                "processing_config": {"protocol": "handover p.4: pixel-wise mean of all images in the calendar year, regional mean at 250 m"}}
+    if key == "handover_water_table":
+        et, sm = spec_dict("et"), spec_dict("sm_root")
+        return {"key": key, "label": "Handover water table: annual ET and GLDAS soil moisture (not well measurements)",
+                "group": "water", "ee_id": f"{et['ee_id']} + {sm['ee_id']}", "provider": f"{et['provider']}; {sm['provider']}",
+                "variable": "ET (annual sum of 8-day composites x 0.1); RootMoist_inst and SoilMoi0_10cm_inst (annual and Mar-May means)",
+                "spatial_resolution": f"ET {et['spatial_resolution']}; GLDAS {sm['spatial_resolution']}", "temporal_resolution": "annual",
+                "unit": "ET mm/yr; soil moisture kg/m2", "scale_factor": "ET 0.1; GLDAS 1", "quality_filter": "ET fill values masked; GLDAS none",
+                "limitations": "Contains no groundwater or depth-to-water observations. ET partly echoes NDVI (MOD16 uses MODIS LAI); GLDAS is a ~28 km model.",
+                "processing_config": {"protocol": "handover pp.10-11: ET = pixel-wise sum of the year's composites x 0.1 at 500 m; "
+                                                  "soil moisture = mean of all 3-hourly GLDAS images in the year (and Mar-May) at 27830 m"}}
+    raise KeyError(key)
+
+
 def run_raw_artifact(key: str, region_id: str, y0: int, y1: int) -> dict:
     from ..core import store
     ee = get_ee()
@@ -187,9 +206,9 @@ def run_raw_artifact(key: str, region_id: str, y0: int, y1: int) -> dict:
     bad = [r["year"] for r in rows if any(v is None for k, v in r.items() if k not in ("year", "n_images", "n_et_composites"))]
     if bad:
         raise RuntimeError(f"{key}: missing values for years {bad}; nothing stored")
-    prov = {**spec_dict("ndvi"), "region": region_id, "processing_period": f"{y0}-{y1}", "retrieval_date": datetime.now(timezone.utc).date().isoformat(),
-            "geometry": get_region(region_id)["geometry"], "artifact": key, "kind": "observed",
-            "processing_config": {"protocol": "handover p.4: pixel-wise mean of all images in the calendar year, regional mean at 250 m"}}
+    prov = {**raw_artifact_provenance_base(key), "region": region_id, "processing_period": f"{y0}-{y1}",
+            "retrieval_date": datetime.now(timezone.utc).date().isoformat(),
+            "geometry": get_region(region_id)["geometry"], "artifact": key, "kind": "observed"}
     p = store.save_raw(region_id, key, rows, prov)
     return {"key": key, "years": len(rows), "file": p.name}
 

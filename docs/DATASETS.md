@@ -38,7 +38,7 @@ Defined in `backend/app/core/catalog.py` (single source of truth; also served by
 - **Salinity**: no satellite product is integrated.
 
 ## Banni region
-Bounding box 23.20–23.95 °N, 68.80–69.95 °E. The WGS84 ellipsoidal area of the rectangle is **9,751 km²** (verified by numerical integration of the ellipsoid; an earlier figure of 9,727 was slightly off). The handover and project brief quote ≈2,618 km² for this box, which cannot be the box's area. Published Banni grassland figures are of the same order (≈2,465–2,617 km²), so 2,618 km² most plausibly refers to the grassland itself, and all handover scripts ran over the rectangle; the platform shows both and treats the box purely as the analysis window. Replace the rectangle with the true boundary polygon if one is available (extend `regions.json` and `_geom()` in `gee/extract.py`).
+Bounding box 23.20–23.95 °N, 68.80–69.95 °E. The WGS84 ellipsoidal area of the rectangle is **9,751 km²** (verified by numerical integration of the ellipsoid; an earlier figure of 9,727 was slightly off). The 9,751 km² figure is the rectangle's area, not Banni grassland area. Published grassland-area figures (about 2,497–2,618 km²) must not be presented as the rectangle area. The platform treats the rectangle purely as the analysis window. Replace it with the true boundary polygon if one is available (extend `regions.json` and `_geom()` in `gee/extract.py`).
 
 
 Units, scale factors, band names and coverage were verified against the official Earth Engine catalogue on 2026-11-07: see `DATASET_VERIFICATION.md`.

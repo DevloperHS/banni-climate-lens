@@ -592,3 +592,13 @@ def test_significant_only_trend_png_hides_non_significant_pixels(client, sample)
     a = np.array(Image.open(io.BytesIO(client.get("/api/spatial/pixel-trend.png?source=sample&variable=ndvi&season=annual&product=class").content)))
     b = np.array(Image.open(io.BytesIO(client.get("/api/spatial/pixel-trend.png?source=sample&variable=ndvi&season=annual&product=significant").content)))
     assert (a[..., 3] > 0).sum() > (b[..., 3] > 0).sum() and set(np.unique(b[..., 3])) <= {0, 220}
+
+
+def test_raw_artifact_provenance_describes_the_products_actually_read():
+    """The water-table artifact holds ET + GLDAS soil moisture; its provenance must say so (it used to inherit the NDVI entry)."""
+    from app.gee.extract import raw_artifact_provenance_base
+    wt = raw_artifact_provenance_base("handover_water_table")
+    assert "MOD16A2GF" in wt["ee_id"] and "GLDAS" in wt["ee_id"] and "MOD13Q1" not in wt["ee_id"]
+    assert "not well" in wt["label"] and "no groundwater" in wt["limitations"]
+    nd = raw_artifact_provenance_base("ndvi_annual_image_mean")
+    assert nd["ee_id"] == "MODIS/061/MOD13Q1" and "handover p.4" in nd["processing_config"]["protocol"]
