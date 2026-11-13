@@ -1,0 +1,160 @@
+point_id,class_code,class_name,lon,lat,source_candidate,decision
+pros_01,1,Prosopis woodland,69.179934,23.44805,pros_002,accepted
+pros_02,1,Prosopis woodland,69.172927,23.438079,pros_006,accepted
+pros_03,1,Prosopis woodland,69.13924,23.603549,pros_014,accepted
+pros_04,1,Prosopis woodland,69.51249,23.771174,pros_016,accepted
+pros_05,1,Prosopis woodland,69.690626,23.452632,pros_017,accepted
+pros_06,1,Prosopis woodland,69.616246,23.415711,pros_021,accepted
+pros_07,1,Prosopis woodland,69.08588,23.548572,pros_022,accepted
+pros_08,1,Prosopis woodland,69.69386,23.461525,pros_025,accepted
+pros_09,1,Prosopis woodland,69.696285,23.457482,pros_027,accepted
+pros_10,1,Prosopis woodland,69.603579,23.402236,pros_032,accepted
+pros_11,1,Prosopis woodland,69.732398,23.756891,pros_035,accepted
+pros_12,1,Prosopis woodland,69.023627,23.718353,pros_040,accepted
+pros_13,1,Prosopis woodland,69.697094,23.453979,pros_045,accepted
+pros_14,1,Prosopis woodland,69.189097,23.45344,pros_051,accepted
+pros_15,1,Prosopis woodland,69.694399,23.456135,pros_062,accepted
+pros_16,1,Prosopis woodland,69.613281,23.408973,pros_064,accepted
+pros_17,1,Prosopis woodland,69.836692,23.712155,pros_069,accepted
+pros_18,1,Prosopis woodland,69.057598,23.660297,prosr2_001,accepted
+pros_19,1,Prosopis woodland,69.076732,23.629844,prosr2_004,accepted
+pros_20,1,Prosopis woodland,69.849643,23.890984,prosr2_005,accepted
+pros_21,1,Prosopis woodland,69.779844,23.827653,prosr2_006,accepted
+pros_22,1,Prosopis woodland,69.779305,23.829001,prosr2_018,accepted
+pros_23,1,Prosopis woodland,69.006125,23.693175,prosr2_020,accepted
+pros_24,1,Prosopis woodland,69.057868,23.667034,prosr2_021,accepted
+pros_25,1,Prosopis woodland,69.787928,23.832235,prosr3_004,accepted
+pros_26,1,Prosopis woodland,69.039542,23.473268,prosr3_005,accepted
+pros_27,1,Prosopis woodland,69.450521,23.432844,prosr3_007,accepted
+pros_28,1,Prosopis woodland,69.452408,23.437964,prosr3_010,accepted
+pros_29,1,Prosopis woodland,69.33383,23.435808,prosr3_013,accepted
+pros_30,1,Prosopis woodland,69.447557,23.439042,prosr3_014,accepted
+pros_31,1,Prosopis woodland,69.022564,23.539025,prosr3_015,accepted
+pros_32,1,Prosopis woodland,69.0355,23.46168,prosr3_016,accepted
+pros_33,1,Prosopis woodland,69.027145,23.488899,prosr3_019,accepted
+pros_34,1,Prosopis woodland,69.032805,23.484048,prosr3_020,accepted
+pros_35,1,Prosopis woodland,69.428423,23.41371,prosr3_021,accepted
+pros_36,1,Prosopis woodland,69.457528,23.444162,prosr3_023,accepted
+pros_37,1,Prosopis woodland,69.034961,23.468956,prosr3_025,accepted
+pros_38,1,Prosopis woodland,69.353234,23.455751,prosr3_028,accepted
+pros_39,1,Prosopis woodland,69.558319,23.414518,prosr3_030,accepted
+mix_01,2,Mixed Prosopis + grass,69.040605,23.434845,pros_011,relabelled
+mix_02,2,Mixed Prosopis + grass,69.456435,23.640469,mix_001,accepted
+mix_03,2,Mixed Prosopis + grass,69.079682,23.59735,mix_002,accepted
+mix_04,2,Mixed Prosopis + grass,69.296894,23.660951,mix_007,accepted
+mix_05,2,Mixed Prosopis + grass,69.817288,23.427299,mix_013,accepted
+mix_06,2,Mixed Prosopis + grass,69.801388,23.810251,mix_014,accepted
+mix_07,2,Mixed Prosopis + grass,69.580942,23.722935,mix_015,accepted
+mix_08,2,Mixed Prosopis + grass,69.244073,23.688439,mix_020,accepted
+mix_09,2,Mixed Prosopis + grass,69.762312,23.819414,mix_023,accepted
+mix_10,2,Mixed Prosopis + grass,69.148133,23.600315,mix_024,accepted
+mix_11,2,Mixed Prosopis + grass,69.035754,23.675504,mix_025,accepted
+mix_12,2,Mixed Prosopis + grass,69.028208,23.684127,mix_026,accepted
+mix_13,2,Mixed Prosopis + grass,69.033059,23.67227,mix_031,accepted
+mix_14,2,Mixed Prosopis + grass,69.31549,23.695985,mix_033,accepted
+mix_15,2,Mixed Prosopis + grass,69.553184,23.779528,mix_034,accepted
+mix_16,2,Mixed Prosopis + grass,69.765007,23.461525,mix_035,accepted
+mix_17,2,Mixed Prosopis + grass,69.530007,23.790039,mix_038,accepted
+mix_18,2,Mixed Prosopis + grass,69.513568,23.422718,mix_040,accepted
+mix_19,2,Mixed Prosopis + grass,69.540518,23.580641,mix_041,accepted
+mix_20,2,Mixed Prosopis + grass,69.230868,23.675773,mix_042,accepted
+mix_21,2,Mixed Prosopis + grass,69.442421,23.67766,mix_043,accepted
+mix_22,2,Mixed Prosopis + grass,69.537284,23.704878,mix_046,accepted
+mix_23,2,Mixed Prosopis + grass,69.300398,23.719701,mix_051,accepted
+mix_24,2,Mixed Prosopis + grass,69.140049,23.638583,mix_053,accepted
+mix_25,2,Mixed Prosopis + grass,69.189905,23.521353,mix_054,accepted
+mix_26,2,Mixed Prosopis + grass,69.414125,23.417597,mix_057,accepted
+mix_27,2,Mixed Prosopis + grass,69.195834,23.428916,mix_060,accepted
+mix_28,2,Mixed Prosopis + grass,69.844507,23.836931,mix_061,accepted
+mix_29,2,Mixed Prosopis + grass,69.162417,23.577138,mix_063,accepted
+mix_30,2,Mixed Prosopis + grass,69.392565,23.658256,mix_065,accepted
+mix_31,2,Mixed Prosopis + grass,69.078604,23.617293,mix_066,accepted
+mix_32,2,Mixed Prosopis + grass,69.120375,23.46422,mix_068,accepted
+mix_33,2,Mixed Prosopis + grass,69.226556,23.43754,mix_069,accepted
+mix_34,2,Mixed Prosopis + grass,69.588488,23.711885,mix_070,accepted
+water_01,3,Wetland / water,69.030903,23.80028,water_001,accepted
+water_02,3,Wetland / water,69.341631,23.857951,water_003,accepted
+water_03,3,Wetland / water,69.109326,23.866845,water_004,accepted
+water_04,3,Wetland / water,69.268058,23.861185,water_005,accepted
+water_05,3,Wetland / water,69.500902,23.869809,water_006,accepted
+water_06,3,Wetland / water,69.025244,23.891638,water_007,accepted
+water_07,3,Wetland / water,69.386367,23.861455,water_010,accepted
+water_08,3,Wetland / water,69.591452,23.854448,water_012,accepted
+water_09,3,Wetland / water,69.276143,23.846633,water_014,accepted
+water_10,3,Wetland / water,69.369388,23.840973,water_015,accepted
+water_11,3,Wetland / water,69.019315,23.89595,water_016,accepted
+water_12,3,Wetland / water,69.492547,23.898915,water_021,accepted
+water_13,3,Wetland / water,69.694399,23.826151,water_024,accepted
+water_14,3,Wetland / water,69.482307,23.899454,water_025,accepted
+water_15,3,Wetland / water,69.411969,23.804322,water_026,accepted
+water_16,3,Wetland / water,69.317376,23.869001,water_029,accepted
+water_17,3,Wetland / water,69.45401,23.894603,water_030,accepted
+water_18,3,Wetland / water,69.025783,23.895142,water_031,accepted
+water_19,3,Wetland / water,69.101241,23.856604,water_037,accepted
+water_20,3,Wetland / water,69.092079,23.862802,water_040,accepted
+water_21,3,Wetland / water,69.422209,23.869001,water_042,accepted
+water_22,3,Wetland / water,69.108248,23.89595,water_044,accepted
+water_23,3,Wetland / water,69.522731,23.870618,water_048,accepted
+water_24,3,Wetland / water,69.058661,23.861455,water_051,accepted
+water_25,3,Wetland / water,69.48042,23.892986,water_057,accepted
+water_26,3,Wetland / water,69.415203,23.839087,water_065,accepted
+water_27,3,Wetland / water,69.409543,23.839356,water_066,accepted
+water_28,3,Wetland / water,69.273718,23.841243,water_067,accepted
+water_29,3,Wetland / water,69.485271,23.817527,water_069,accepted
+water_30,3,Wetland / water,69.557496,23.834236,brush_028,relabelled
+water_31,3,Wetland / water,69.318199,23.584839,waterr2_002,accepted
+water_32,3,Wetland / water,69.098831,23.636312,waterr2_003,accepted
+water_33,3,Wetland / water,69.310115,23.599122,waterr2_004,accepted
+water_34,3,Wetland / water,69.324667,23.581605,waterr2_006,accepted
+water_35,3,Wetland / water,69.305533,23.598852,waterr2_007,accepted
+water_36,3,Wetland / water,69.325476,23.594271,waterr2_008,accepted
+water_37,3,Wetland / water,69.327093,23.58403,waterr2_009,accepted
+water_38,3,Wetland / water,69.316043,23.585647,waterr2_010,accepted
+water_39,3,Wetland / water,69.320625,23.587803,waterr2_011,accepted
+water_40,3,Wetland / water,69.310384,23.592923,waterr2_012,accepted
+water_41,3,Wetland / water,69.319816,23.58403,waterr2_013,accepted
+water_42,3,Wetland / water,69.313079,23.596966,waterr2_014,accepted
+water_43,3,Wetland / water,69.334908,23.580257,waterr2_015,accepted
+water_44,3,Wetland / water,69.327632,23.592654,waterr2_016,accepted
+water_45,3,Wetland / water,69.319816,23.601547,waterr2_017,accepted
+water_46,3,Wetland / water,69.105029,23.63739,waterr2_018,accepted
+water_47,3,Wetland / water,69.300413,23.595349,waterr2_019,accepted
+water_48,3,Wetland / water,69.313618,23.601008,waterr2_020,accepted
+water_49,3,Wetland / water,69.315774,23.59481,waterr2_021,accepted
+water_50,3,Wetland / water,69.316313,23.593462,waterr2_022,accepted
+water_51,3,Wetland / water,69.311193,23.601278,waterr2_025,accepted
+water_52,3,Wetland / water,69.325476,23.586995,waterr2_026,accepted
+water_53,3,Wetland / water,69.106646,23.635234,waterr2_030,accepted
+brush_01,4,Saline brushland,69.30471,23.701375,mix_011,relabelled
+brush_02,4,Saline brushland,69.211195,23.728324,mix_049,relabelled
+brush_03,4,Saline brushland,69.195295,23.805669,brush_002,accepted
+brush_04,4,Saline brushland,69.335971,23.780876,brush_005,accepted
+brush_05,4,Saline brushland,69.200415,23.757969,brush_008,accepted
+brush_06,4,Saline brushland,69.882237,23.574443,brush_009,accepted
+brush_07,4,Saline brushland,69.88062,23.6402,brush_012,accepted
+brush_08,4,Saline brushland,69.58741,23.788152,brush_014,accepted
+brush_09,4,Saline brushland,69.606005,23.767671,brush_015,accepted
+brush_10,4,Saline brushland,69.879542,23.602201,brush_018,accepted
+brush_11,4,Saline brushland,69.726738,23.689248,brush_019,accepted
+brush_12,4,Saline brushland,69.674187,23.59196,brush_020,accepted
+brush_13,4,Saline brushland,69.659095,23.704878,brush_023,accepted
+brush_14,4,Saline brushland,69.878464,23.631306,brush_025,accepted
+brush_15,4,Saline brushland,69.416281,23.787883,brush_030,accepted
+brush_16,4,Saline brushland,69.676882,23.691673,brush_032,accepted
+brush_17,4,Saline brushland,69.643734,23.782223,brush_038,accepted
+brush_18,4,Saline brushland,69.531894,23.583067,brush_040,accepted
+brush_19,4,Saline brushland,69.82187,23.681702,brush_041,accepted
+brush_20,4,Saline brushland,69.893016,23.537253,brush_044,accepted
+brush_21,4,Saline brushland,69.86957,23.623761,brush_046,accepted
+brush_22,4,Saline brushland,69.583367,23.617832,brush_047,accepted
+brush_23,4,Saline brushland,69.19772,23.774139,brush_048,accepted
+brush_24,4,Saline brushland,69.319801,23.801627,brush_051,accepted
+brush_25,4,Saline brushland,69.755305,23.552884,brush_053,accepted
+brush_26,4,Saline brushland,69.860677,23.541295,brush_054,accepted
+brush_27,4,Saline brushland,69.83265,23.519197,brush_056,accepted
+brush_28,4,Saline brushland,69.680116,23.551806,brush_059,accepted
+brush_29,4,Saline brushland,69.17104,23.806208,brush_064,accepted
+brush_30,4,Saline brushland,69.868762,23.662298,brush_065,accepted
+brush_31,4,Saline brushland,69.201224,23.764167,brush_066,accepted
+brush_32,4,Saline brushland,69.382863,23.76282,brush_067,accepted
+brush_33,4,Saline brushland,69.124957,23.737218,brush_069,accepted

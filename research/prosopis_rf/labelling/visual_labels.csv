@@ -1,0 +1,379 @@
+cand_id,round,candidate_stratum,lon,lat,decision,label,note
+pros_001,1,pros,69.64077,23.454787,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_002,1,pros,69.179934,23.44805,accepted,pros,
+pros_003,1,pros,69.433259,23.512729,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_004,1,pros,69.816749,23.535097,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_005,1,pros,69.837501,23.712694,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_006,1,pros,69.172927,23.438079,accepted,pros,
+pros_007,1,pros,69.518419,23.747998,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_008,1,pros,69.489583,23.655561,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_009,1,pros,69.323844,23.500063,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_010,1,pros,69.161339,23.628881,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_011,1,pros,69.040605,23.434845,relabelled,mix,"scattered shrubs over open ground, not closed canopy"
+pros_012,1,pros,69.435954,23.493056,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_013,1,pros,69.498476,23.418945,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_014,1,pros,69.13924,23.603549,accepted,pros,
+pros_015,1,pros,69.015812,23.543721,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_016,1,pros,69.51249,23.771174,accepted,pros,
+pros_017,1,pros,69.690626,23.452632,accepted,pros,
+pros_018,1,pros,69.442691,23.421909,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_019,1,pros,69.022279,23.507069,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_020,1,pros,69.062165,23.486318,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_021,1,pros,69.616246,23.415711,accepted,pros,
+pros_022,1,pros,69.08588,23.548572,accepted,pros,
+pros_023,1,pros,69.657748,23.406548,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_024,1,pros,69.578247,23.435923,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_025,1,pros,69.69386,23.461525,accepted,pros,
+pros_026,1,pros,69.708413,23.444547,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_027,1,pros,69.696285,23.457482,accepted,pros,
+pros_028,1,pros,69.69925,23.649363,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_029,1,pros,69.550758,23.766054,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_030,1,pros,69.732937,23.755274,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_031,1,pros,69.553184,23.402775,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_032,1,pros,69.603579,23.402236,accepted,pros,
+pros_033,1,pros,69.703023,23.446433,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_034,1,pros,69.717845,23.856065,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_035,1,pros,69.732398,23.756891,accepted,pros,
+pros_036,1,pros,69.000181,23.465028,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_037,1,pros,69.543482,23.742877,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_038,1,pros,69.013925,23.427299,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_039,1,pros,69.663946,23.439965,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_040,1,pros,69.023627,23.718353,accepted,pros,
+pros_041,1,pros,69.728086,23.431611,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_042,1,pros,69.0115,23.449937,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_043,1,pros,69.394182,23.523778,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_044,1,pros,69.099624,23.610016,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_045,1,pros,69.697094,23.453979,accepted,pros,
+pros_046,1,pros,69.734284,23.843129,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_047,1,pros,69.505483,23.469071,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_048,1,pros,69.100972,23.477156,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_049,1,pros,69.513029,23.753118,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_050,1,pros,69.041953,23.698141,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_051,1,pros,69.189097,23.45344,accepted,pros,
+pros_052,1,pros,69.030364,23.500063,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_053,1,pros,69.759347,23.867114,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_054,1,pros,69.544021,23.743147,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_055,1,pros,69.137084,23.474461,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_056,1,pros,69.010961,23.449667,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_057,1,pros,69.62433,23.428916,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_058,1,pros,69.191792,23.470149,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_059,1,pros,69.634571,23.445894,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_060,1,pros,69.634032,23.447781,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_061,1,pros,69.770127,23.629689,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_062,1,pros,69.694399,23.456135,accepted,pros,
+pros_063,1,pros,69.297703,23.537522,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_064,1,pros,69.613281,23.408973,accepted,pros,
+pros_065,1,pros,69.295008,23.435923,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_066,1,pros,69.043031,23.519466,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_067,1,pros,69.765546,23.641547,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_068,1,pros,69.385289,23.486857,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+pros_069,1,pros,69.836692,23.712155,accepted,pros,
+pros_070,1,pros,69.680924,23.468801,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_001,1,mix,69.456435,23.640469,accepted,mix,
+mix_002,1,mix,69.079682,23.59735,accepted,mix,
+mix_003,1,mix,69.525965,23.615137,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_004,1,mix,69.055427,23.640739,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_005,1,mix,69.770396,23.444277,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_006,1,mix,69.017159,23.712694,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_007,1,mix,69.296894,23.660951,accepted,mix,
+mix_008,1,mix,69.575282,23.531324,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_009,1,mix,69.49147,23.449128,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_010,1,mix,69.855018,23.769557,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_011,1,mix,69.30471,23.701375,relabelled,brush,pale saline flat with sparse low shrubs
+mix_012,1,mix,69.107979,23.469071,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_013,1,mix,69.817288,23.427299,accepted,mix,
+mix_014,1,mix,69.801388,23.810251,accepted,mix,
+mix_015,1,mix,69.580942,23.722935,accepted,mix,
+mix_016,1,mix,69.297433,23.700028,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_017,1,mix,69.221436,23.723204,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_018,1,mix,69.08076,23.637235,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_019,1,mix,69.009883,23.431341,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_020,1,mix,69.244073,23.688439,accepted,mix,
+mix_021,1,mix,69.237606,23.428108,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_022,1,mix,69.104206,23.460177,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_023,1,mix,69.762312,23.819414,accepted,mix,
+mix_024,1,mix,69.148133,23.600315,accepted,mix,
+mix_025,1,mix,69.035754,23.675504,accepted,mix,
+mix_026,1,mix,69.028208,23.684127,accepted,mix,
+mix_027,1,mix,69.097468,23.553423,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_028,1,mix,69.253236,23.486049,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_029,1,mix,69.257548,23.749345,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_030,1,mix,69.641847,23.670114,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_031,1,mix,69.033059,23.67227,accepted,mix,
+mix_032,1,mix,69.209309,23.404392,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_033,1,mix,69.31549,23.695985,accepted,mix,
+mix_034,1,mix,69.553184,23.779528,accepted,mix,
+mix_035,1,mix,69.765007,23.461525,accepted,mix,
+mix_036,1,mix,69.53917,23.733714,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_037,1,mix,69.306327,23.651788,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_038,1,mix,69.530007,23.790039,accepted,mix,
+mix_039,1,mix,69.759617,23.463681,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_040,1,mix,69.513568,23.422718,accepted,mix,
+mix_041,1,mix,69.540518,23.580641,accepted,mix,
+mix_042,1,mix,69.230868,23.675773,accepted,mix,
+mix_043,1,mix,69.442421,23.67766,accepted,mix,
+mix_044,1,mix,69.76339,23.645859,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_045,1,mix,69.771744,23.887596,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_046,1,mix,69.537284,23.704878,accepted,mix,
+mix_047,1,mix,69.393643,23.718892,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_048,1,mix,69.390409,23.475269,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_049,1,mix,69.211195,23.728324,relabelled,brush,whitish saline ground with small shrubs
+mix_050,1,mix,69.541326,23.443199,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_051,1,mix,69.300398,23.719701,accepted,mix,
+mix_052,1,mix,69.769588,23.836661,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_053,1,mix,69.140049,23.638583,accepted,mix,
+mix_054,1,mix,69.189905,23.521353,accepted,mix,
+mix_055,1,mix,69.457513,23.656369,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_056,1,mix,69.460208,23.691134,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_057,1,mix,69.414125,23.417597,accepted,mix,
+mix_058,1,mix,69.42706,23.452901,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_059,1,mix,69.321688,23.477695,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_060,1,mix,69.195834,23.428916,accepted,mix,
+mix_061,1,mix,69.844507,23.836931,accepted,mix,
+mix_062,1,mix,69.633763,23.658525,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_063,1,mix,69.162417,23.577138,accepted,mix,
+mix_064,1,mix,69.748028,23.646398,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_065,1,mix,69.392565,23.658256,accepted,mix,
+mix_066,1,mix,69.078604,23.617293,accepted,mix,
+mix_067,1,mix,69.529199,23.517041,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+mix_068,1,mix,69.120375,23.46422,accepted,mix,
+mix_069,1,mix,69.226556,23.43754,accepted,mix,
+mix_070,1,mix,69.588488,23.711885,accepted,mix,
+water_001,1,water,69.030903,23.80028,accepted,water,
+water_002,1,water,69.676612,23.827768,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_003,1,water,69.341631,23.857951,accepted,water,
+water_004,1,water,69.109326,23.866845,accepted,water,
+water_005,1,water,69.268058,23.861185,accepted,water,
+water_006,1,water,69.500902,23.869809,accepted,water,
+water_007,1,water,69.025244,23.891638,accepted,water,
+water_008,1,water,69.020393,23.867384,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_009,1,water,69.298781,23.833966,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_010,1,water,69.386367,23.861455,accepted,water,
+water_011,1,water,69.665833,23.821031,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_012,1,water,69.591452,23.854448,accepted,water,
+water_013,1,water,69.531894,23.857951,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_014,1,water,69.276143,23.846633,accepted,water,
+water_015,1,water,69.369388,23.840973,accepted,water,
+water_016,1,water,69.019315,23.89595,accepted,water,
+water_017,1,water,69.031442,23.850406,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_018,1,water,69.486619,23.855526,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_019,1,water,69.620018,23.823187,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_020,1,water,69.3578,23.790308,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_021,1,water,69.492547,23.898915,accepted,water,
+water_022,1,water,69.551836,23.856604,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_023,1,water,69.546177,23.880589,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_024,1,water,69.694399,23.826151,accepted,water,
+water_025,1,water,69.482307,23.899454,accepted,water,
+water_026,1,water,69.411969,23.804322,accepted,water,
+water_027,1,water,69.126574,23.868462,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_028,1,water,69.348368,23.830193,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_029,1,water,69.317376,23.869001,accepted,water,
+water_030,1,water,69.45401,23.894603,accepted,water,
+water_031,1,water,69.025783,23.895142,accepted,water,
+water_032,1,water,69.263208,23.883284,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_033,1,water,69.317376,23.834775,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_034,1,water,69.116872,23.855256,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_035,1,water,69.622713,23.860377,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_036,1,water,69.666641,23.89056,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_037,1,water,69.101241,23.856604,accepted,water,
+water_038,1,water,69.24569,23.854178,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_039,1,water,69.434337,23.898376,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_040,1,water,69.092079,23.862802,accepted,water,
+water_041,1,water,69.661251,23.875469,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_042,1,water,69.422209,23.869001,accepted,water,
+water_043,1,water,69.202302,23.852292,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_044,1,water,69.108248,23.89595,accepted,water,
+water_045,1,water,69.476378,23.898645,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_046,1,water,69.644542,23.842051,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_047,1,water,69.02174,23.830463,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_048,1,water,69.522731,23.870618,accepted,water,
+water_049,1,water,69.637805,23.886787,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_050,1,water,69.143821,23.871965,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_051,1,water,69.058661,23.861455,accepted,water,
+water_052,1,water,69.677151,23.841512,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_053,1,water,69.620827,23.847172,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_054,1,water,69.078604,23.88544,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_055,1,water,69.031712,23.884092,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_056,1,water,69.030095,23.879241,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_057,1,water,69.48042,23.892986,accepted,water,
+water_058,1,water,69.573665,23.873313,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_059,1,water,69.212273,23.862802,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_060,1,water,69.565581,23.865767,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_061,1,water,69.616246,23.886248,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_062,1,water,69.632415,23.838278,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_063,1,water,69.514107,23.866575,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_064,1,water,69.618671,23.883553,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_065,1,water,69.415203,23.839087,accepted,water,
+water_066,1,water,69.409543,23.839356,accepted,water,
+water_067,1,water,69.273718,23.841243,accepted,water,
+water_068,1,water,69.348368,23.819953,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+water_069,1,water,69.485271,23.817527,accepted,water,
+water_070,1,water,69.047881,23.834505,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_001,1,brush,69.126035,23.826421,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_002,1,brush,69.195295,23.805669,accepted,brush,
+brush_003,1,brush,69.855557,23.650441,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_004,1,brush,69.096929,23.553692,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_005,1,brush,69.335971,23.780876,accepted,brush,
+brush_006,1,brush,69.846124,23.708382,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_007,1,brush,69.376665,23.545607,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_008,1,brush,69.200415,23.757969,accepted,brush,
+brush_009,1,brush,69.882237,23.574443,accepted,brush,
+brush_010,1,brush,69.676343,23.696524,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_011,1,brush,69.162686,23.8372,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_012,1,brush,69.88062,23.6402,accepted,brush,
+brush_013,1,brush,69.026322,23.760125,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_014,1,brush,69.58741,23.788152,accepted,brush,
+brush_015,1,brush,69.606005,23.767671,accepted,brush,
+brush_016,1,brush,69.046264,23.775217,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_017,1,brush,69.646968,23.589804,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_018,1,brush,69.879542,23.602201,accepted,brush,
+brush_019,1,brush,69.726738,23.689248,accepted,brush,
+brush_020,1,brush,69.674187,23.59196,accepted,brush,
+brush_021,1,brush,69.119028,23.583067,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_022,1,brush,69.674995,23.538061,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_023,1,brush,69.659095,23.704878,accepted,brush,
+brush_024,1,brush,69.572857,23.605435,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_025,1,brush,69.878464,23.631306,accepted,brush,
+brush_026,1,brush,69.154871,23.865497,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_027,1,brush,69.430564,23.783032,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_028,1,brush,69.557496,23.834236,relabelled,water,open water away from the embankment
+brush_029,1,brush,69.487966,23.799202,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_030,1,brush,69.416281,23.787883,accepted,brush,
+brush_031,1,brush,69.878733,23.477964,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_032,1,brush,69.676882,23.691673,accepted,brush,
+brush_033,1,brush,69.08615,23.753118,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_034,1,brush,69.16053,23.841243,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_035,1,brush,69.386097,23.552884,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_036,1,brush,69.095851,23.695177,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_037,1,brush,69.150289,23.808634,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_038,1,brush,69.643734,23.782223,accepted,brush,
+brush_039,1,brush,69.815402,23.668766,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_040,1,brush,69.531894,23.583067,accepted,brush,
+brush_041,1,brush,69.82187,23.681702,accepted,brush,
+brush_042,1,brush,69.163764,23.852292,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_043,1,brush,69.120914,23.799202,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_044,1,brush,69.893016,23.537253,accepted,brush,
+brush_045,1,brush,69.828877,23.480389,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_046,1,brush,69.86957,23.623761,accepted,brush,
+brush_047,1,brush,69.583367,23.617832,accepted,brush,
+brush_048,1,brush,69.19772,23.774139,accepted,brush,
+brush_049,1,brush,69.510873,23.595733,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_050,1,brush,69.612473,23.569323,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_051,1,brush,69.319801,23.801627,accepted,brush,
+brush_052,1,brush,69.668527,23.796776,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_053,1,brush,69.755305,23.552884,accepted,brush,
+brush_054,1,brush,69.860677,23.541295,accepted,brush,
+brush_055,1,brush,69.639961,23.888404,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_056,1,brush,69.83265,23.519197,accepted,brush,
+brush_057,1,brush,69.891938,23.73075,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_058,1,brush,69.670683,23.759316,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_059,1,brush,69.680116,23.551806,accepted,brush,
+brush_060,1,brush,69.072136,23.715928,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_061,1,brush,69.891938,23.585223,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_062,1,brush,69.674995,23.500332,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_063,1,brush,69.678229,23.50141,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_064,1,brush,69.17104,23.806208,accepted,brush,
+brush_065,1,brush,69.868762,23.662298,accepted,brush,
+brush_066,1,brush,69.201224,23.764167,accepted,brush,
+brush_067,1,brush,69.382863,23.76282,accepted,brush,
+brush_068,1,brush,69.212812,23.779259,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+brush_069,1,brush,69.124957,23.737218,accepted,brush,
+brush_070,1,brush,69.331929,23.79462,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr2_001,2,pros,69.057598,23.660297,accepted,pros,
+prosr2_002,2,pros,69.770142,23.629844,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr2_003,2,pros,69.797361,23.647361,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr2_004,2,pros,69.076732,23.629844,accepted,pros,
+prosr2_005,2,pros,69.849643,23.890984,accepted,pros,
+prosr2_006,2,pros,69.779844,23.827653,accepted,pros,
+prosr2_007,2,pros,69.797361,23.647092,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr2_008,2,pros,69.779844,23.828462,accepted,pros,
+prosr2_009,2,pros,69.076732,23.630114,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr2_010,2,pros,69.849373,23.890715,accepted,pros,
+prosr2_011,2,pros,69.769872,23.629844,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr2_012,2,pros,69.057329,23.660028,accepted,pros,
+prosr2_013,2,pros,69.779844,23.827923,accepted,pros,
+prosr2_014,2,pros,69.779305,23.828462,accepted,pros,
+prosr2_015,2,pros,69.076193,23.629575,accepted,pros,
+prosr2_016,2,pros,69.779305,23.828731,accepted,pros,
+prosr2_017,2,pros,69.770411,23.629844,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr2_018,2,pros,69.779305,23.829001,accepted,pros,
+prosr2_019,2,pros,69.779844,23.827384,accepted,pros,
+prosr2_020,2,pros,69.006125,23.693175,accepted,pros,
+prosr2_021,2,pros,69.057868,23.667034,accepted,pros,
+prosr2_022,2,pros,69.057598,23.660028,accepted,pros,
+prosr2_023,2,pros,69.076463,23.629575,accepted,pros,
+prosr2_024,2,pros,69.770142,23.630114,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr2_025,2,pros,69.770681,23.629036,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr2_026,2,pros,69.770411,23.629305,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr2_027,2,pros,69.006394,23.692906,accepted,pros,
+prosr2_028,2,pros,69.076463,23.629844,accepted,pros,
+prosr2_029,2,pros,69.779574,23.828731,accepted,pros,
+prosr2_030,2,pros,69.057329,23.660297,accepted,pros,
+prosr2_031,2,pros,69.006125,23.694253,accepted,pros,
+prosr2_032,2,pros,69.770142,23.629575,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr2_033,2,pros,69.076193,23.629844,accepted,pros,
+prosr2_034,2,pros,69.779035,23.828462,accepted,pros,
+prosr2_035,2,pros,69.780113,23.827653,accepted,pros,
+prosr2_036,2,pros,69.779574,23.828462,accepted,pros,
+waterr2_001,2,water,69.898421,23.693984,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+waterr2_002,2,water,69.318199,23.584839,accepted,water,
+waterr2_003,2,water,69.098831,23.636312,accepted,water,
+waterr2_004,2,water,69.310115,23.599122,accepted,water,
+waterr2_005,2,water,69.100178,23.636312,accepted,water,
+waterr2_006,2,water,69.324667,23.581605,accepted,water,
+waterr2_007,2,water,69.305533,23.598852,accepted,water,
+waterr2_008,2,water,69.325476,23.594271,accepted,water,
+waterr2_009,2,water,69.327093,23.58403,accepted,water,
+waterr2_010,2,water,69.316043,23.585647,accepted,water,
+waterr2_011,2,water,69.320625,23.587803,accepted,water,
+waterr2_012,2,water,69.310384,23.592923,accepted,water,
+waterr2_013,2,water,69.319816,23.58403,accepted,water,
+waterr2_014,2,water,69.313079,23.596966,accepted,water,
+waterr2_015,2,water,69.334908,23.580257,accepted,water,
+waterr2_016,2,water,69.327632,23.592654,accepted,water,
+waterr2_017,2,water,69.319816,23.601547,accepted,water,
+waterr2_018,2,water,69.105029,23.63739,accepted,water,
+waterr2_019,2,water,69.300413,23.595349,accepted,water,
+waterr2_020,2,water,69.313618,23.601008,accepted,water,
+waterr2_021,2,water,69.315774,23.59481,accepted,water,
+waterr2_022,2,water,69.316313,23.593462,accepted,water,
+waterr2_023,2,water,69.320355,23.587803,accepted,water,
+waterr2_024,2,water,69.023911,23.779144,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+waterr2_025,2,water,69.311193,23.601278,accepted,water,
+waterr2_026,2,water,69.325476,23.586995,accepted,water,
+waterr2_027,2,water,69.112306,23.631192,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+waterr2_028,2,water,69.026876,23.772407,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+waterr2_029,2,water,69.330057,23.591845,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+waterr2_030,2,water,69.106646,23.635234,accepted,water,
+prosr3_001,3,pros,69.015826,23.543606,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr3_002,3,pros,69.007203,23.44524,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr3_003,3,pros,69.176176,23.539294,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr3_004,3,pros,69.787928,23.832235,accepted,pros,
+prosr3_005,3,pros,69.039542,23.473268,accepted,pros,
+prosr3_006,3,pros,69.857458,23.459254,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr3_007,3,pros,69.450521,23.432844,accepted,pros,
+prosr3_008,3,pros,69.01394,23.420986,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr3_009,3,pros,69.255407,23.40266,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr3_010,3,pros,69.452408,23.437964,accepted,pros,
+prosr3_011,3,pros,69.790084,23.8988,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr3_012,3,pros,69.76044,23.859454,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr3_013,3,pros,69.33383,23.435808,accepted,pros,
+prosr3_014,3,pros,69.447557,23.439042,accepted,pros,
+prosr3_015,3,pros,69.022564,23.539025,accepted,pros,
+prosr3_016,3,pros,69.0355,23.46168,accepted,pros,
+prosr3_017,3,pros,69.006394,23.499139,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr3_018,3,pros,69.770411,23.629305,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr3_019,3,pros,69.027145,23.488899,accepted,pros,
+prosr3_020,3,pros,69.032805,23.484048,accepted,pros,
+prosr3_021,3,pros,69.428423,23.41371,accepted,pros,
+prosr3_022,3,pros,69.016365,23.501026,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr3_023,3,pros,69.457528,23.444162,accepted,pros,
+prosr3_024,3,pros,69.030379,23.529323,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr3_025,3,pros,69.034961,23.468956,accepted,pros,
+prosr3_026,3,pros,69.516278,23.428801,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr3_027,3,pros,69.846409,23.894218,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr3_028,3,pros,69.353234,23.455751,accepted,pros,
+prosr3_029,3,pros,69.566404,23.437695,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr3_030,3,pros,69.558319,23.414518,accepted,pros,
+prosr3_031,3,pros,69.023103,23.49348,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
+prosr3_032,3,pros,69.828622,23.473807,rejected,,"20 m circle not clearly one class (edge, track, field, village, mixed or ambiguous)"
