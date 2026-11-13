@@ -36,6 +36,7 @@
 * Every kind of land is getting greener at about the **same pace: roughly 20 % more green every 10 years**.
 * That points to something that touches **the whole landscape**, not to the tree.
 * Places with Prosopis do gain a little more green, so the tree may **add** to the greening where it grows. It just does not **cause** it.
+* When we **take the Prosopis woodland out** of the area, the greening trend of what is left changes by less than 13 %. By the project's 25 % rule, that is a **neutral** effect.
 * We do not yet know what the landscape-wide cause is. Farming, wetter soil, less salty soil, changes in grazing, or rain patterns we could not measure are all still possible.
 
 ---
@@ -268,6 +269,32 @@ Differences between groups:
 * Think of it like pocket money. If every child in a class gets a 20 % raise, the child who had more money gets more coins, but nobody's raise is special. That looks like a change for everyone, not a change caused by one thing.
 * Woodland and mixed land behave the same.
 
+### 6.6 Taking Prosopis out: does the area's trend change?
+
+The tests above compare groups. This one asks the question the other way round: **if we remove the Prosopis pixels from the area, how much does the area's greening trend change?** (`scripts/11_remove_prosopis.py`, results in `results/remove_prosopis_tests.json`).
+
+The rule was fixed before running:
+
+* **Positive effect:** removing Prosopis lowers the trend by 25 % or more, or the trend is no longer significant. (Prosopis was pushing the trend up.)
+* **Negative effect:** removing Prosopis raises the trend by 25 % or more. (Prosopis was holding the trend down.)
+* **Neutral:** the change is less than 25 % and the trend is still significant.
+
+All series use the study box and leave out watery pixels, as before.
+
+| What is left | MODIS pixels | Average greenness | Trend | Pace (relative) | Change after removing CHIRPS rain | Change after removing IMERG rain | Effect |
+|---|---|---|---|---|---|---|---|
+| Everything (the starting point) | 69,093 | 0.259 | +0.0054 per year, p = 0.0003 | +21 % per decade | +0.0033 per year, p = 0.012 | +0.0028 per year, p below 0.0001 | |
+| Without the high-Prosopis pixels (woodland more than 40 %) | 60,330 | 0.245 | +0.0051 per year, p = 0.0003 | +21 % per decade | **-3.5 %** (still p = 0.006) | **+0.2 %** (still p = 0.006) | **Neutral** |
+| Without any pixel that has 5 % or more woodland | 43,105 | 0.216 | +0.0048 per year, p = 0.0003 | +22 % per decade | **-12.8 %** (still p = 0.003) | **-6.2 %** (still p = 0.004) | **Neutral** |
+| Without any trees **or** scattered bushes (only bare salty brushland left) | 13,231 | 0.105 | +0.0022 per year, p = 0.004 | +21 % per decade | -48.7 % (still p = 0.002) | -49.5 % (still p = 0.002) | Rule says "positive", but see below |
+
+**In plain words:**
+
+* Taking out the **Prosopis woodland** barely changes the trend (less than 13 %). **Prosopis woodland has a neutral effect.**
+* The last row drops by about half. But that row throws away **four out of every five pixels**, including all the grassy mixed land, and keeps only bare salty ground that is about **2.5 times less green** to begin with. Less green land can only gain fewer greenness points.
+* Its **pace** is exactly the same as everything else: **+21 % per decade**. So the drop is caused by what kind of land is left, not by losing Prosopis.
+* The "mixed" land is scattered Prosopis bushes **plus grass**, so removing it removes grass as well. This test cannot split the two apart. The fair reading is: **Prosopis woodland, neutral; scattered Prosopis in grass, cannot be told apart from the grass.**
+
 ---
 
 ## 7. What it means
@@ -319,6 +346,7 @@ All paths are inside `research/prosopis_rf/` unless they start with `data/`, `do
 | `scripts/01_candidate_points.py` to `scripts/06_point_holdout_accuracy.py` | Each step, in order |
 | `scripts/09_robustness.py` | The tests with different rules and the 2017 map |
 | `scripts/10_brush_vs_woody.py` | The no-trees test |
+| `scripts/11_remove_prosopis.py` | The "take Prosopis out" test with the 25 % rule |
 | `results/code_editor_console_accuracy.jpg` | Picture of the accuracy result in the Code Editor |
 | `results/rf_accuracy_python.json`, `results/rf_accuracy_point_holdout.json` | Accuracy results |
 | `results/class_shares_2023.json`, `results/rf_classmap_2023.png` | Land-type shares and the map |
@@ -326,6 +354,7 @@ All paths are inside `research/prosopis_rf/` unless they start with `data/`, `do
 | `results/trend_tests.json` | Main trend results |
 | `results/robustness_tests.json`, `results/robustness_series.csv` | Results with different rules |
 | `results/brush_vs_woody_tests.json`, `results/brush_vs_woody_series.csv` | No-trees test results |
+| `results/remove_prosopis_tests.json`, `results/remove_prosopis_series.csv` | "Take Prosopis out" test results |
 | `data/extras/prosopis_rf/` | Local copies of the table |
 | `docs/KNOWN_ISSUES.md` | Known problems, including the three found in this work |
 

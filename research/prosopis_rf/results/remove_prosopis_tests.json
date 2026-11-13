@@ -1,0 +1,165 @@
+{
+  "modis_pixels": {
+    "all": 69093,
+    "minus_any_wood": 43105,
+    "minus_high": 60330,
+    "minus_woody": 13231
+  },
+  "threshold_pct": 25.0,
+  "series": {
+    "all": {
+      "mean_ndvi": 0.2592792307497745,
+      "raw": {
+        "direction": "increasing",
+        "p": 0.0003223560606209208,
+        "z": 3.5966384360088988,
+        "sen_slope_per_year": 0.005368319724962269,
+        "n": 24,
+        "period": "2001-2024"
+      },
+      "rain_removed_chirps": {
+        "direction": "increasing",
+        "p": 0.012236670124007976,
+        "z": 2.50524470370275,
+        "sen_slope_per_year": 0.003275331256772385,
+        "n": 24,
+        "period": "2001-2024"
+      },
+      "rain_removed_imerg": {
+        "direction": "increasing",
+        "p": 1.3090177877872478e-05,
+        "z": 4.358592190342376,
+        "sen_slope_per_year": 0.0027906254599007812,
+        "n": 24,
+        "period": "2001-2024"
+      },
+      "relative_pct_per_decade": 20.704781132828696
+    },
+    "minus_high": {
+      "mean_ndvi": 0.24533254204850866,
+      "raw": {
+        "direction": "increasing",
+        "p": 0.0002660979627469029,
+        "z": 3.646247242022815,
+        "sen_slope_per_year": 0.005118644725406614,
+        "n": 24,
+        "period": "2001-2024"
+      },
+      "rain_removed_chirps": {
+        "direction": "increasing",
+        "p": 0.005899983624599869,
+        "z": 2.7532887337723295,
+        "sen_slope_per_year": 0.0031613261376491775,
+        "n": 24,
+        "period": "2001-2024"
+      },
+      "rain_removed_imerg": {
+        "direction": "increasing",
+        "p": 0.005899983624599869,
+        "z": 2.7532887337723295,
+        "sen_slope_per_year": 0.002794993864058284,
+        "n": 24,
+        "period": "2001-2024"
+      },
+      "relative_pct_per_decade": 20.86410829426177,
+      "effect": {
+        "raw": {
+          "change_vs_all_pct": -4.650896599818488,
+          "effect": "neutral"
+        },
+        "rain_removed_chirps": {
+          "change_vs_all_pct": -3.4807202748570707,
+          "effect": "neutral"
+        },
+        "rain_removed_imerg": {
+          "change_vs_all_pct": 0.1565385330376142,
+          "effect": "neutral"
+        }
+      }
+    },
+    "minus_any_wood": {
+      "mean_ndvi": 0.21612692524610977,
+      "raw": {
+        "direction": "increasing",
+        "p": 0.0003223560606209208,
+        "z": 3.5966384360088988,
+        "sen_slope_per_year": 0.004806802292973979,
+        "n": 24,
+        "period": "2001-2024"
+      },
+      "rain_removed_chirps": {
+        "direction": "increasing",
+        "p": 0.003160052923044443,
+        "z": 2.951723957827993,
+        "sen_slope_per_year": 0.0028573389849400653,
+        "n": 24,
+        "period": "2001-2024"
+      },
+      "rain_removed_imerg": {
+        "direction": "increasing",
+        "p": 0.004337594636827813,
+        "z": 2.8525063458001614,
+        "sen_slope_per_year": 0.0026184796527790166,
+        "n": 24,
+        "period": "2001-2024"
+      },
+      "relative_pct_per_decade": 22.240645340696624,
+      "effect": {
+        "raw": {
+          "change_vs_all_pct": -10.459835865909355,
+          "effect": "neutral"
+        },
+        "rain_removed_chirps": {
+          "change_vs_all_pct": -12.761831981667171,
+          "effect": "neutral"
+        },
+        "rain_removed_imerg": {
+          "change_vs_all_pct": -6.168717715629427,
+          "effect": "neutral"
+        }
+      }
+    },
+    "minus_woody": {
+      "mean_ndvi": 0.1053303743301836,
+      "raw": {
+        "direction": "increasing",
+        "p": 0.004250886536555143,
+        "z": 2.85891799890069,
+        "sen_slope_per_year": 0.002190255487138807,
+        "n": 24,
+        "period": "2001-2024"
+      },
+      "rain_removed_chirps": {
+        "direction": "increasing",
+        "p": 0.0016318152580183654,
+        "z": 3.150159181883656,
+        "sen_slope_per_year": 0.0016795659212627185,
+        "n": 24,
+        "period": "2001-2024"
+      },
+      "rain_removed_imerg": {
+        "direction": "increasing",
+        "p": 0.0016318152580183654,
+        "z": 3.150159181883656,
+        "sen_slope_per_year": 0.001409526193264109,
+        "n": 24,
+        "period": "2001-2024"
+      },
+      "relative_pct_per_decade": 20.79414889643248,
+      "effect": {
+        "raw": {
+          "change_vs_all_pct": -59.20035319516664,
+          "effect": "positive effect (Prosopis was raising the trend)"
+        },
+        "rain_removed_chirps": {
+          "change_vs_all_pct": -48.72073113857143,
+          "effect": "positive effect (Prosopis was raising the trend)"
+        },
+        "rain_removed_imerg": {
+          "change_vs_all_pct": -49.49067105142,
+          "effect": "positive effect (Prosopis was raising the trend)"
+        }
+      }
+    }
+  }
+}
