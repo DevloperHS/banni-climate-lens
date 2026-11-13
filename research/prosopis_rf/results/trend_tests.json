@@ -1,0 +1,138 @@
+{
+  "input": "research\\prosopis_rf\\results\\banni_ndvi_by_prosopis_chirps.csv",
+  "years": [
+    2001,
+    2002,
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "trend": {
+    "ndvi_hi_pros": {
+      "direction": "increasing",
+      "p": 0.002281249640504912,
+      "z": 3.0509415698558247,
+      "sen_slope_per_year": 0.006282924783135063,
+      "n": 24,
+      "period": "2001-2024"
+    },
+    "ndvi_lo_pros": {
+      "direction": "increasing",
+      "p": 0.0003223560606209208,
+      "z": 3.5966384360088988,
+      "sen_slope_per_year": 0.0048068022929739825,
+      "n": 24,
+      "period": "2001-2024"
+    },
+    "chirps_monsoon_mm": {
+      "direction": "no significant trend",
+      "p": 0.20586252630799207,
+      "z": 1.265024553354854,
+      "sen_slope_per_year": 7.256537392526948,
+      "n": 24,
+      "period": "2001-2024"
+    },
+    "gap_hi_minus_lo": {
+      "direction": "no significant trend",
+      "p": 0.06283881974106831,
+      "z": 1.8603302255218441,
+      "sen_slope_per_year": 0.0015060855246843113,
+      "n": 24,
+      "period": "2001-2024"
+    }
+  },
+  "rain_removed_chirps": {
+    "ndvi_hi_pros": {
+      "r2_rain": 0.5859737658293585,
+      "residual_trend": {
+        "direction": "increasing",
+        "p": 0.021065443548514473,
+        "z": 2.306809479647087,
+        "sen_slope_per_year": 0.0034405338269810513,
+        "n": 24,
+        "period": "2001-2024"
+      },
+      "year_term": {
+        "coef_per_year": 0.004123320088850766,
+        "p": 0.0062779996730863395
+      }
+    },
+    "ndvi_lo_pros": {
+      "r2_rain": 0.5928412876052611,
+      "residual_trend": {
+        "direction": "increasing",
+        "p": 0.003160052923044443,
+        "z": 2.951723957827993,
+        "sen_slope_per_year": 0.0028573389849400775,
+        "n": 24,
+        "period": "2001-2024"
+      },
+      "year_term": {
+        "coef_per_year": 0.003270321121955763,
+        "p": 0.0005327748620537793
+      }
+    }
+  },
+  "chirps_vs_imerg": {
+    "n": 24,
+    "pearson_r": 0.9517544677643098,
+    "mean_chirps_mm": 288.2568465249871,
+    "mean_imerg_mm": 525.9766355821502,
+    "year_2020": {
+      "chirps_mm": 524.3331892344296,
+      "imerg_mm": 1000.6964498115256
+    },
+    "note": "CHIRPS over the script ROI (69.0-69.9 E, 23.4-23.9 N); IMERG over the platform rectangle (68.80-69.95 E, 23.20-23.95 N)."
+  },
+  "rain_removed_imerg": {
+    "ndvi_hi_pros": {
+      "r2_rain": 0.6913864349746872,
+      "residual_trend": {
+        "direction": "increasing",
+        "p": 0.02727273655786444,
+        "z": 2.207591867619255,
+        "sen_slope_per_year": 0.003242077524416935,
+        "n": 24,
+        "period": "2001-2024"
+      },
+      "year_term": {
+        "coef_per_year": 0.0033555837168955955,
+        "p": 0.013692395569690426
+      }
+    },
+    "ndvi_lo_pros": {
+      "r2_rain": 0.7025572958287253,
+      "residual_trend": {
+        "direction": "increasing",
+        "p": 0.004337594636827813,
+        "z": 2.8525063458001614,
+        "sen_slope_per_year": 0.002618479652779015,
+        "n": 24,
+        "period": "2001-2024"
+      },
+      "year_term": {
+        "coef_per_year": 0.0027808959383195785,
+        "p": 0.0009207314632736658
+      }
+    }
+  }
+}

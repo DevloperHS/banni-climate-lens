@@ -1,0 +1,79 @@
+{
+  "class_counts": {
+    "1": 41,
+    "2": 38,
+    "3": 53,
+    "4": 37
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      218,
+      6,
+      0,
+      1
+    ],
+    [
+      0,
+      13,
+      258,
+      0,
+      8
+    ],
+    [
+      0,
+      0,
+      0,
+      217,
+      0
+    ],
+    [
+      0,
+      0,
+      6,
+      0,
+      243
+    ]
+  ],
+  "consumers_accuracy": [
+    [
+      0,
+      0.9437229437229437,
+      0.9555555555555556,
+      1,
+      0.9642857142857143
+    ]
+  ],
+  "kappa": 0.9531373000377971,
+  "overall_accuracy": 0.9649484536082474,
+  "producers_accuracy": [
+    [
+      0
+    ],
+    [
+      0.9688888888888889
+    ],
+    [
+      0.9247311827956989
+    ],
+    [
+      1
+    ],
+    [
+      0.9759036144578314
+    ]
+  ],
+  "test_pixels": 970,
+  "train_pixels": 2136,
+  "run_utc": "2026-11-13T13:10:10+00:00",
+  "project": "(from .env)",
+  "manual_points": 159,
+  "note": "Rows/columns of the confusion matrix are class codes 0-4; row/column 0 is unused (no class 0)."
+}

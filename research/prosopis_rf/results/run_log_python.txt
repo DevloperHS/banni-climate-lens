@@ -1,0 +1,4 @@
+Training pixels 2136  Test pixels 970
+Overall accuracy 0.9649  Kappa 0.9531
+Class counts {'1': 41, '2': 38, '3': 53, '4': 37}
+wrote C:\Users\asus\Documents\Side-Projects\GlobalClimateLens-main\research\prosopis_rf\results\banni_ndvi_by_prosopis_chirps_python.csv from projects/banni-trend-2026/assets/banni_rf_classmap_2023

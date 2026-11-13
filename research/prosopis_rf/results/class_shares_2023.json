@@ -1,0 +1,28 @@
+{
+  "class_share_pct_2023_roi": {
+    "Prosopis woodland": 11.58,
+    "Mixed Prosopis + grass": 45.88,
+    "Wetland / water": 13.58,
+    "Saline brushland": 28.96
+  },
+  "pixels_10m": 50811111.407843165,
+  "modis_pixels": {
+    "all": 81407,
+    "hi": 8763,
+    "lo": 43105
+  },
+  "low_prosopis_pixels_mean_class_share": {
+    "Prosopis woodland": 0.004,
+    "Mixed Prosopis + grass": 0.504,
+    "Wetland / water": 0.001,
+    "Saline brushland": 0.491
+  },
+  "high_prosopis_pixels_mean_class_share": {
+    "Prosopis woodland": 0.654,
+    "Mixed Prosopis + grass": 0.326,
+    "Wetland / water": 0.002,
+    "Saline brushland": 0.018
+  },
+  "roi": "69.0-69.9 E, 23.4-23.9 N (banni_rf.js ROI)",
+  "source": "projects/<project>/assets/banni_rf_classmap_2023 (Code Editor run)"
+}
