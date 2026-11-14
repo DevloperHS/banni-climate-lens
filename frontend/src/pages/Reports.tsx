@@ -16,8 +16,6 @@ const BANNI_BOUNDARY: GeoJSON.Feature = {
 };
 
 type Mode = "researcher" | "student";
-interface Finding { id: string; title: string; statement: string; limitations: string[]; evidence: Record<string, unknown> }
-interface Insights { question: string; synthetic: boolean; synthetic_warning?: string; findings: Finding[]; notes: string[]; datasets_used: string[]; methodology: string }
 
 const RESEARCH_QUESTION = "What is the major driver of the 2001-2024 greening of the Banni Grasslands, and does satellite evidence show a water deficit associated with it?";
 const REFERENCES = [
@@ -39,7 +37,7 @@ export default function Reports() {
   const [variable, setVariable] = useState("ndvi");
   const [agg, setAgg] = useState("annual");
   const man = useApi<{ sections: { id: string; title: string; available: boolean; needs: string }[]; ready: boolean; synthetic: boolean }>("/reports/manifest", { region: sc.region, source: sc.source });
-  const q = useApi<Insights>("/reports/insights", sc);
+  const q = useApi("/reports/insights", sc);
   const map = useApi<Wrapped<Dashboard>>("/dashboards/where_changed", sc);
 
   useEffect(() => { try { localStorage.setItem("research.mode", mode); } catch { /* storage is optional */ } }, [mode]);
@@ -61,7 +59,8 @@ export default function Reports() {
 }
 
 function ResearcherMode({ q, map, sc, man, maps, setMaps, variable, setVariable, agg, setAgg }: {
-  q: ReturnType<typeof useApi<Insights>>; map: ReturnType<typeof useApi<Wrapped<Dashboard>>>;
+  q: ReturnType<typeof useApi>;
+  map: ReturnType<typeof useApi<Wrapped<Dashboard>>>;
   sc: ReturnType<typeof useScope>; man: ReturnType<typeof useApi<{ sections: { id: string; title: string; available: boolean; needs: string }[]; ready: boolean; synthetic: boolean }>>;
   maps: boolean; setMaps: (v: boolean) => void; variable: string; setVariable: (v: string) => void; agg: string; setAgg: (v: string) => void;
 }) {
@@ -93,7 +92,7 @@ function ResearcherMode({ q, map, sc, man, maps, setMaps, variable, setVariable,
       "Pixel-wise Sen slope with Benjamini-Hochberg FDR correction.",
       "Chance test: 1,000 no-trend replays; 6 were as strong as observed.",
     ].map((x) => <li key={x}>{x}</li>)}</ol></Panel>
-    <Results q={q} />
+    <Results />
     <Panel title="6. Outputs"><div className="flex flex-wrap gap-2">
       <a className="btn btn-primary text-xs" href={downloadUrl("/reports/export/csv", { ...sc, variable: "ndvi", agg: "annual" })} download>Annual NDVI CSV</a>
       <a className="btn btn-primary text-xs" href={downloadUrl("/reports/export/csv", { ...sc, variable: "precip", agg: "annual" })} download>Annual rainfall CSV</a>
@@ -103,10 +102,11 @@ function ResearcherMode({ q, map, sc, man, maps, setMaps, variable, setVariable,
     </div></Panel>
     <Panel title="7. Related published work and why our results differ">
       <div className="overflow-x-auto"><table className="w-full min-w-[700px] text-xs"><thead><tr><th>Study</th><th>Finding</th><th>Relation</th></tr></thead><tbody>
-        <tr><td>Tundia, Rao and Shastri (EGU22-12254)</td><td>Groundwater depletion attributed to Prosopis in a shorter record.</td><td>Our GRACE p = 0.21 was not significant.</td></tr>
+        <tr><td>Tundia, Rao and Shastri (EGU22-12254)</td><td>Groundwater depletion attributed to Prosopis in a shorter record.</td><td>Same direction as the Prosopis hypothesis. Our GRACE p = 0.21 was not significant.</td></tr>
         <tr><td>Shiferaw et al. 2021</td><td>Evergreen Prosopis uses groundwater in Afar.</td><td>Mechanism elsewhere; not proof for Banni.</td></tr>
         <tr><td>Nerlekar et al. 2021 (Mongabay)</td><td>Mechanical removal raised native plant diversity and cover.</td><td>Ecological and livelihood context.</td></tr>
       </tbody></table></div>
+      <h3 className="mt-3 font-semibold">Why our satellite results differ from a 'Prosopis is depleting groundwater' finding</h3>
       <ol className="mt-3 list-decimal pl-5 text-sm text-[var(--text-2)] space-y-1">{["Different observable: greening is not drying.", "Different time window: 2002-2017 versus 2001-2024.", "Different data: no combined water balance or well records here.", "GRACE is 3 degrees and can dilute a local signal.", "Attribution by elimination is not direct measurement."].map((x) => <li key={x}>{x}</li>)}</ol>
     </Panel>
     <Panel title="8. Limitations"><ol className="list-decimal pl-5 text-sm text-[var(--text-2)] space-y-1">{["Rectangle, not the Banni polygon.", "24 annual values.", "NDVI measures greenness, not species.", "No ground data.", "ET partly depends on NDVI; GLDAS and GRACE are coarse.", "Residual autocorrelation is suggested by Durbin-Watson.", "One influential year (2023, Cook's D above 4/n)."].map((x) => <li key={x}>{x}</li>)}</ol><p className="mt-3 text-sm"><b>What this work achieves.</b> The study establishes rainfall-independent greening of +0.0017 NDVI/yr, p = 0.006, and makes the cause a testable question.</p></Panel>
@@ -134,10 +134,9 @@ function DataTable() {
   return <div className="mt-3 overflow-x-auto"><table className="w-full min-w-[650px] text-xs"><thead><tr><th>Variable</th><th>Product</th><th>Resolution</th><th>Role</th></tr></thead><tbody>{rows.map((r) => <tr key={r[0]}>{r.map((v) => <td key={v}>{v}</td>)}</tr>)}</tbody></table></div>;
 }
 
-function Results({ q }: { q: ReturnType<typeof useApi<Insights>> }) {
-  const adjusted = q.data?.findings.find((f) => f.id === "adjusted");
-  const r2 = typeof adjusted?.evidence.r2 === "number" ? adjusted.evidence.r2 : 0.83;
-  return <Panel title="5. Results"><div className="overflow-x-auto"><table className="w-full min-w-[700px] text-xs"><thead><tr><th>Test</th><th>Result</th><th>Reading</th></tr></thead><tbody>{[
+function Results() {
+  const r2 = 0.83;
+  return <Panel title="5. Results"><p className="mb-3 text-xs text-[var(--muted)]">Values are for the full record, 2001-2024, and do not change with the period selector.</p><div className="overflow-x-auto"><table className="w-full min-w-[700px] text-xs"><thead><tr><th>Test</th><th>Result</th><th>Reading</th></tr></thead><tbody>{[
     ["Annual NDVI trend", "+0.0047/yr; Hamed-Rao p = 2.8e-05", "Greening is real"],
     ["Monsoon rainfall trend", "+15.7 mm/yr; p = 0.056 (Mann-Kendall)", "Not significant at 5%"],
     ["NDVI vs rain", `r = +0.91, R-squared = ${r2.toFixed(2)}`, "Rain explains year-to-year variance"],

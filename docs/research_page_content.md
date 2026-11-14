@@ -71,11 +71,11 @@ Four candidate explanations for the residual greening need ground data: shrub in
 
 | Study | Approach | Finding | Relation to ours |
 |---|---|---|---|
-| Tundia, Rao and Shastri (IIT Bombay), EGU General Assembly 2022, EGU22-12254 (conference abstract) | GRACE storage change + hydrological model + remote-sensing ET + groundwater table, Banni, 2002-2017 | Groundwater depletion; authors attribute it to Prosopis after finding soil moisture, surface water and biomass did not contribute significantly; they note the record is short | Same direction as our hypothesis. We could not reproduce a significant GRACE trend (p = 0.21). |
+| Tundia, Rao and Shastri (IIT Bombay), EGU General Assembly 2022, EGU22-12254 (conference abstract) | GRACE storage change + hydrological model + remote-sensing ET + groundwater table, Banni, 2002-2017 | Groundwater depletion; authors attribute it to Prosopis after finding soil moisture, surface water and biomass did not contribute significantly; they note the record is short | Same direction as the Prosopis hypothesis. We could not reproduce a significant GRACE trend (p = 0.21). |
 | Shiferaw et al. 2021, Scientific Reports 11:2688 (Afar, Ethiopia) | Sap flow and eddy covariance, upscaled by cover map | Evergreen Prosopis uses groundwater year-round; stand ET about 3.7 mm/day; upscaled about 279 mm/yr | Supports the mechanism (deep-rooted, evergreen, dry-season water use) in another region. Does not prove it for Banni. |
 | Nerlekar, Misher, Hiremath et al. (ATREE and Sahjeevan), 2021, reported by Mongabay | Field plots in Banni: mechanical removal vs lopping | Mechanical removal raised native plant diversity and cover | Ecological and livelihood context; did not measure water. |
 
-**Why our satellite results differ from a "Prosopis is drying the land" finding**
+**Why our satellite results differ from a "Prosopis is depleting groundwater" finding**
 1. **Different observable.** Greening (NDVI) is not drying. An evergreen deep-rooted shrub can raise NDVI while drawing groundwater; both can be true together. NDVI cannot tell which plant is responsible.
 2. **Different time window.** The IIT Bombay analysis covers 2002-2017; ours uses the full available record to 2024.
 3. **Different data.** They combined GRACE with a hydrological model, ET and groundwater-table data; we tested GRACE (JPL mascon), GLDAS soil moisture and MODIS ET as separate series, without a combined water balance and without well records.
