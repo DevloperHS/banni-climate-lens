@@ -1,0 +1,26 @@
+.venv/
+node_modules/
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+*.json.key
+*service-account*.json
+data/processed/*
+data/sample/*
+data/raw/*
+data/cache/*
+!data/*/.gitkeep
+frontend/dist/
+.pytest_cache/
+test-results/
+playwright-report/
+.env.production
+secrets/
+backups/
+!.env.production.example
+
+# local tooling
+.claude/
+*.log

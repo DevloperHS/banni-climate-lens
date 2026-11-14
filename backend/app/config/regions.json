@@ -1,0 +1,62 @@
+[
+  {
+    "id": "banni",
+    "name": "Banni Grasslands",
+    "description": "Arid grassland and seasonal wetland landscape of Kutch district, Gujarat, India. The default analysis geometry is the rectangular window used by the research handover; it is NOT the grassland boundary (see geometry notes).",
+    "country": "India",
+    "state": "Gujarat",
+    "bbox": {
+      "south": 23.2,
+      "north": 23.95,
+      "west": 68.8,
+      "east": 69.95
+    },
+    "study_period": {
+      "start": 2001,
+      "end": 2024
+    },
+    "reference_area_km2": 2618,
+    "events": [
+      {
+        "id": "biparjoy",
+        "name": "Cyclone Biparjoy landfall",
+        "date": "2023-06-15",
+        "note": "Landfall near Jakhau, Kutch (date per public reports; verify before publication)."
+      }
+    ],
+    "monsoon_months": [
+      6,
+      7,
+      8,
+      9
+    ],
+    "geometry": {
+      "id": "handover_bbox",
+      "kind": "bbox",
+      "source": "Banni Project handover (pp.1, 5, 10): every script uses ee.Geometry.Rectangle([68.80,23.20,69.95,23.95])"
+    },
+    "reference_area_note": "The handover labels this box '~2,618 sq km', but its computed area is ~9,751 km2, so the label cannot describe the box. Published figures for the Banni grassland itself are of the same order as 2,618 km2 (see published_area_figures), so 2,618 km2 most plausibly refers to the grassland extent. Handover results were computed over the rectangle, not the grassland.",
+    "published_area_figures": [
+      {
+        "km2": 2497,
+        "source": "Deccan Herald, 'Asia's largest grassland gets official boundaries' (Forest Dept GPS survey 2005-06, 249,674.45 ha)",
+        "verified": "search-result excerpt; page not opened in full"
+      },
+      {
+        "km2": 2617,
+        "source": "Sahapedia, 'Banni Grasslands: An Overview'",
+        "verified": "search-result excerpt; page not opened in full"
+      },
+      {
+        "km2": 2464.62,
+        "source": "Banni Protected Forest working plan as quoted in a search summary",
+        "verified": "NOT individually verified - confirm in the working plan"
+      }
+    ],
+    "pending_geometry": {
+      "id": "grassland",
+      "file": "backend/app/config/geometries/banni_grassland.geojson",
+      "needed": "A verified polygon of the Banni grassland / Banni Protected Forest. No machine-readable boundary was found (OSM Nominatim returned nothing; Overpass queries timed out). Obtain it from the Gujarat Forest Department / Banni Grassland Division (boundary demarcation survey) or ISRO Bhuvan, and save it as GeoJSON (EPSG:4326) with properties: source, retrieved, license."
+    }
+  }
+]
