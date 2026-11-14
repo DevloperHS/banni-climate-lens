@@ -19,7 +19,7 @@ Sub-questions:
 
 ## 2. Study area and data
 
-Analysis window 68.80-69.95 E, 23.20-23.95 N: a rectangle of about 9,770 sq km (computed), not the exact Banni polygon. The Banni grassland itself is commonly cited as about 2,618 sq km (reference 6), so the rectangle is roughly 3.7 times larger and part of it lies outside the grassland. n = 24 annual values (2001-2024).
+Analysis window 68.80-69.95 E, 23.20-23.95 N: a rectangle of about 9,751 sq km (computed), not the exact Banni polygon. The Banni grassland itself is commonly cited as about 2,618 sq km (reference 6), so the rectangle is roughly 3.7 times larger and part of it lies outside the grassland. n = 24 annual values (2001-2024).
 
 | Variable | Product | Resolution | Role |
 |---|---|---|---|
@@ -86,7 +86,7 @@ We therefore treat the water-deficit link as **not established**: consistent wit
 
 ## 7. Limitations
 
-1. Rectangle (about 9,770 sq km), not the Banni polygon (about 2,618 sq km): much of the measured area lies outside the grassland.
+1. Rectangle (about 9,751 sq km), not the Banni polygon (about 2,618 sq km): much of the measured area lies outside the grassland.
 2. 24 annual values: enough to see a direction, not to pin a cause.
 3. NDVI measures greenness, not species; shrub and grass are indistinguishable.
 4. No ground data (wells, soil samples, field surveys, dam records).

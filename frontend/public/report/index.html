@@ -458,7 +458,7 @@ html { scrollbar-gutter: stable; }
       var yr = pairs.map(function (d) { return d.year; }), vv = pairs.map(function (d) { return d.v; }), rr = pairs.map(function (d) { return d.rain; });
       var r = residual(vv, rr), s = sen(yr, r), ci = bootCI(yr, vv, rr);
       var tr = STATE.trends[k] && STATE.trends[k].hr;
-      rows.push({ label: WANT.filter(function (w) { return w.key === k; })[0].label, n: pairs.length, s: s, lo: ci[0], hi: ci[1], p: tr ? tr.p : null, period: yr[0] + '–' + yr[yr.length - 1] });
+      rows.push({ label: WANT.filter(function (w) { return w.key === k; })[0].label, n: pairs.length, s: s, lo: ci[0], hi: ci[1], p: (k === 'ndvi' && STATE.adjusted && STATE.adjusted.residual_trend) ? STATE.adjusted.residual_trend.hr.p : null, period: yr[0] + '–' + yr[yr.length - 1] });
     });
     if (!rows.length) return;
     var W = 760, H = 252, pad = { l: 230, r: 150, t: 34, b: 56 };
@@ -486,7 +486,7 @@ html { scrollbar-gutter: stable; }
     var res = residual(nd, rn), out = [];
     function row(label, key, x, y, unit, pOverride) {
       var tr = STATE.trends[key] && STATE.trends[key].hr, s = sen(x, y), p = pOverride != null ? pOverride : (tr ? tr.p : null);
-      out.push({ label: label, n: y.length, s: s, p: p, unit: unit || '', dir: p != null && p < 0.05 ? (s > 0 ? 'increasing' : 'decreasing') : 'no significant trend' });
+      out.push({ label: label, n: y.length, s: s, p: p, unit: unit || '', dir: p == null ? 'not tested' : (p < 0.05 ? (s > 0 ? 'increasing' : 'decreasing') : 'no significant trend') });
     }
     row('Monsoon NDVI (Terra), observed', 'ndvi', years, nd);
     row('Monsoon rainfall', 'precip', years, rn, ' mm');
