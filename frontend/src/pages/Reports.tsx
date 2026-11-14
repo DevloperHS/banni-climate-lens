@@ -2,8 +2,18 @@ import { useState } from "react";
 import { PageHeader, Panel, Q, SectionHeader, Select, SyntheticBadge, useApi, useScope } from "../components/ui";
 import { Dashboard, Wrapped, downloadUrl } from "../lib/api";
 import MapView, { Legend } from "../components/MapView";
-import { BANNI_BOUNDARY, BANNI_BBOX } from "../components/BanniMap";
 import { useApp } from "../state/AppState";
+
+const BANNI_BBOX = { west: 68.8, south: 23.2, east: 69.95, north: 23.95 };
+const BANNI_BOUNDARY: GeoJSON.Feature = {
+  type: "Feature",
+  properties: { kind: "analysis rectangle" },
+  geometry: { type: "Polygon", coordinates: [[
+    [BANNI_BBOX.west, BANNI_BBOX.south], [BANNI_BBOX.east, BANNI_BBOX.south],
+    [BANNI_BBOX.east, BANNI_BBOX.north], [BANNI_BBOX.west, BANNI_BBOX.north],
+    [BANNI_BBOX.west, BANNI_BBOX.south],
+  ]] },
+};
 
 type Aud = "researcher" | "authority" | "student" | "community";
 interface Finding {
