@@ -1,0 +1,365 @@
+@import "tailwindcss";
+
+/* ── GlobalClimateLens: Scientific Earth-Observation Intelligence System ── */
+:root, [data-theme="dark"] {
+  --bg:          #070a10;
+  --bg-elev:     #0c121d;
+  --bg-soft:     #121a28;
+  --bg-hover:    #192436;
+  --border:      #1a2538;
+  --border-hi:   #253652;
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  
+  --text:        #e2e8f4;
+  --text-2:      #9cb0cb;
+  --muted:       #647b99;
+  --muted-2:     #415570;
+
+  --accent:      #10b981; /* Emerald/Teal accent */
+  --accent-2:    #06b6d4; /* Cyan accent */
+  --green:       #10b981;
+  --teal:        #14b8a6;
+  --cyan:        #06b6d4;
+  --blue:        #3b82f6;
+  --purple:      #8b5cf6;
+  --amber:       #f59e0b;
+  --red:         #ef4444;
+  --grid:        #131c2d;
+
+  --c1: #10b981; --c2: #06b6d4; --c3: #f59e0b; --c4: #8b5cf6;
+  
+  --shadow-sm:   0 1px 2px rgba(0,0,0,0.4);
+  --shadow:      0 8px 24px rgba(0,0,0,0.5);
+  --shadow-elev: 0 16px 36px rgba(0,0,0,0.65);
+  
+  --radius-sm:   4px;
+  --radius:      6px;
+  --radius-lg:   8px;
+}
+
+[data-theme="light"] {
+  --bg:          #f4f6fa;
+  --bg-elev:     #ffffff;
+  --bg-soft:     #eaeff6;
+  --bg-hover:    #e0e7f2;
+  --border:      #d4dde9;
+  --border-hi:   #b8c6d8;
+  --border-subtle: rgba(0, 0, 0, 0.04);
+  
+  --text:        #0c1422;
+  --text-2:      #33435c;
+  --muted:       #596c88;
+  --muted-2:     #8fa0b8;
+
+  --accent:      #059669;
+  --accent-2:    #0891b2;
+  --green:       #059669;
+  --teal:        #0d9488;
+  --cyan:        #0891b2;
+  --blue:        #2563eb;
+  --purple:      #7c3aed;
+  --amber:       #d97706;
+  --red:         #dc2626;
+  --grid:        #e2e9f3;
+
+  --c1: #059669; --c2: #0891b2; --c3: #d97706; --c4: #7c3aed;
+  
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.06);
+  --shadow:      0 4px 16px rgba(0,0,0,0.08);
+  --shadow-elev: 0 12px 28px rgba(0,0,0,0.1);
+  
+  --radius-sm:   4px;
+  --radius:      6px;
+  --radius-lg:   8px;
+}
+
+/* ── Typography & Base Styles ── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Component Primitives ── */
+@layer components {
+
+  /* Modern Glass/Elevated Container without aggressive borders */
+  .panel {
+    background: var(--bg-elev);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+    box-shadow: var(--shadow-sm);
+    transition: border-color 0.15s ease;
+  }
+  .panel:hover {
+    border-color: var(--border);
+  }
+
+  .panel-flush {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* Metric Card */
+  .metric-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    box-shadow: var(--shadow-sm);
+  }
+  .metric-card:hover {
+    border-color: var(--border);
+  }
+
+  /* Navigation Link */
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    color: var(--text-2);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.12s ease;
+    position: relative;
+  }
+  .nav-link:hover {
+    background: var(--bg-hover);
+    color: var(--text);
+  }
+  .nav-link.active {
+    background: color-mix(in srgb, var(--accent) 12%, var(--bg-elev));
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .nav-link.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+
+  /* Scientific Controls & Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--bg-elev);
+    color: var(--text-2);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    transition: all 0.12s ease;
+    white-space: nowrap;
+  }
+  .btn:hover:not(:disabled) {
+    background: var(--bg-hover);
+    border-color: var(--border-hi);
+    color: var(--text);
+  }
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--accent) 88%, #000);
+    border-color: color-mix(in srgb, var(--accent) 88%, #000);
+    color: #ffffff;
+  }
+
+  /* Form Selects & Inputs */
+  .field {
+    background: var(--bg-soft);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 6px 10px;
+    font-size: 13px;
+    font-family: inherit;
+    transition: border-color 0.12s ease;
+  }
+  .field:focus {
+    border-color: var(--accent);
+    outline: none;
+  }
+
+  /* Badges & Telemetry Pills */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border: 1px solid var(--border);
+    background: var(--bg-soft);
+    color: var(--muted);
+  }
+  .badge-ok {
+    border-color: color-mix(in srgb, var(--green) 35%, transparent);
+    background: color-mix(in srgb, var(--green) 12%, transparent);
+    color: var(--green);
+  }
+  .badge-warn {
+    border-color: color-mix(in srgb, var(--amber) 40%, transparent);
+    background: color-mix(in srgb, var(--amber) 12%, transparent);
+    color: var(--amber);
+  }
+  .badge-bad {
+    border-color: color-mix(in srgb, var(--red) 40%, transparent);
+    background: color-mix(in srgb, var(--red) 12%, transparent);
+    color: var(--red);
+  }
+
+  /* Tables */
+  table.tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  table.tbl th {
+    text-align: left;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-soft);
+  }
+  table.tbl td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: top;
+    color: var(--text-2);
+  }
+  table.tbl tr:last-child td {
+    border-bottom: none;
+  }
+  table.tbl tr:hover td {
+    background: var(--bg-soft);
+    color: var(--text);
+  }
+  .tbl-wrap {
+    overflow-x: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+
+  /* Scientific Typography */
+  .muted { color: var(--muted); }
+  .muted-2 { color: var(--muted-2); }
+}
+
+/* ── Leaflet GIS Overrides ── */
+.leaflet-container {
+  background: #090e18;
+  border-radius: var(--radius);
+  font-family: inherit;
+}
+.leaflet-bar {
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow) !important;
+  border-radius: var(--radius) !important;
+  overflow: hidden;
+}
+.leaflet-bar a {
+  background: var(--bg-elev) !important;
+  color: var(--text) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+.leaflet-bar a:hover {
+  background: var(--bg-hover) !important;
+}
+
+/* ── Recharts Clean Styling ── */
+.recharts-text {
+  fill: var(--muted);
+  font-size: 11px;
+}
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: var(--grid);
+}
+
+/* ── Skeleton Shimmer ── */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-soft) 0%, var(--bg-hover) 50%, var(--bg-soft) 100%);
+  background-size: 200% 100%;
+  animation: sk 1.6s ease-in-out infinite;
+  border-radius: var(--radius);
+}
+@keyframes sk {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Custom Scrollbars ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-hi);
+}
+
+/* ── Trend dashboards: rain animated over the map (intensity scales with the year's monsoon total) ── */
+.rain-layer {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 450; border-radius: inherit;
+}
+.rain-drop {
+  position: absolute; top: -12%; width: 2px; height: 18px; border-radius: 1px;
+  background: linear-gradient(to bottom, rgba(186, 230, 253, 0), rgba(186, 230, 253, 0.95));
+  box-shadow: 0 0 2px rgba(14, 165, 233, 0.6);
+  animation: rain-fall linear infinite;
+}
+@keyframes rain-fall {
+  to { transform: translate3d(-18px, 115vh, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rain-drop { animation: none; display: none; }
+}
+.swipe-frame { position: relative; overflow: hidden; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--bg-soft); }
+.swipe-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; image-rendering: pixelated; }
+.swipe-handle { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--amber); box-shadow: 0 0 0 1px rgba(0,0,0,0.35); pointer-events: none; }
