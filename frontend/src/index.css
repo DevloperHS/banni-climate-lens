@@ -643,47 +643,6 @@ body {
 .research-page .research-flow__circle { font-size: 28px; }
 .research-page .research-flow__arrow { font-size: 32px; }
 
-/* ===== Research page FIX v2 ===== */
-.research-page { font-size: 17px; line-height: 1.65; }
-.research-page .panel h2 { font-size: 24px; }
-.research-page h3 { font-size: 18px; }
-.research-page .research-lead { font-size: 20px; }
-.research-page .panel p,
-.research-page .panel li { font-size: 16px; }
-.research-page table,
-.research-page th,
-.research-page td { font-size: 16px; }
-
-.research-page .research-questions { border: 0 !important; counter-reset: q; gap: 0; }
-.research-page .research-question {
-  counter-increment: q; display: grid; grid-template-columns: 1fr 1fr;
-  border: 0 !important; background: none !important; padding: 0 !important;
-}
-.research-page .research-question__copy { padding: 32px 36px; }
-.research-page .research-question__copy > span { font-size: 15px; }
-.research-page .research-question__copy h3 { font-size: 20px; margin: 4px 0 6px; }
-.research-page .research-question__copy p { font-size: 16px; }
-.research-page .research-question__circle {
-  width: 100% !important; height: auto !important; min-height: 190px;
-  aspect-ratio: auto !important; align-self: stretch; justify-self: stretch;
-  border: 0 !important; border-radius: 0 !important;
-  background: color-mix(in srgb, var(--teal) 8%, transparent);
-  display: grid; place-items: center; font-size: 16px;
-}
-.research-page .research-question__circle::before {
-  content: "Q" counter(q);
-  width: 120px; height: 120px; border-radius: 50%;
-  border: 3px solid var(--teal); color: var(--teal);
-  display: grid; place-items: center; font-size: 28px; font-weight: 700;
-}
-.research-page .research-question__circle::after { content: none; }
-.research-page .research-question--reverse .research-question__circle { order: -1; }
-
-.research-page .research-flow__step h3 { font-size: 20px; }
-.research-page .research-flow__step p { font-size: 15px; }
-.research-page .research-flow__circle { font-size: 28px; }
-.research-page .research-flow__arrow { font-size: 32px; }
-
 /* ===== Research FIX v3: smaller question blocks + flow icons ===== */
 .research-page .research-question__circle {
   min-height: 0 !important;
@@ -797,7 +756,7 @@ body {
 }
 .research-page .research-callout {
   margin-top: 16px; padding: 16px 20px; font-size: 17px; line-height: 1.6;
-  border-left: 6px solid var(--teal); background: color-mix(in srgb, var(--teal) 8%, transparent);
+  border-radius: 10px; background: color-mix(in srgb, var(--teal) 8%, transparent);
 }
 
 .research-page .research-timeline { list-style: none; margin: 0; padding: 0; }
@@ -868,7 +827,7 @@ body {
   border: 3px solid var(--teal); font-size: 24px;
 }
 .research-page .student-eg {
-  padding: 10px 14px; border-left: 5px solid var(--teal);
+  padding: 10px 14px; border-radius: 8px;
   background: color-mix(in srgb, var(--teal) 8%, transparent);
   color: var(--text) !important;
 }
@@ -999,6 +958,4 @@ body {
 .research-page .student-card__icon svg { stroke-width: 1.4; }
 
 /* ===== Research: remove left strips ===== */
-.research-page .student-eg { border-left: 0; border-radius: 8px; }
 .research-page .student-eg b { font-weight: 700; }
-.research-page .research-callout { border-left: 0; border-radius: 10px; }

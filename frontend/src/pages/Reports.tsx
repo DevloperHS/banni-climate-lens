@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { PageHeader, Panel, Q, SectionHeader, Select, SyntheticBadge, useApi, useScope } from "../components/ui";
 import { Dashboard, Wrapped, downloadUrl } from "../lib/api";
@@ -212,7 +213,7 @@ function ResearchMap({ dashboard, region, source, start, end, simple = false }: 
 
 function StaticMapFallback({ only }: { only?: string }) {
   const assets = only ? [[`/img/${only}`, only]] : [["/img/trend-map.png", "trend-map.png"], ["/img/land-cover.png", "land-cover.png"], ["/img/before-2001.png", "before-2001.png"], ["/img/after-2024.png", "after-2024.png"]];
-  return <div className="grid gap-3 sm:grid-cols-2" aria-label="Static map fallbacks">{assets.map(([src, label]) => <figure key={src} className="rounded-lg border border-dashed border-[var(--border-hi)] bg-[var(--bg-soft)] p-2"><img src={src} alt={label} className="aspect-video w-full object-contain" onError={(e) => { e.currentTarget.hidden = true; e.currentTarget.nextElementSibling?.removeAttribute("hidden"); }} /><figcaption hidden className="p-4 text-center text-xs text-[var(--muted)]">image to be added: {label}</figcaption><figcaption className="mt-1 text-xs text-[var(--muted)]">{label} · analysis rectangle 68.80-69.95 E, 23.20-23.95 N · MODIS/Landsat</figcaption></figure>)}</div>;
+  return <div className="grid gap-3 sm:grid-cols-2" aria-label="Static map fallbacks">{assets.map(([src, label]) => <figure key={src} className="rounded-lg border border-dashed border-[var(--border-hi)] bg-[var(--bg-soft)] p-2"><img src={src} alt={label} className="aspect-video w-full object-contain" onError={(e) => { e.currentTarget.hidden = true; e.currentTarget.nextElementSibling?.removeAttribute("hidden"); }} /><figcaption hidden className="p-4 text-center text-xs text-[var(--muted)]">This map image is not available right now.</figcaption><figcaption className="mt-1 text-xs text-[var(--muted)]">{label} · analysis rectangle 68.80-69.95 E, 23.20-23.95 N · MODIS/Landsat</figcaption></figure>)}</div>;
 }
 
 function ResearchSplit() {
@@ -364,19 +365,10 @@ function ViewsVisual() {
     ["Trending topic", "Many views", 85, "play"],
     ["Rain year", "Banni greener", 85, "rain"],
   ];
-  return <div className="student-clips" role="img" aria-label="Three video thumbnails. A quiet topic gets few views, a trending topic gets many views, and a rainy year makes Banni greener.">
-    {items.map(([name, note, level, k]) => <div className="student-clip" key={name}>
-      <div className="student-clip__thumb">
-        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          {k === "play"
-            ? <path d="M8 5v14l11-7z" />
-            : <><path d="M4 14.9A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.5 8.2" /><path d="M8 14v6M12 16v6M16 14v6" /></>}
-        </svg>
-      </div>
-      <div className="student-clip__track"><i style={{ width: `${level}%` }} /></div>
-      <b>{name}</b><span>{note}</span>
-    </div>)}
-  </div>;
+  const icon = (k: string) => k === "play"
+    ? <path d="M8 5v14l11-7z" />
+    : <><path d="M4 14.9A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.5 8.2" /><path d="M8 14v6M12 16v6M16 14v6" /></>;
+  return <ClipRow items={items} label="Three video thumbnails. A quiet topic gets few views, a trending topic gets many views, and a rainy year makes Banni greener." icon={icon} />;
 }
 
 function LuckVisual() {
@@ -417,15 +409,7 @@ function StudyVisual() {
     : k === "book"
       ? <><path d="M3 5h7a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H3z" /><path d="M21 5h-7a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h7z" /></>
       : <><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></>;
-  return <div className="student-clips" role="img" aria-label="Three tiles. A student is busy on social media but still does well in studies. In the same way, Banni is still getting greener in the dry months, March to May.">
-    {items.map(([name, note, level, k]) => <div className="student-clip" key={name}>
-      <div className="student-clip__thumb">
-        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{icon(k)}</svg>
-      </div>
-      <div className="student-clip__track"><i style={{ width: `${level}%` }} /></div>
-      <b>{name}</b><span>{note}</span>
-    </div>)}
-  </div>;
+  return <ClipRow items={items} label="Three tiles. A student is busy on social media but still does well in studies. In the same way, Banni is still getting greener in the dry months, March to May." icon={icon} />;
 }
 
 function MapVisual() {
@@ -510,4 +494,18 @@ function Illustration({ name, alt }: { name: string; alt: string }) {
     }
   })();
   return <svg viewBox="0 0 300 150" preserveAspectRatio="xMidYMid slice" className="student-illus" role="img" aria-label={alt}>{scene}</svg>;
+}
+
+type Clip = [name: string, note: string, level: number, key: string];
+
+function ClipRow({ items, label, icon }: { items: Clip[]; label: string; icon: (k: string) => ReactNode }) {
+  return <div className="student-clips" role="img" aria-label={label}>
+    {items.map(([name, note, level, k]) => <div className="student-clip" key={name}>
+      <div className="student-clip__thumb">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{icon(k)}</svg>
+      </div>
+      <div className="student-clip__track"><i style={{ width: `${level}%` }} /></div>
+      <b>{name}</b><span>{note}</span>
+    </div>)}
+  </div>;
 }

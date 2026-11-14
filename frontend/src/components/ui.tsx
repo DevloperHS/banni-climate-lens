@@ -206,17 +206,7 @@ export function ChartPanel({
     <div className={`panel ${className}`}>
       {(title || actions) && (
         <div className="flex items-center justify-between gap-3 mb-3 pb-2.5 border-b border-[var(--border-subtle)]">
-          <div>
-            {title && (
-              <h3 className="text-sm font-semibold tracking-tight text-[var(--text)]">
-                {title}
-              </h3>
-            )}
-            {subtitle && (
-              <p className="text-xs text-[var(--muted)] mt-0.5">{subtitle}</p>
-            )}
-          </div>
-          {actions && <div className="flex items-center gap-2">{actions}</div>}
+          <HeaderContent title={title} subtitle={subtitle} actions={actions} />
         </div>
       )}
       <div className="w-full">{children}</div>
@@ -245,17 +235,7 @@ export function MapPanel({
     <div className={`panel !p-0 overflow-hidden flex flex-col ${className}`}>
       {(title || actions) && (
         <div className="px-5 py-3 border-b border-[var(--border-subtle)] flex items-center justify-between gap-3 bg-[var(--bg-elev)]">
-          <div>
-            {title && (
-              <h3 className="text-sm font-semibold text-[var(--text)] tracking-tight">
-                {title}
-              </h3>
-            )}
-            {subtitle && (
-              <p className="text-xs text-[var(--muted)] mt-0.5">{subtitle}</p>
-            )}
-          </div>
-          {actions && <div className="flex items-center gap-2">{actions}</div>}
+          <HeaderContent title={title} subtitle={subtitle} actions={actions} />
         </div>
       )}
       <div className="relative flex-1 w-full bg-[#070b12]">{children}</div>
@@ -686,5 +666,18 @@ export function RequireData({
         </div>
       </div>
     </div>
+  );
+}
+
+/* shared header used by Panel and MapPanel */
+function HeaderContent({ title, subtitle, actions }: { title?: ReactNode; subtitle?: ReactNode; actions?: ReactNode }) {
+  return (
+    <>
+      <div>
+        {title && <h3 className="text-sm font-semibold tracking-tight text-[var(--text)]">{title}</h3>}
+        {subtitle && <p className="text-xs text-[var(--muted)] mt-0.5">{subtitle}</p>}
+      </div>
+      {actions && <div className="flex items-center gap-2">{actions}</div>}
+    </>
   );
 }
