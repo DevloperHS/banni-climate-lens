@@ -20,14 +20,14 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Build and push image
         run: |
-          az acr login -n ${{ vars.ACR_NAME }}
-          IMG=${{ vars.ACR_NAME }}.azurecr.io/$IMAGE:${{ github.sha }}
+          az acr login -n bannilens32078
+          IMG=bannilens32078.azurecr.io/$IMAGE:${{ github.sha }}
           docker build -t $IMG .
           docker push $IMG
       - name: Update container app
         run: |
           az containerapp update -n $APP -g $RG \
-            --image ${{ vars.ACR_NAME }}.azurecr.io/$IMAGE:${{ github.sha }}
+            --image bannilens32078.azurecr.io/$IMAGE:${{ github.sha }}
       - name: Health check
         run: |
           sleep 30
