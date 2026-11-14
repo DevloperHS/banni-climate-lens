@@ -80,3 +80,29 @@ frontend/src/{pages,components,lib,state,test}   UI;  frontend/e2e  Playwright
 data/{processed,sample,raw,cache}        runtime data (git-ignored)
 docs/                                    documentation
 ```
+
+<!-- deploy-section -->
+## Run with Docker
+
+    docker build -t banni-climate-lens:local .
+    docker run --rm -d --name banni-test -p 8001:8000 -e GCL_API_TOKEN=change-me banni-climate-lens:local
+
+Open http://localhost:8001. The container serves the React frontend, the static pages (`/overview/`, `/report/`, `/methodology/`) and the API from one origin. Writes to the API need the `GCL_API_TOKEN` bearer token.
+
+## Deploy to Azure (Container Apps)
+
+Live app: https://banni-app.livelygrass-8df5f932.centralindia.azurecontainerapps.io
+
+The app runs on Azure Container Apps (`banni-app` in resource group `banni-rg`, region `centralindia`) with the image stored in Azure Container Registry. On an Azure for Students subscription `az acr build` is blocked (`TasksOperationsNotAllowed`), so the image is built locally and pushed:
+
+    az login --use-device-code
+    ./deploy/deploy.sh v5
+
+Use a new tag for every deploy. The script builds with `--provenance=false --sbom=false`, pushes to ACR, updates the container app and runs a health check. See `deploy/DEPLOY.md` for the full cheat sheet, rollback steps and known pitfalls.
+
+## Security notes
+
+- Responses carry `X-Frame-Options: SAMEORIGIN` and a Content-Security-Policy with `frame-ancestors 'self'`, so the app can embed its own pages in iframes and nothing else can.
+- The static pages (`/overview/`, `/report/`, `/methodology/`) have a CSP that allows their one inline script. All other routes use `script-src 'self'`.
+- The API token is stored as the Container App secret `gcl-token`. Never commit it.
+<!-- /deploy-section -->
