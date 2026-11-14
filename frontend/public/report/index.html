@@ -519,7 +519,7 @@ html { scrollbar-gutter: stable; }
     $('abs').innerHTML = 'Monsoon greenness over the Banni Grasslands rose by ' + sg(sRaw, 4) + ' NDVI per year between ' + p0 + ' and ' + p1 + '. '
       + 'Monsoon rainfall accounts for R² = ' + R2.toFixed(2) + ' of the year-to-year variance. After that rainfall signal is removed by regression, the residual still rises, at '
       + sg(sRes, 4) + ' NDVI per year (Hamed–Rao corrected Mann–Kendall p ' + (pRes == null ? 'not available' : fmtP(pRes)) + '), so rainfall explains roughly ' + Math.round(share * 100) + ' per cent of the observed greening and does not explain the remainder. '
-      + 'The residual survives a change of sensor, a change of vegetation index, several rainfall formulations and a change of analysis window. '
+      + 'The residual keeps the same sign and a similar size under a second sensor, a second vegetation index, several rainfall formulations and a change of analysis window. '
       + 'Its cause is not identified: the measurement cannot distinguish plant species, and the four remaining candidates — shrub invasion, groundwater abstraction, altered surface water, and salinity — require ground records that are not available to us. '
       + 'We therefore report a rainfall-independent greening of known size and unknown cause.';
     $('cmp1').textContent = 'Over ' + p0 + '–' + p1 + ' the measured direction is the opposite: greenness increases, significantly, in every sensor and index tested.';
