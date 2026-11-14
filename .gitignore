@@ -7,10 +7,10 @@ __pycache__/
 !.env.example
 *.json.key
 *service-account*.json
-data/processed/*
+# Extracted Earth Engine data (data/processed, data/raw) is tracked; synthetic sample and cache are not
 data/sample/*
-data/raw/*
 data/cache/*
+data/**/*.tmp
 !data/*/.gitkeep
 frontend/dist/
 .pytest_cache/
