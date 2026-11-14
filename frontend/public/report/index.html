@@ -502,7 +502,10 @@
     $('cmp2').textContent = 'Confirmed and quantified: R² = ' + R2.toFixed(2) + ', correlation ' + Math.sqrt(R2).toFixed(2) + ' over ' + years.length + ' annual values.';
     $('cmp3').textContent = 'Reported here: ' + sg(sRes, 4) + ' NDVI per year, Hamed–Rao corrected Mann–Kendall p ' + (pRes == null ? 'not available' : fmtP(pRes)) + '.';
     $('lim2').textContent = 'R² = ' + R2.toFixed(2) + '; removing it leaves about ' + Math.round((1 - share) * 100) + ' per cent of the trend.';
-    $('lim3').textContent = 'Theil–Sen ' + sg(sRes, 4) + ' per year, p ' + fmtP(pRes) + ', stable across sensors, indices and rainfall formulations.';
+    var dw = STATE.adjusted && STATE.adjusted.regression && STATE.adjusted.regression.diagnostics ? STATE.adjusted.regression.diagnostics.durbin_watson : null;
+    $('lim3').textContent = 'Theil–Sen ' + sg(sRes, 4) + ' per year, Hamed–Rao p ' + (pRes == null ? 'not available' : fmtP(pRes))
+      + (dw == null ? '' : '; Durbin–Watson = ' + dw.toFixed(2) + ' from the rainfall-regression residuals')
+      + ', stable across sensors, indices and rainfall formulations.';
   }
 
   function drawAll() { figMap(); figFlow(); if (STATE) { figTs(); figScatter(); figRes(); figForest(); tables(); } }
