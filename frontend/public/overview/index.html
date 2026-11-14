@@ -86,13 +86,15 @@
      DATA: nothing is hard-coded here. The page starts empty and fills when the backend provides:
        series: [{ year, rain, ndvi }, ...]            rain = monsoon total (mm), ndvi = monsoon mean NDVI
        meta  : { location, source, rainLabel, ndviLabel }   (all optional strings)
+       wind  : { speed, direction }                  optional wind speed (m/s) and meteorological direction (degrees)
      Ways to feed it (any one):
        1) ?src=/api/overview            -> GET returns {series, meta} or just the array
        2) window.BANNI_SERIES_URL = '/api/overview' set before this script
        3) parent page: iframe.contentWindow.postMessage({ type: 'banni:data', series: [...], meta: {...} }, '*')
-       4) window.banniOverview.setData({ series, meta })
+       4) window.banniOverview.setData({ series, meta, wind })
   ------------------------------------------------------------------------------------------------ */
   var DATA = [], META = { location: '', source: '', rainLabel: 'Monsoon rain', ndviLabel: 'NDVI' }, stats = null;
+  var WIND = { speed: 0, direction: 0 };
   var Q = new URLSearchParams(location.search);
   var SRC = Q.get('src') || window.BANNI_SERIES_URL || null;                      // single endpoint returning {series, meta}
   var API = Q.get('api') || window.BANNI_API || '';                               // backend base, '' = same origin
@@ -273,19 +275,45 @@
     canvas.width = W * dpr; canvas.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     horizon = H * 0.44; buildClouds(); if (!flat) loadGroundTexture(); if (!tufts.length) buildTufts();
   }
+  var DS = 0.65;
   function makeDrop(initial) {
-    var s = rnd(0.35, 1.4), landMin = horizon + 10, landMax = H - 70;
-    return { x: rnd(-60, W + 60), y: initial ? rnd(70, H) : rnd(62, 84), s: s, v: 0.55 + s * 0.6, land: landMin + (s - 0.35) / 1.05 * (landMax - landMin) + rnd(-12, 12) };
+    return {
+      x: rnd(-20, W + 20),
+      y: initial ? rnd(70, H) : rnd(62, 84),
+      s: DS,
+      v: 6 + Math.random() * 4,
+      sway: (Math.random() - 0.5) * 0.3,
+      a: 0.55 + Math.random() * 0.45,
+      land: rnd(horizon + 10, H - 70)
+    };
   }
   function syncCount(n) { while (drops.length < n) drops.push(makeDrop(true)); if (drops.length > n) drops.length = n; }
-  var WIND = -0.22;
+  function setWind(wind) {
+    if (!wind || !isFinite(+wind.speed) || !isFinite(+wind.direction)) {
+      WIND.speed = 0; WIND.direction = 0; return;
+    }
+    WIND.speed = Math.max(0, +wind.speed);
+    WIND.direction = ((+wind.direction % 360) + 360) % 360;
+  }
+  function windDrift() {
+    var radians = (WIND.direction + 180) * Math.PI / 180;
+    return Math.sin(radians) * Math.min(1.8, WIND.speed / 10 * 1.8);
+  }
   function drawDrop(d) {
-    var len=(4+7*d.v)*d.s, ex=d.x+WIND*len, ey=d.y+len;
-    var g=ctx.createLinearGradient(d.x,d.y,ex,ey);
-    g.addColorStop(0,'rgba(226,241,255,0)');
-    g.addColorStop(1,'rgba(226,241,255,'+Math.min(0.75,0.62*d.s).toFixed(2)+')');
-    ctx.strokeStyle=g; ctx.lineWidth=Math.max(0.6,1.15*d.s); ctx.lineCap='round';
-    ctx.beginPath(); ctx.moveTo(d.x,d.y); ctx.lineTo(ex,ey); ctx.stroke();
+    var r = 5 * d.s, h = r * 2.6;
+    ctx.save(); ctx.translate(d.x, d.y); ctx.globalAlpha = d.a;
+    ctx.beginPath(); ctx.moveTo(0, -h);
+    ctx.bezierCurveTo(r * 0.3, -h * 0.45, r * 1.15, -r * 0.2, r, r * 0.5);
+    ctx.arc(0, r * 0.5, r, 0, Math.PI, false);
+    ctx.bezierCurveTo(-r * 1.15, -r * 0.2, -r * 0.3, -h * 0.45, 0, -h);
+    ctx.closePath();
+    var g = ctx.createLinearGradient(-r, -h, r, r * 1.5);
+    g.addColorStop(0, '#cfe6ff'); g.addColorStop(0.5, '#5d9be0'); g.addColorStop(1, '#2a5fae');
+    ctx.fillStyle = g; ctx.fill();
+    ctx.lineWidth = 0.6; ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(-r * 0.35, r * 0.2, r * 0.22, r * 0.45, 0, 0, 7);
+    ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fill();
+    ctx.restore();
   }
   function drawSky(rainT) {
     var top = mix([126, 176, 219], [24, 62, 112], rainT), bot = mix([236, 226, 198], [128, 162, 196], rainT);
@@ -365,15 +393,14 @@
     cur.t += (target.t - cur.t) * 0.06; cur.rainT += (target.rainT - cur.rainT) * 0.06; cur.px += (target.px - cur.px) * 0.08;
     var wantDrops = mode === 'obs' ? Math.round(15 + 285 * clamp01(cur.rainT * (0.75 + 0.5 * cur.t))) : 0;
     cur.density += (wantDrops - cur.density) * 0.08; syncCount(Math.round(cur.density));
-    var speed = 5 + 7 * cur.rainT, rt = mode === 'obs' ? cur.rainT : 0.15;
+    var rt = mode === 'obs' ? cur.rainT : 0.15;
     ctx.clearRect(0, 0, W, H);
     drawSky(rt); drawGround(cur.t, rt);
     var cloudA = mode === 'obs' ? 0.25 + 0.75 * cur.rainT : 0.2;
     cloudX = (cloudX + 0.25) % stripW;
     ctx.save(); ctx.globalAlpha = cloudA; ctx.drawImage(cloudStrip, -cloudX, -15, stripW, 160); ctx.drawImage(cloudStrip, stripW - cloudX, -15, stripW, 160); ctx.restore();
     for (var i = 0; i < drops.length; i++) {
-      var d = drops[i]; drawDrop(d); d.y += speed * d.v; d.x += WIND * speed * d.v * 0.45;
-      if (d.x < -70) d.x = W + 70;
+      var d = drops[i]; drawDrop(d); d.y += d.v; d.x += d.sway + windDrift();
       if (d.y > d.land) { if (splashes.length < 90) splashes.push({ x: d.x, y: d.land, r: 1, life: 1, s: d.s }); drops[i] = makeDrop(false); }
     }
     for (var j = splashes.length - 1; j >= 0; j--) {
@@ -444,6 +471,7 @@
   }
   function setData(payload) {
     var arr = Array.isArray(payload) ? payload : (payload && payload.series) || [];
+    setWind(payload && (payload.wind || (payload.meta && payload.meta.wind)));
     if (payload && payload.meta) for (var k in payload.meta) if (payload.meta[k] != null) META[k] = String(payload.meta[k]);
     DATA = arr.filter(function (d) { return d && isFinite(+d.year) && isFinite(+d.rain) && isFinite(+d.ndvi); })
               .map(function (d) { return { year: +d.year, rain: +d.rain, ndvi: +d.ndvi }; }).sort(function (p, q) { return p.year - q.year; });
@@ -464,7 +492,7 @@
   });
   window.addEventListener('resize', resize);
   window.addEventListener('message', function (e) { if (e.data && e.data.type === 'banni:data') setData(e.data); });
-  window.banniOverview = { setData: setData, setYear: setYear, setMode: setMode, getState: function () { return { year: idx >= 0 ? DATA[idx].year : null, mode: mode, n: DATA.length }; } };
+  window.banniOverview = { setData: setData, setWind: setWind, setYear: setYear, setMode: setMode, getState: function () { return { year: idx >= 0 ? DATA[idx].year : null, mode: mode, n: DATA.length }; } };
 
   resize(); paintStrip(); syncCount(60); requestAnimationFrame(frame);
   (SRC ? fetch(SRC).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }) : loadFromApi())

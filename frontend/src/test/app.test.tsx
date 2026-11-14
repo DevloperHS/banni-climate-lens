@@ -25,7 +25,8 @@ describe("navigation", () => {
     expect(labels).toEqual(["Overview", "Research"]);
     expect(NAV).toHaveLength(2);
     await userEvent.click(within(nav).getByRole("link", { name: "Research" }));
-    expect(await screen.findByTitle("Research Report")).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: "Research" })).toBeInTheDocument();
+    expect(screen.getByLabelText("Research evidence flow")).toBeInTheDocument();
   });
 });
 

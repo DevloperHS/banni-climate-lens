@@ -24,3 +24,4 @@ backups/
 # local tooling
 .claude/
 *.log
+*.bak*

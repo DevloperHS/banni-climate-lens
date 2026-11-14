@@ -353,18 +353,6 @@ export default function Layout() {
           </div>
         )}
 
-        {/* EE Not Configured Status Note */}
-        {source === "processed" && ee.data && !ee.data.verified && !ee.data.project_configured && (
-          <div
-            className="px-6 py-2 text-xs border-b border-[var(--border-subtle)] flex items-center justify-between text-[var(--muted)] bg-[var(--bg-elev)]"
-          >
-            <span>
-              Earth Engine is not configured, so live retrieval is disabled; only previously processed datasets can be explored.
-            </span>
-            <span className="font-mono text-[10.5px]">Local Datastore</span>
-          </div>
-        )}
-
         {regionsError && (
           <div role="alert" className="p-4 text-sm text-[var(--red)]">
             {regionsError.message}

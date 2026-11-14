@@ -26,21 +26,21 @@
 
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; margin-bottom: 16px; box-shadow: var(--shadow); }
   .card > h2 { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 650; margin: 0 0 4px; }
-  .n { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; flex: none; border-radius: 50%; background: var(--acc-soft); color: var(--acc); font-weight: 700; font-size: 13px; }
+  .n { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; flex: none; border-radius: 50%; background: var(--acc-soft); color: var(--acc); font-weight: 700; font-size: 14px; }
   .lead { font-size: 15px; margin: 0 0 14px; }
-  .cap { color: var(--mut); font-size: 12.5px; margin: 8px 0 0; }
+  .cap { color: var(--mut); font-size: 14px; margin: 8px 0 0; }
   .cols { display: grid; grid-template-columns: minmax(280px, 380px) 1fr; gap: 22px; align-items: start; }
   .cols.wide { grid-template-columns: 1fr 1fr; }
   @media (max-width: 900px) { .cols, .cols.wide { grid-template-columns: 1fr; gap: 16px; } .wrap { padding: 18px 14px 50px; } }
 
   svg { width: 100%; height: auto; display: block; }
   svg text { fill: var(--mut); font: 11px system-ui, sans-serif; }
-  svg text.big { fill: var(--txt); font-size: 13px; font-weight: 600; }
+  svg text.big { fill: var(--txt); font-size: 14px; font-weight: 600; }
   .frame { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 8px; }
   .mini { display: flex; align-items: center; gap: 9px; padding: 8px 4px 2px; }
   .mini input { flex: 1; accent-color: var(--acc); }
-  .mini button { background: var(--acc-soft); color: var(--acc); border: 1px solid var(--acc); border-radius: 999px; padding: 3px 11px; font-size: 13px; cursor: pointer; }
-  .mini span { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; min-width: 38px; text-align: right; }
+  .mini button { background: var(--acc-soft); color: var(--acc); border: 1px solid var(--acc); border-radius: 999px; padding: 3px 11px; font-size: 14px; cursor: pointer; }
+  .mini span { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; min-width: 38px; text-align: right; }
   #uRain, #uGreen { transition: y .75s cubic-bezier(.3,1.1,.5,1), height .75s cubic-bezier(.3,1.1,.5,1); }
   #uPred, #uGap, #uGapT { transition: all .75s cubic-bezier(.3,1.1,.5,1); }
   #sGround, #sRed, #sIr { transition: fill .6s ease, stroke .6s ease, stroke-width .6s ease; }
@@ -48,23 +48,23 @@
   #beam { transition: transform .75s cubic-bezier(.3,1.1,.5,1); }
 
   .stat { font-size: 32px; font-weight: 700; color: var(--acc); line-height: 1.1; font-variant-numeric: tabular-nums; }
-  .stat small { display: block; font-size: 13px; font-weight: 400; color: var(--mut); margin-top: 2px; }
+  .stat small { display: block; font-size: 14px; font-weight: 400; color: var(--mut); margin-top: 2px; }
   .num { font-variant-numeric: tabular-nums; font-weight: 650; color: var(--acc); }
   .formula { background: var(--acc-soft); border: 1px solid var(--acc); border-radius: 12px; padding: 10px 14px; margin: 12px 0 0; font-size: 16px; font-weight: 650; color: var(--acc); text-align: center; }
-  .formula span { display: block; font-size: 12.5px; font-weight: 400; color: var(--mut); margin-top: 3px; }
+  .formula span { display: block; font-size: 14px; font-weight: 400; color: var(--mut); margin-top: 3px; }
 
   .scrub { position: sticky; top: 0; z-index: 5; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 10px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 14px; box-shadow: var(--shadow); }
   .scrub .yr { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; min-width: 62px; }
   .scrub input { flex: 1; accent-color: var(--acc); }
-  .scrub button { background: var(--acc-soft); color: var(--acc); border: 1px solid var(--acc); border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 600; cursor: pointer; }
-  .scrub .vals { font-size: 13px; color: var(--mut); white-space: nowrap; }
+  .scrub button { background: var(--acc-soft); color: var(--acc); border: 1px solid var(--acc); border-radius: 999px; padding: 6px 14px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .scrub .vals { font-size: 14px; color: var(--mut); white-space: nowrap; }
   .scrub .vals b { color: var(--txt); font-variant-numeric: tabular-nums; }
   @media (max-width: 720px) { .scrub .vals { display: none; } }
 
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
   th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
-  th { color: var(--mut); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
-  .tag { display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 650; white-space: nowrap; }
+  th { color: var(--mut); font-weight: 500; font-size: 14px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .tag { display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: 14px; font-weight: 650; white-space: nowrap; }
   .tag.yes { background: var(--acc-soft); color: var(--acc); }
   .tag.no { background: var(--bad-soft); color: var(--bad); }
   .tag.open { background: var(--warn-soft); color: var(--warn); }
@@ -74,20 +74,95 @@
   .lim { display: flex; align-items: flex-start; gap: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
   .lim svg { width: 34px; height: 34px; flex: none; fill: none; stroke: var(--warn); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   .lim b { display: block; font-size: 14px; margin-bottom: 1px; }
-  .lim span { display: block; font-size: 13px; color: var(--mut); line-height: 1.45; }
+  .lim span { display: block; font-size: 14px; color: var(--mut); line-height: 1.45; }
   @media (max-width: 760px) { .lim-grid { grid-template-columns: 1fr; } }
   .icards { display: grid; gap: 10px; margin-top: 14px; }
   .icard { display: flex; align-items: flex-start; gap: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 11px 13px; }
   .icard svg { width: 30px; height: 30px; flex: none; fill: none; stroke: var(--acc); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; color: var(--acc); }
   .icard b { display: block; font-size: 14px; margin-bottom: 1px; }
-  .icard span { display: block; font-size: 13px; color: var(--mut); line-height: 1.45; }
+  .icard span { display: block; font-size: 14px; color: var(--mut); line-height: 1.45; }
   .err { color: var(--bad); font-size: 14px; }
+
+/* readable text */
+body { font-size: 16px; line-height: 1.6; font-weight: 400; }
+body p, body li { font-size: 16px; line-height: 1.6; color: inherit; }
+body h2 { font-size: 22px; line-height: 1.3; }
+body .cap, body small { font-size: 15px; line-height: 1.5; color: color-mix(in srgb, currentColor 85%, transparent); }
+
+/* methodology polish */
+body { font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+svg text { font-family: inherit; }
+svg text:not([text-anchor]) { text-anchor: middle; }
+#scene circle[fill="var(--sun)"] { fill: var(--acc-soft); stroke: var(--sun); stroke-width: 2; }
+
+/* methodology: satellite scene + cards */
+.ex-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 0 12px; }
+.ex-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.ex-card h3 { font-size: 16px; margin: 0 0 6px; }
+.ex-card p { font-size: 15px; line-height: 1.55; margin: 0 0 8px; }
+.ex-card p:last-child { margin: 0; }
+.ex-eg { padding: 8px 12px; border-left: 4px solid var(--acc); background: var(--acc-soft); border-radius: 0 8px 8px 0; }
+.frame:has(#scene) { overflow-x: auto; }
+#scene { min-width: 600px; }
+@media (max-width: 720px) { .ex-grid { grid-template-columns: 1fr; } }
+
+
+/* methodology: light type */
+body { font-family: "Proxima Nova", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 17px; line-height: 1.75; font-weight: 300; color: color-mix(in srgb, var(--txt) 88%, var(--bg)); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+svg text { font-weight: 400; }
+b, strong { font-weight: 600; }
+h1 { font-size: 36px; font-weight: 300; line-height: 1.2; letter-spacing: -0.01em; color: var(--txt); }
+.sub { font-size: 15px; font-weight: 400; line-height: 1.6; color: var(--mut); }
+.card > h2 { font-size: 28px; font-weight: 300; line-height: 1.25; letter-spacing: -0.005em; color: var(--txt); margin-bottom: 10px; }
+.n { font-size: 14px; font-weight: 500; }
+.lead, body p, body li { font-size: 17px; line-height: 1.75; font-weight: 300; }
+.lead { max-width: 68ch; margin-bottom: 16px; }
+.cap, body small { font-size: 15px; font-weight: 400; line-height: 1.6; color: var(--mut); max-width: 68ch; }
+.ex-card h3 { font-size: 17px; font-weight: 500; color: var(--txt); }
+.ex-card p { font-size: 16px; font-weight: 300; line-height: 1.65; }
+.stat small, .formula span { font-size: 15px; font-weight: 400; line-height: 1.5; }
+.formula { font-size: 17px; font-weight: 500; }
+table, th, td { font-size: 15px; font-weight: 400; line-height: 1.55; }
+.scrub .vals, .scrub button { font-size: 15px; font-weight: 400; }
+
+/* methodology: thin icon circles */
+.card > h2 { gap: 14px; }
+.n.n-icon { width: 52px; height: 52px; background: transparent; border: 1.5px solid color-mix(in srgb, var(--acc) 40%, var(--mut)); color: color-mix(in srgb, var(--acc) 40%, var(--mut)); }
+.n.n-icon svg { width: 26px; height: 26px; display: block; }
+@media (max-width: 720px) { .n.n-icon { width: 42px; height: 42px; } .n.n-icon svg { width: 22px; height: 22px; } }
+
+/* methodology: spacing polish */
+.lead { max-width: 90ch; }
+.cap, body small { max-width: 90ch; }
+.n.n-icon svg { width: 32px; height: 32px; }
+.ex-card p { font-weight: 400; }
+.ex-card h3 { font-weight: 600; }
+.card > h2 { font-size: 26px; }
+
+/* methodology: source chips */
+.src-chips { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 20px; }
+.src-chip { display: flex; align-items: center; gap: 12px; padding: 8px 16px 8px 8px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+.src-chip__tile { width: 44px; height: 44px; flex: none; display: grid; place-items: center; border-radius: 12px; background: color-mix(in srgb, var(--mut) 12%, var(--card)); color: color-mix(in srgb, var(--mut) 80%, var(--acc)); }
+.src-chip__tile svg { width: 24px; height: 24px; display: block; }
+.src-chip__text small { display: block; font-size: 14px; line-height: 1.3; color: var(--mut); font-weight: 400; }
+.src-chip__text b { display: block; font-size: 16px; line-height: 1.4; font-weight: 500; color: var(--txt); }
+
+/* methodology: bolder text, no side strip */
+body { font-weight: 400; color: color-mix(in srgb, var(--txt) 92%, var(--bg)); }
+h1 { font-weight: 400; }
+.card > h2 { font-weight: 500; }
+.lead, body p, body li, .ex-card p { font-weight: 400; }
+.ex-card h3 { font-weight: 600; }
+.ex-eg { border-left: 0; border-radius: 8px; padding: 10px 14px; }
+.ex-eg b { font-weight: 700; color: var(--txt); }
 </style>
 </head>
 <body>
+<script>window.sgn=function(v,d){return (v>=0?'+':'\u2212')+Math.abs(v).toFixed(d);};</script>
 <div class="wrap">
   <h1>How we found the answer</h1>
   <p class="sub" id="src">Banni Grasslands, Kachchh · every number below is computed live from the platform's own data.</p>
+  <div class="src-chips"><div class="src-chip"><span class="src-chip__tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="8" width="6" height="8" rx="1.5"/><rect x="2.5" y="10" width="4.5" height="4" rx=".5"/><rect x="17" y="10" width="4.5" height="4" rx=".5"/><path d="M7 12h2M15 12h2M12 16v3"/></svg></span><span class="src-chip__text"><small>Greenness</small><b>MODIS MOD13Q1 (v6.1)</b></span></div><div class="src-chip"><span class="src-chip__tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.9A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.5 8.2"/><path d="M8 14v6M12 16v6M16 14v6"/></svg></span><span class="src-chip__text"><small>Rain</small><b>NASA GPM IMERG (monthly, V07)</b></span></div></div>
 
   <div class="scrub">
     <button id="play">▶ Play</button>
@@ -98,38 +173,30 @@
 
   <!-- 1 -->
   <div class="card">
-    <h2><span class="n">1</span>What the satellite actually measures</h2>
+    <h2><span class="n n-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="8" width="6" height="8" rx="1.5"/><rect x="2.5" y="10" width="4.5" height="4" rx=".5"/><rect x="17" y="10" width="4.5" height="4" rx=".5"/><path d="M7 12h2M15 12h2M12 16v3"/></svg></span>What the satellite actually measures</h2>
     <p class="lead">Not colour — two kinds of light bouncing back. Leaves eat red light and throw back infrared. Bare soil throws back both about equally.</p>
+    <div class="ex-grid">
+      <div class="ex-card">
+        <h3>Left: living plants</h3>
+        <p>Leaves absorb red light and reflect a lot of infrared. Little red plus lots of infrared means a high NDVI.</p>
+        <p class="ex-eg"><b>Example:</b> Like a picky mirror: it keeps the red and sends the infrared back.</p>
+      </div>
+      <div class="ex-card">
+        <h3>Right: bare salt soil</h3>
+        <p>Soil reflects red and infrared about equally. The two arrows look alike, so NDVI stays near 0.</p>
+        <p class="ex-eg"><b>Example:</b> Like a plain mirror: it sends both back the same.</p>
+      </div>
+    </div>
+    <p class="cap">A thicker arrow means more of that light bounced back.</p>
     <div class="frame">
       <svg id="scene" viewBox="0 0 700 392" role="img" aria-label="How a satellite measures greenness">
         <defs>
           <marker id="aS" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="9" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="var(--sun)"/></marker>
           <marker id="aR" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="9" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="var(--bad)"/></marker>
           <marker id="aI" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="9" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="var(--ir)"/></marker>
-          <g id="sat"><rect x="-17" y="-12" width="34" height="24" rx="4" fill="#94a9c0"/><rect x="-45" y="-8" width="24" height="16" rx="3" fill="#4d7cb0"/><rect x="21" y="-8" width="24" height="16" rx="3" fill="#4d7cb0"/><circle cx="0" cy="15" r="5" fill="#2b3b50"/></g>
+          <g id="sat"><rect x="-45" y="-8" width="24" height="16" rx="2" fill="var(--acc-soft)" stroke="var(--txt)" stroke-width="1.5"/><rect x="21" y="-8" width="24" height="16" rx="2" fill="var(--acc-soft)" stroke="var(--txt)" stroke-width="1.5"/><path d="M-33 -8v16M-27 -8v16M-39 -8v16M27 -8v16M33 -8v16M39 -8v16" stroke="var(--txt)" stroke-width="1" opacity=".45"/><path d="M-21 0h4M17 0h4" stroke="var(--txt)" stroke-width="1.5"/><rect x="-17" y="-12" width="34" height="24" rx="4" fill="var(--card)" stroke="var(--txt)" stroke-width="1.5"/><circle cx="0" cy="15" r="4" fill="var(--txt)"/></g>
         </defs>
-        <line x1="350" y1="12" x2="350" y2="268" stroke="var(--line)" stroke-dasharray="5 5"/>
-        <text x="176" y="20" class="big">over living plants</text>
-        <text x="524" y="20" class="big">over bare soil</text>
-        <circle cx="62" cy="76" r="15" fill="var(--sun)"/>
-        <g stroke="var(--sun)" stroke-width="2" stroke-linecap="round"><line x1="62" y1="52" x2="62" y2="45"/><line x1="86" y1="76" x2="93" y2="76"/><line x1="79" y1="59" x2="84" y2="54"/><line x1="45" y1="59" x2="40" y2="54"/></g>
-        <text x="62" y="38" fill="var(--sun)">sunlight</text>
-        <use href="#sat" x="272" y="70"/><text x="272" y="104" fill="var(--mut)">satellite</text>
-        <rect id="sGround" x="26" y="222" width="302" height="40" rx="6" fill="#2e7a3d"/>
-        <g id="sGrass"><path class="tuft" id="sG0" d="M44 222 q6 -23 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG1" d="M80 222 q6 -23 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG2" d="M116 222 q6 -23 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG3" d="M152 222 q6 -23 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG4" d="M188 222 q6 -23 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG5" d="M224 222 q6 -23 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG6" d="M260 222 q6 -23 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG7" d="M296 222 q6 -23 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/></g>
-        <line x1="78" y1="92" x2="138" y2="210" stroke="var(--sun)" stroke-width="2.4" marker-end="url(#aS)"/>
-        <line id="sRed" x1="162" y1="210" x2="244" y2="92" stroke="var(--bad)" stroke-width="1.8" marker-end="url(#aR)"/>
-        <line id="sIr" x1="192" y1="210" x2="262" y2="102" stroke="var(--ir)" stroke-width="8" marker-end="url(#aI)"/>
-        <line x1="392" y1="54" x2="468" y2="210" stroke="var(--sun)" stroke-width="2.4" marker-end="url(#aS)"/>
-        <use href="#sat" x="618" y="70"/><text x="618" y="104" fill="var(--mut)">satellite</text>
-        <rect x="372" y="222" width="302" height="40" rx="6" fill="var(--soil)"/>
-        <g opacity=".75"><path d="M392 226 q10 -4 20 0 M440 230 q12 -4 24 0 M506 226 q10 -4 20 0 M576 230 q12 -4 24 0 M630 227 q9 -4 18 0" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/></g>
-        <text x="524" y="252" style="fill:#5b4a24;font-size:11px">salt crust, no living canopy</text>
-        <line x1="494" y1="210" x2="592" y2="94" stroke="var(--bad)" stroke-width="4.5" marker-end="url(#aR)"/>
-        <line x1="524" y1="210" x2="608" y2="104" stroke="var(--ir)" stroke-width="4.5" marker-end="url(#aI)"/>
-        <line x1="150" y1="282" x2="176" y2="282" stroke="var(--bad)" stroke-width="3"/><text x="184" y="286" text-anchor="start">red light</text>
-        <line x1="282" y1="282" x2="308" y2="282" stroke="var(--ir)" stroke-width="3"/><text x="316" y="286" text-anchor="start">infrared, invisible to us</text>
-        <text x="350" y="300" fill="var(--mut)">a thicker arrow means more of that light bounced back</text>
+        <rect x="14" y="8" width="326" height="258" rx="12" fill="var(--card)" stroke="var(--line)"/><rect x="360" y="8" width="326" height="258" rx="12" fill="var(--card)" stroke="var(--line)"/><text x="177" y="32" class="big" text-anchor="middle">over living plants</text><text x="523" y="32" class="big" text-anchor="middle">over bare soil</text><circle cx="56" cy="84" r="12" fill="var(--sun)"/><g stroke="var(--sun)" stroke-width="2" stroke-linecap="round"><line x1="56" y1="62" x2="56" y2="57"/><line x1="68" y1="72" x2="72" y2="68"/><line x1="44" y1="72" x2="40" y2="68"/><line x1="74" y1="84" x2="80" y2="84"/><line x1="38" y1="84" x2="32" y2="84"/></g><text x="56" y="116" text-anchor="middle">sunlight</text><circle cx="402" cy="84" r="12" fill="var(--sun)"/><g stroke="var(--sun)" stroke-width="2" stroke-linecap="round"><line x1="402" y1="62" x2="402" y2="57"/><line x1="414" y1="72" x2="418" y2="68"/><line x1="390" y1="72" x2="386" y2="68"/><line x1="420" y1="84" x2="426" y2="84"/><line x1="384" y1="84" x2="378" y2="84"/></g><text x="402" y="116" text-anchor="middle">sunlight</text><use href="#sat" x="276" y="88"/><text x="276" y="60" text-anchor="middle">satellite</text><use href="#sat" x="622" y="88"/><text x="622" y="60" text-anchor="middle">satellite</text><rect id="sGround" x="30" y="214" width="294" height="36" rx="6" fill="#2e7a3d"/><g id="sGrass"><path class="tuft" id="sG0" d="M46 214 q6 -22 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG1" d="M82 214 q6 -22 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG2" d="M118 214 q6 -22 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG3" d="M154 214 q6 -22 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG4" d="M190 214 q6 -22 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG5" d="M226 214 q6 -22 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG6" d="M262 214 q6 -22 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG7" d="M298 214 q6 -22 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/></g><line x1="82" y1="104" x2="130" y2="202" stroke="var(--sun)" stroke-width="2.4" marker-end="url(#aS)"/><line id="sRed" x1="156" y1="202" x2="236" y2="122" stroke="var(--bad)" stroke-width="1.8" marker-end="url(#aR)"/><line id="sIr" x1="186" y1="202" x2="260" y2="122" stroke="var(--ir)" stroke-width="8" marker-end="url(#aI)"/><rect x="376" y="214" width="294" height="36" rx="6" fill="var(--soil)"/><path d="M396 221q10 -4 20 0M444 225q12 -4 24 0M510 221q10 -4 20 0M580 225q12 -4 24 0M634 222q9 -4 18 0" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".75"/><text x="523" y="236" text-anchor="middle" style="fill:#4a3a18;font-size:12px">salt crust, no living canopy</text><line x1="428" y1="104" x2="478" y2="204" stroke="var(--sun)" stroke-width="2.4" marker-end="url(#aS)"/><line x1="506" y1="204" x2="588" y2="122" stroke="var(--bad)" stroke-width="4.5" marker-end="url(#aR)"/><line x1="536" y1="204" x2="612" y2="122" stroke="var(--ir)" stroke-width="4.5" marker-end="url(#aI)"/><g class="arrow-labels"><text x="198" y="146" text-anchor="end" style="fill:var(--bad);font-size:13px;font-weight:600">red light</text><text x="250" y="158" text-anchor="start" style="fill:var(--ir);font-size:13px;font-weight:600">infrared</text><text x="554" y="146" text-anchor="end" style="fill:var(--bad);font-size:13px;font-weight:600">red light</text><text x="596" y="170" text-anchor="start" style="fill:var(--ir);font-size:13px;font-weight:600">infrared</text></g>
 
         <!-- NDVI scale, live with the year slider -->
         <defs><linearGradient id="gNdvi" x1="0" y1="0" x2="1" y2="0">
@@ -151,27 +218,27 @@
 
   <!-- 2 -->
   <div class="card">
-    <h2><span class="n">2</span>Rain and greenness are linked — like water in a U-tube</h2>
-    <p class="lead">Pour water into one arm and the other arm rises on its own. Rain and greenness behave the same way: push rain up, greenness follows.</p>
+    <h2><span class="n n-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4v10a6 6 0 0 0 12 0V4"/><path d="M6 10h3M15 8h3"/></svg></span>Rain and greenness are linked — like water in a U-tube</h2>
+    <p class="lead">Pour water into one arm and the other rises. Rain and greenness work the same way: more rain, more green.</p>
     <div class="cols">
       <div>
         <div class="frame"><svg id="utube" viewBox="0 0 300 300" role="img" aria-label="U-tube analogy"></svg>
           <div class="mini"><button id="play2" disabled>▶</button><input id="year2" type="range" min="0" max="0" value="0" disabled><span id="yr2">—</span></div>
         </div>
-        <p class="cap">Left arm: that year's rain. Right arm: that year's greenness. The dashed mark is where a perfect link would put it.</p>
+        <p class="cap">Left: that year’s rain. Right: that year’s greenness.</p>
       </div>
       <div>
         <p class="stat" id="rr">—<small>correlation, written <b>r</b></small></p>
         <p class="lead" id="rrWord">—</p>
         <div class="frame"><svg id="cScatter" viewBox="0 0 700 320"></svg></div>
-        <p class="cap">Each dot is one year. The line is the best straight fit: how much green a given amount of rain buys. Drag the slider to light up a year.</p>
+        <p class="cap">Each dot is one year. The line shows how much green a given amount of rain buys. Drag the slider to pick a year.</p>
       </div>
     </div>
   </div>
 
   <!-- 3 -->
   <div class="card">
-    <h2><span class="n">3</span>Take the rain away and see what is left</h2>
+    <h2><span class="n n-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"/><path d="M7 12V8M11 12v5M15 12V6M19 12v3"/></svg></span>Take the rain away and see what is left</h2>
     <p class="lead">For every year we subtract the greenness that rain alone explains. If rain were the whole story, what remains would be flat noise around zero.</p>
     <div class="frame"><svg id="cRes" viewBox="0 0 700 250"></svg></div>
     <p class="cap">Green bars: greener than rain can explain. Red bars: less green. The dashed line is the overall direction.</p>
@@ -179,7 +246,7 @@
 
   <!-- 4 -->
   <div class="card">
-    <h2><span class="n">4</span>The leftover is not flat — it tips upward over time</h2>
+    <h2><span class="n n-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span>The leftover is not flat — it tips upward over time</h2>
     <div class="cols wide">
       <div>
         <div class="frame"><svg id="seesaw" viewBox="0 0 440 260" role="img" aria-label="See-saw of the selected year"></svg>
@@ -207,7 +274,7 @@
 
   <!-- 5 -->
   <div class="card">
-    <h2><span class="n">5</span>Is the leftover trend real, or random chance?</h2>
+    <h2><span class="n n-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r=".8" fill="currentColor"/><circle cx="15.5" cy="8.5" r=".8" fill="currentColor"/><circle cx="12" cy="12" r=".8" fill="currentColor"/><circle cx="8.5" cy="15.5" r=".8" fill="currentColor"/><circle cx="15.5" cy="15.5" r=".8" fill="currentColor"/></svg></span>Is the leftover trend real, or random chance?</h2>
     <div class="cols">
       <div>
         <p class="stat" id="pv">&mdash;<small>chance of a rise this strong if nothing but rain were acting</small></p>
@@ -218,7 +285,7 @@
           </div>
           <div class="icard">
             <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M31 17a12 12 0 1 0 .6 7"/><path d="M31 8 v9 h-9"/></svg>
-            <div><b>Replay the 24 years, 1000 times</b><span>Every replay is pure chance.</span></div>
+            <div><b>Replay the 24 years, 1,000 times</b><span>Every replay is pure chance.</span></div>
           </div>
           <div class="icard">
             <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="13"/><path d="M14 20.5 l4.5 4.5 L27 16"/></svg>
@@ -235,7 +302,7 @@
 
   <!-- 6 -->
   <div class="card">
-    <h2><span class="n">6</span>So what is causing the rest?</h2>
+    <h2><span class="n n-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>So what is causing the rest?</h2>
     <p class="lead">Eight suspects. Rain is confirmed. Three fall away under testing. Four cannot be tested from orbit at all.</p>
     <div class="frame">
       <svg id="suspects" viewBox="0 0 760 352" role="img" aria-label="Which causes were ruled out and which remain open">
@@ -440,15 +507,15 @@
 
     // the three headline numbers, in plain words
     $('rr').childNodes[0].nodeValue = (S.r >= 0 ? '+' : '') + S.r.toFixed(2);
-    $('rrWord').textContent = '1.00 would mean the two move in perfect lock-step; 0 would mean no link at all. At '
-      + S.r.toFixed(2) + ', rain alone accounts for ' + Math.round(S.r * S.r * 100) + '% of how much Banni’s greenness swings from year to year.';
-    $('sen').childNodes[0].nodeValue = (S.senRes >= 0 ? '+' : '') + S.senRes.toFixed(4);
+    $('rrWord').textContent = '1.00 = perfect lock-step, 0 = no link. At '
+      + S.r.toFixed(2) + ', rain explains ' + Math.round(S.r * S.r * 100) + '% of the year-to-year swings in Banni’s greenness.';
+    $('sen').childNodes[0].nodeValue = sgn(S.senRes, 4);
     var pr = S.p == null ? 'not available' : (S.p < 0.001 ? '< 0.001' : S.p.toFixed(3));
     $('pv').childNodes[0].nodeValue = pr;
     var hits = S.p == null ? 0 : Math.max(1, Math.round(S.p * 1000));
-    $('pHead').textContent = hits + ' of the 1000 look like ours';
+    $('pHead').textContent = hits + ' of the 1,000 look like ours';
     $('pWord').textContent = S.p != null && S.p < 0.05
-      ? 'Under 50 in 1000 is the usual line for "probably not luck". We are well under it.'
+      ? 'Under 50 in 1,000 is the usual line for "probably not luck". We are well under it.'
       : 'That is more often than the usual line of 50 in 1000, so luck cannot be ruled out.';
 
     stats0 = { lo: Math.floor(S.nMin * 20) / 20, hi: Math.ceil(S.nMax * 20) / 20 };
@@ -497,7 +564,7 @@
     var col = d.res >= 0 ? css('--acc') : css('--bad');
     $('uGap').setAttribute('y1', levPred); $('uGap').setAttribute('y2', levNd); $('uGap').setAttribute('stroke', col);
     ut.gapT.setAttribute('y', (levNd + levPred) / 2 + 4); ut.gapT.setAttribute('fill', col);
-    ut.gapT.textContent = Math.abs(levNd - levPred) > 3 ? (d.res >= 0 ? 'extra' : 'short') : '';
+    ut.gapT.textContent = Math.abs(levNd - levPred) > 3 ? (d.res >= 0 ? 'above' : 'below') : '';
   }
 
   function drawScatter() {
@@ -570,8 +637,8 @@
     var half = Math.floor(D.length / 2);
     var e = D.slice(0, half).reduce(function (s2, q) { return s2 + q.res; }, 0) / half;
     var l = D.slice(half).reduce(function (s2, q) { return s2 + q.res; }, 0) / (D.length - half);
-    seesaw.foot.textContent = 'average leftover: ' + e.toFixed(3) + ' in ' + S.years[0] + '\u2013' + S.years[half - 1]
-      + ', ' + l.toFixed(3) + ' in ' + S.years[half] + '\u2013' + S.years[S.years.length - 1];
+    seesaw.foot.textContent = 'average leftover: ' + sgn(e, 3) + ' in ' + S.years[0] + '\u2013' + S.years[half - 1]
+      + ', ' + sgn(l, 3) + ' in ' + S.years[half] + '\u2013' + S.years[S.years.length - 1];
   }
 
   function drawSplit() {
@@ -649,7 +716,7 @@
     $('yr2').textContent = d.year; $('year2').value = idx;
     $('yr3').textContent = d.year; $('year3').value = idx;
     $('vRain').textContent = d.rain.toFixed(0) + ' mm'; $('vNdvi').textContent = d.ndvi.toFixed(3);
-    $('vRes').textContent = (d.res >= 0 ? '+' : '') + d.res.toFixed(3);
+    $('vRes').textContent = sgn(d.res, 3);
     updateScene(); drawUtube(); drawScatter(); drawRes(); drawSeesaw(); drawSplit(); drawDots();
   }
 
@@ -662,6 +729,19 @@
   $('play3').addEventListener('click', togglePlay);
   (function loop(ts) { if (playing && S && ts - last > 900) { last = ts; idx = (idx + 1) % D.length; redraw(); } requestAnimationFrame(loop); })(0);
   window.banniMethodology = { setTheme: setTheme, setYear: function (i) { idx = i; redraw(); } };
+})();
+</script>
+<script>/* src-clean */
+(function () {
+  var el = document.getElementById('src');
+  if (!el) return;
+  function fix() {
+    var t = el.textContent;
+    var n = t.replace(/\s*[\u00b7|]\s*MODIS.*$/, '').replace(/\s*[\u00b7|]\s*NASA.*$/, '');
+    if (n !== t) el.textContent = n;
+  }
+  fix();
+  new MutationObserver(fix).observe(el, { childList: true, characterData: true, subtree: true });
 })();
 </script>
 </body>
