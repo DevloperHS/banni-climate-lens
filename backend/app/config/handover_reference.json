@@ -1,0 +1,16 @@
+{
+  "source": "Banni Project - Handover to Nancy Chaudhry (5 Nov 2026), 15 pages",
+  "geometry": "ee.Geometry.Rectangle([68.80, 23.20, 69.95, 23.95]) (handover pp.4-5, 10)",
+  "protocol": "Hamed-Rao modified Mann-Kendall (pymannkendall.hamed_rao_modification_test) + pymannkendall.sens_slope; OLS NDVI ~ monsoon rainfall; same tests on OLS residuals; years 2001-2024",
+  "reported": [
+    {"id": "ndvi_annual_2001", "page": 5, "label": "Mean NDVI 2001 (all MOD13Q1 images of the year)", "kind": "value", "value": 0.16668, "unit": "NDVI"},
+    {"id": "ndvi_annual_2023", "page": 5, "label": "Mean NDVI 2023 (all MOD13Q1 images of the year)", "kind": "value", "value": 0.27505, "unit": "NDVI"},
+    {"id": "ndvi_monsoon_trend", "page": 9, "label": "Monsoon NDVI trend (Hamed-Rao)", "kind": "trend", "direction": "increasing", "p": 0.0001, "slope": 0.00495, "unit": "NDVI/yr", "note": "p printed as 0.0001; may be rounded from a smaller value"},
+    {"id": "rain_monsoon_trend", "page": 9, "label": "Monsoon rainfall trend (Hamed-Rao)", "kind": "trend", "direction": "no significant trend", "p": 0.0561, "slope": 15.71, "unit": "mm/yr"},
+    {"id": "ndvi_rain_residual_trend", "page": 9, "label": "NDVI ~ rainfall residual trend (decisive test)", "kind": "trend", "direction": "increasing", "p": 0.0059, "slope": 0.0017, "z": 2.753, "unit": "NDVI/yr", "note": "reported slope is rounded to 2 significant figures"},
+    {"id": "et_annual_trend", "page": 12, "label": "Annual ET trend", "kind": "trend", "direction": "increasing", "p": 0.0122, "slope": 5.0, "unit": "mm/yr"},
+    {"id": "et_rain_residual_trend", "page": 12, "label": "Annual ET ~ monsoon rainfall residual trend", "kind": "trend", "direction": "increasing", "p": 0.0350, "slope": 1.44, "unit": "mm/yr"},
+    {"id": "smroot_annual_trend", "page": 12, "label": "Root-zone soil moisture annual trend", "kind": "trend", "direction": "no significant trend", "p": 0.8427, "slope": null, "unit": "kg/m2/yr"},
+    {"id": "smroot_rain_residual_trend", "page": 12, "label": "Root-zone soil moisture ~ monsoon rainfall residual trend", "kind": "trend", "direction": "no significant trend", "p": 0.2824, "slope": null, "unit": "kg/m2/yr"}
+  ]
+}
