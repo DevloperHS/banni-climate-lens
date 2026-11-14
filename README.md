@@ -1,5 +1,10 @@
 # GlobalClimateLens
 
+<!-- live-link -->
+**Live app:** https://banni-app.livelygrass-8df5f932.centralindia.azurecontainerapps.io  
+**Deploy guide:** [deploy/DEPLOY.md](deploy/DEPLOY.md)
+<!-- /live-link -->
+
 Earth-observation analytics for long-term environmental change. First research case: **Banni Grasslands, Kutch, Gujarat (2001-2024)**.
 
 Select a region and period, retrieve satellite-derived series (Google Earth Engine), run trend / regression / rainfall-adjusted analyses, inspect gridded layers and FDR-corrected pixel trends, and export CSV / GeoJSON / GeoTIFF / PDF with full provenance.
