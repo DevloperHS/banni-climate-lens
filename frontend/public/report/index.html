@@ -49,6 +49,30 @@
   .err{color:var(--bad);font-family:system-ui,sans-serif}
   sup{font-size:11px;color:var(--rain)}
 </style>
+<style id="gcl-scrollbar">
+/* ---- Professional scrollbars ---- */
+html { scrollbar-gutter: stable; }
+*::-webkit-scrollbar { width: 14px; height: 14px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background-color: var(--border-hi, #94a3b8);
+  border: 3px solid transparent;
+  background-clip: content-box;
+  border-radius: 999px;
+  min-height: 48px;
+}
+*::-webkit-scrollbar-thumb:hover { background-color: #10b981; }
+*::-webkit-scrollbar-corner { background: transparent; }
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-width: auto; scrollbar-color: var(--border-hi, #94a3b8) transparent; }
+}
+
+/* scrollbar v2: visible on both themes */
+*::-webkit-scrollbar-track { background: rgba(148,163,184,.12); }
+*::-webkit-scrollbar-thumb { background-color: rgba(148,163,184,.6); }
+*::-webkit-scrollbar-thumb:hover { background-color: #10b981; }
+*::-webkit-scrollbar-button { display: none; }
+</style>
 </head>
 <body>
 <div class="wrap">
