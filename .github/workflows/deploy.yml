@@ -15,9 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: azure/login@v2
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Azure login
+        env:
+          AZ_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        run: |
+          az login --service-principal -u 64148ec9-1672-48f1-8154-9268bbf3e095 -p "$AZ_SECRET" --tenant 6b93996a-aa0d-44c4-88a5-8d62171066c8
+          az account set --subscription b87ff7b3-4883-4407-8aee-e17fb5d6bf6d
       - name: Build and push image
         run: |
           az acr login -n bannilens32078
