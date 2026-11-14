@@ -1,0 +1,20 @@
+services:
+  globalclimatelens:
+    build: .
+    image: globalclimatelens:1.0.0
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8000:8000"      # bind to localhost; put a TLS reverse proxy in front for public access
+    env_file: .env.production      # copy .env.production.example; never commit the real file
+    volumes:
+      - gcl_data:/data
+      # service-account key (read-only), only if you use service-account auth:
+      # - ./secrets/ee-key.json:/run/secrets/ee-key.json:ro
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+volumes:
+  gcl_data:
