@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How we found the answer</title>
+<style>
+  :root {
+    --bg: #f5f8fb; --card: #ffffff; --line: rgba(10,30,50,0.10); --txt: #16212e; --mut: #5d6e80;
+    --acc: #17895a; --acc-soft: rgba(23,137,90,0.12); --rain: #2f72c4; --rain-soft: rgba(47,114,196,0.16);
+    --warn: #a87611; --warn-soft: rgba(168,118,17,0.12); --bad: #c0433b; --bad-soft: rgba(192,67,59,0.12);
+    --soil: #c9b07e; --ir: #7b5fd6; --sun: #e0a518; --shadow: 0 1px 2px rgba(10,30,50,0.06);
+    box-sizing: border-box;
+  }
+  html[data-theme="dark"] {
+    --bg: #0b1220; --card: #111c2e; --line: rgba(255,255,255,0.09); --txt: #e8f1f8; --mut: #93a7bd;
+    --acc: #5fd3a3; --acc-soft: rgba(95,211,163,0.16); --rain: #6eaae6; --rain-soft: rgba(110,170,230,0.2);
+    --warn: #e8b84b; --warn-soft: rgba(232,184,75,0.14); --bad: #e8736b; --bad-soft: rgba(232,115,107,0.16);
+    --soil: #c9b07e; --ir: #9b7fe8; --sun: #e8b84b; --shadow: none;
+  }
+  *, *::before, *::after { box-sizing: inherit; }
+  body { margin: 0; background: var(--bg); color: var(--txt); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.55; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 26px 24px 70px; }
+  h1 { font-size: 28px; font-weight: 650; margin: 0 0 4px; letter-spacing: -0.2px; }
+  .sub { color: var(--mut); font-size: 14px; margin: 0 0 20px; }
+
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; margin-bottom: 16px; box-shadow: var(--shadow); }
+  .card > h2 { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 650; margin: 0 0 4px; }
+  .n { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; flex: none; border-radius: 50%; background: var(--acc-soft); color: var(--acc); font-weight: 700; font-size: 13px; }
+  .lead { font-size: 15px; margin: 0 0 14px; }
+  .cap { color: var(--mut); font-size: 12.5px; margin: 8px 0 0; }
+  .cols { display: grid; grid-template-columns: minmax(280px, 380px) 1fr; gap: 22px; align-items: start; }
+  .cols.wide { grid-template-columns: 1fr 1fr; }
+  @media (max-width: 900px) { .cols, .cols.wide { grid-template-columns: 1fr; gap: 16px; } .wrap { padding: 18px 14px 50px; } }
+
+  svg { width: 100%; height: auto; display: block; }
+  svg text { fill: var(--mut); font: 11px system-ui, sans-serif; }
+  svg text.big { fill: var(--txt); font-size: 13px; font-weight: 600; }
+  .frame { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 8px; }
+  .mini { display: flex; align-items: center; gap: 9px; padding: 8px 4px 2px; }
+  .mini input { flex: 1; accent-color: var(--acc); }
+  .mini button { background: var(--acc-soft); color: var(--acc); border: 1px solid var(--acc); border-radius: 999px; padding: 3px 11px; font-size: 13px; cursor: pointer; }
+  .mini span { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; min-width: 38px; text-align: right; }
+  #uRain, #uGreen { transition: y .75s cubic-bezier(.3,1.1,.5,1), height .75s cubic-bezier(.3,1.1,.5,1); }
+  #uPred, #uGap, #uGapT { transition: all .75s cubic-bezier(.3,1.1,.5,1); }
+  #sGround, #sRed, #sIr { transition: fill .6s ease, stroke .6s ease, stroke-width .6s ease; }
+  .tuft { transition: stroke .6s ease, stroke-width .6s ease, opacity .6s ease; }
+  #beam { transition: transform .75s cubic-bezier(.3,1.1,.5,1); }
+
+  .stat { font-size: 32px; font-weight: 700; color: var(--acc); line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .stat small { display: block; font-size: 13px; font-weight: 400; color: var(--mut); margin-top: 2px; }
+  .num { font-variant-numeric: tabular-nums; font-weight: 650; color: var(--acc); }
+  .formula { background: var(--acc-soft); border: 1px solid var(--acc); border-radius: 12px; padding: 10px 14px; margin: 12px 0 0; font-size: 16px; font-weight: 650; color: var(--acc); text-align: center; }
+  .formula span { display: block; font-size: 12.5px; font-weight: 400; color: var(--mut); margin-top: 3px; }
+
+  .scrub { position: sticky; top: 0; z-index: 5; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 10px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 14px; box-shadow: var(--shadow); }
+  .scrub .yr { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; min-width: 62px; }
+  .scrub input { flex: 1; accent-color: var(--acc); }
+  .scrub button { background: var(--acc-soft); color: var(--acc); border: 1px solid var(--acc); border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .scrub .vals { font-size: 13px; color: var(--mut); white-space: nowrap; }
+  .scrub .vals b { color: var(--txt); font-variant-numeric: tabular-nums; }
+  @media (max-width: 720px) { .scrub .vals { display: none; } }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--mut); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .tag { display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 650; white-space: nowrap; }
+  .tag.yes { background: var(--acc-soft); color: var(--acc); }
+  .tag.no { background: var(--bad-soft); color: var(--bad); }
+  .tag.open { background: var(--warn-soft); color: var(--warn); }
+  .limits { background: var(--warn-soft); border: 1px solid var(--warn); }
+  .limits h2 { color: var(--warn); font-size: 17px; margin: 0 0 12px; }
+  .lim-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .lim { display: flex; align-items: flex-start; gap: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .lim svg { width: 34px; height: 34px; flex: none; fill: none; stroke: var(--warn); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .lim b { display: block; font-size: 14px; margin-bottom: 1px; }
+  .lim span { display: block; font-size: 13px; color: var(--mut); line-height: 1.45; }
+  @media (max-width: 760px) { .lim-grid { grid-template-columns: 1fr; } }
+  .icards { display: grid; gap: 10px; margin-top: 14px; }
+  .icard { display: flex; align-items: flex-start; gap: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 11px 13px; }
+  .icard svg { width: 30px; height: 30px; flex: none; fill: none; stroke: var(--acc); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; color: var(--acc); }
+  .icard b { display: block; font-size: 14px; margin-bottom: 1px; }
+  .icard span { display: block; font-size: 13px; color: var(--mut); line-height: 1.45; }
+  .err { color: var(--bad); font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>How we found the answer</h1>
+  <p class="sub" id="src">Banni Grasslands, Kachchh · every number below is computed live from the platform's own data.</p>
+
+  <div class="scrub">
+    <button id="play">▶ Play</button>
+    <span class="yr" id="yr">—</span>
+    <input id="year" type="range" min="0" max="0" value="0" disabled>
+    <span class="vals">rain <b id="vRain">—</b> · greenness <b id="vNdvi">—</b> · leftover <b id="vRes">—</b></span>
+  </div>
+
+  <!-- 1 -->
+  <div class="card">
+    <h2><span class="n">1</span>What the satellite actually measures</h2>
+    <p class="lead">Not colour — two kinds of light bouncing back. Leaves eat red light and throw back infrared. Bare soil throws back both about equally.</p>
+    <div class="frame">
+      <svg id="scene" viewBox="0 0 700 392" role="img" aria-label="How a satellite measures greenness">
+        <defs>
+          <marker id="aS" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="9" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="var(--sun)"/></marker>
+          <marker id="aR" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="9" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="var(--bad)"/></marker>
+          <marker id="aI" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="9" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="var(--ir)"/></marker>
+          <g id="sat"><rect x="-17" y="-12" width="34" height="24" rx="4" fill="#94a9c0"/><rect x="-45" y="-8" width="24" height="16" rx="3" fill="#4d7cb0"/><rect x="21" y="-8" width="24" height="16" rx="3" fill="#4d7cb0"/><circle cx="0" cy="15" r="5" fill="#2b3b50"/></g>
+        </defs>
+        <line x1="350" y1="12" x2="350" y2="268" stroke="var(--line)" stroke-dasharray="5 5"/>
+        <text x="176" y="20" class="big">over living plants</text>
+        <text x="524" y="20" class="big">over bare soil</text>
+        <circle cx="62" cy="76" r="15" fill="var(--sun)"/>
+        <g stroke="var(--sun)" stroke-width="2" stroke-linecap="round"><line x1="62" y1="52" x2="62" y2="45"/><line x1="86" y1="76" x2="93" y2="76"/><line x1="79" y1="59" x2="84" y2="54"/><line x1="45" y1="59" x2="40" y2="54"/></g>
+        <text x="62" y="38" fill="var(--sun)">sunlight</text>
+        <use href="#sat" x="272" y="70"/><text x="272" y="104" fill="var(--mut)">satellite</text>
+        <rect id="sGround" x="26" y="222" width="302" height="40" rx="6" fill="#2e7a3d"/>
+        <g id="sGrass"><path class="tuft" id="sG0" d="M44 222 q6 -23 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG1" d="M80 222 q6 -23 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG2" d="M116 222 q6 -23 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG3" d="M152 222 q6 -23 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG4" d="M188 222 q6 -23 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG5" d="M224 222 q6 -23 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG6" d="M260 222 q6 -23 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/><path class="tuft" id="sG7" d="M296 222 q6 -23 12 0" stroke="#5fd3a3" stroke-width="4.5" fill="none" stroke-linecap="round"/></g>
+        <line x1="78" y1="92" x2="138" y2="210" stroke="var(--sun)" stroke-width="2.4" marker-end="url(#aS)"/>
+        <line id="sRed" x1="162" y1="210" x2="244" y2="92" stroke="var(--bad)" stroke-width="1.8" marker-end="url(#aR)"/>
+        <line id="sIr" x1="192" y1="210" x2="262" y2="102" stroke="var(--ir)" stroke-width="8" marker-end="url(#aI)"/>
+        <line x1="392" y1="54" x2="468" y2="210" stroke="var(--sun)" stroke-width="2.4" marker-end="url(#aS)"/>
+        <use href="#sat" x="618" y="70"/><text x="618" y="104" fill="var(--mut)">satellite</text>
+        <rect x="372" y="222" width="302" height="40" rx="6" fill="var(--soil)"/>
+        <g opacity=".75"><path d="M392 226 q10 -4 20 0 M440 230 q12 -4 24 0 M506 226 q10 -4 20 0 M576 230 q12 -4 24 0 M630 227 q9 -4 18 0" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/></g>
+        <text x="524" y="252" style="fill:#5b4a24;font-size:11px">salt crust, no living canopy</text>
+        <line x1="494" y1="210" x2="592" y2="94" stroke="var(--bad)" stroke-width="4.5" marker-end="url(#aR)"/>
+        <line x1="524" y1="210" x2="608" y2="104" stroke="var(--ir)" stroke-width="4.5" marker-end="url(#aI)"/>
+        <line x1="150" y1="282" x2="176" y2="282" stroke="var(--bad)" stroke-width="3"/><text x="184" y="286" text-anchor="start">red light</text>
+        <line x1="282" y1="282" x2="308" y2="282" stroke="var(--ir)" stroke-width="3"/><text x="316" y="286" text-anchor="start">infrared, invisible to us</text>
+        <text x="350" y="300" fill="var(--mut)">a thicker arrow means more of that light bounced back</text>
+
+        <!-- NDVI scale, live with the year slider -->
+        <defs><linearGradient id="gNdvi" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#c4aa6e"/><stop offset=".5" stop-color="#96a050"/><stop offset="1" stop-color="#2e803a"/>
+        </linearGradient></defs>
+        <rect x="150" y="350" width="400" height="14" rx="7" fill="url(#gNdvi)"/>
+        <text x="150" y="346" text-anchor="start" id="sLo">0.00</text>
+        <text x="550" y="346" text-anchor="end" id="sHi">0.40</text>
+        <g id="sClasses"></g>
+        <g id="sMark" style="transition:transform .6s cubic-bezier(.3,1.1,.5,1)">
+          <path d="M0,-9 L7,-20 L-7,-20 Z" fill="var(--txt)"/>
+          <text y="-24" class="big" id="sVal">&mdash;</text>
+        </g>
+      </svg>
+    </div>
+    <p class="formula">NDVI = (infrared − red) ÷ (infrared + red)<span>near 0 on bare ground, higher where more plants are alive</span></p>
+    <p class="cap">Move the slider: the ground goes from bare soil to a few tufts to a full sward, and the two arrows swap thickness. The bands on the scale are the rule of thumb used in dryland work; their exact boundaries differ between studies.</p>
+  </div>
+
+  <!-- 2 -->
+  <div class="card">
+    <h2><span class="n">2</span>Rain and greenness are linked — like water in a U-tube</h2>
+    <p class="lead">Pour water into one arm and the other arm rises on its own. Rain and greenness behave the same way: push rain up, greenness follows.</p>
+    <div class="cols">
+      <div>
+        <div class="frame"><svg id="utube" viewBox="0 0 300 300" role="img" aria-label="U-tube analogy"></svg>
+          <div class="mini"><button id="play2" disabled>▶</button><input id="year2" type="range" min="0" max="0" value="0" disabled><span id="yr2">—</span></div>
+        </div>
+        <p class="cap">Left arm: that year's rain. Right arm: that year's greenness. The dashed mark is where a perfect link would put it.</p>
+      </div>
+      <div>
+        <p class="stat" id="rr">—<small>correlation, written <b>r</b></small></p>
+        <p class="lead" id="rrWord">—</p>
+        <div class="frame"><svg id="cScatter" viewBox="0 0 700 320"></svg></div>
+        <p class="cap">Each dot is one year. The line is the best straight fit: how much green a given amount of rain buys. Drag the slider to light up a year.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="card">
+    <h2><span class="n">3</span>Take the rain away and see what is left</h2>
+    <p class="lead">For every year we subtract the greenness that rain alone explains. If rain were the whole story, what remains would be flat noise around zero.</p>
+    <div class="frame"><svg id="cRes" viewBox="0 0 700 250"></svg></div>
+    <p class="cap">Green bars: greener than rain can explain. Red bars: less green. The dashed line is the overall direction.</p>
+  </div>
+
+  <!-- 4 -->
+  <div class="card">
+    <h2><span class="n">4</span>The leftover is not flat — it tips upward over time</h2>
+    <div class="cols wide">
+      <div>
+        <div class="frame"><svg id="seesaw" viewBox="0 0 440 260" role="img" aria-label="See-saw of the selected year"></svg>
+          <div class="mini"><button id="play3" disabled>▶</button><input id="year3" type="range" min="0" max="0" value="0" disabled><span id="yr3">—</span></div>
+        </div>
+        <p class="cap">Press Play. Early years tip the beam down on the right, later years tip it up: that slow change of direction is the trend.</p>
+      </div>
+      <div>
+        <p class="stat" id="sen">—<small>change in leftover greenness, per year</small></p>
+        <div class="icards">
+          <div class="icard">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 30 L34 14"/><path d="M34 14 v8 M34 14 h-8"/><circle cx="20" cy="22" r="2.4" fill="currentColor" stroke="none"/></svg>
+            <div><b>The beam keeps tipping one way</b><span>Early years sit low, later years sit high.</span></div>
+          </div>
+          <div class="icard">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="16" width="18" height="10" rx="2"/><rect x="25" y="16" width="10" height="10" rx="2" opacity=".5"/></svg>
+            <div><b>Two thirds is rain</b><span>The last third stays after rain is removed.</span></div>
+          </div>
+        </div>
+        <div class="frame" style="margin-top:12px"><svg id="cSplit" viewBox="0 0 700 150"></svg></div>
+        <p class="cap">The whole greening of Banni, split into the part rain explains and the part it does not.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="card">
+    <h2><span class="n">5</span>Is the leftover trend real, or random chance?</h2>
+    <div class="cols">
+      <div>
+        <p class="stat" id="pv">&mdash;<small>chance that this trend is random</small></p>
+        <div class="icards">
+          <div class="icard">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="8" y="8" width="24" height="24" rx="5"/><circle cx="15" cy="15" r="1.8" fill="currentColor" stroke="none"/><circle cx="20" cy="20" r="1.8" fill="currentColor" stroke="none"/><circle cx="25" cy="25" r="1.8" fill="currentColor" stroke="none"/></svg>
+            <div><b>Pretend only rain is at work</b><span>No shrubs, no wells, nothing else.</span></div>
+          </div>
+          <div class="icard">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M31 17a12 12 0 1 0 .6 7"/><path d="M31 8 v9 h-9"/></svg>
+            <div><b>Replay the 24 years, 1000 times</b><span>Every replay is pure chance.</span></div>
+          </div>
+          <div class="icard">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="13"/><path d="M14 20.5 l4.5 4.5 L27 16"/></svg>
+            <div><b id="pHead">&mdash;</b><span id="pWord">&mdash;</span></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="frame"><svg id="dots" viewBox="0 0 700 220" role="img" aria-label="p-value as dots"></svg></div>
+        <p class="cap">One dot is one replay. The red dots are the replays where pure chance alone would produce a rise as strong as the one we measured.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="card">
+    <h2><span class="n">6</span>So what is causing the rest?</h2>
+    <p class="lead">Eight suspects. Rain is confirmed. Three fall away under testing. Four cannot be tested from orbit at all.</p>
+    <div class="frame">
+      <svg id="suspects" viewBox="0 0 760 352" role="img" aria-label="Which causes were ruled out and which remain open">
+        <defs>
+          <linearGradient id="gRain" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--rain)" stop-opacity=".98"/><stop offset="1" stop-color="var(--rain)" stop-opacity=".76"/></linearGradient>
+          <radialGradient id="gCore" cx=".36" cy=".3" r=".85"><stop offset="0" stop-color="var(--warn)" stop-opacity="1"/><stop offset="1" stop-color="var(--warn)" stop-opacity=".72"/></radialGradient>
+        </defs>
+        <style>
+          #suspects text { text-anchor: middle; }
+          #suspects .chip { fill: var(--card); stroke-width: 1.6; }
+          #suspects .ro .chip { stroke: var(--bad); }
+          #suspects .ro .ic { stroke: var(--bad); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+          #suspects .ro { animation: dim .6s ease forwards; }
+          #suspects .ro.d1 { animation-delay: 1.0s } #suspects .ro.d2 { animation-delay: 1.7s } #suspects .ro.d3 { animation-delay: 2.4s }
+          #suspects .cross { stroke: var(--bad); stroke-width: 2.8; stroke-linecap: round; stroke-dasharray: 170; stroke-dashoffset: 170; animation: draw .5s cubic-bezier(.4,0,.2,1) forwards; }
+          #suspects .ro.d1 .cross { animation-delay: .8s } #suspects .ro.d2 .cross { animation-delay: 1.5s } #suspects .ro.d3 .cross { animation-delay: 2.2s }
+          #suspects .open .chip { stroke: var(--warn); animation: glow 3s ease-in-out infinite; }
+          #suspects .open .ic { stroke: var(--warn); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+          #suspects .open.g2 .chip { animation-delay: .6s } #suspects .open.g3 .chip { animation-delay: 1.2s } #suspects .open.g4 .chip { animation-delay: 1.8s }
+          #suspects .flow { stroke: var(--rain); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 2 20; animation: march 1.6s linear infinite; }
+          #suspects .halo { fill: none; stroke: var(--warn); stroke-opacity: .32; animation: breathe 4s ease-in-out infinite; }
+          @keyframes draw { to { stroke-dashoffset: 0 } }
+          @keyframes dim { to { opacity: .34 } }
+          @keyframes glow { 0%,100% { stroke-width: 1.6; stroke-opacity: .5 } 50% { stroke-width: 3.4; stroke-opacity: 1 } }
+          @keyframes march { to { stroke-dashoffset: -44 } }
+          @keyframes breathe { 0%,100% { r: 70; stroke-opacity: .3 } 50% { r: 78; stroke-opacity: .1 } }
+          @media (prefers-reduced-motion: reduce) {
+            #suspects .ro { opacity: .34; animation: none } #suspects .cross { stroke-dashoffset: 0; animation: none }
+            #suspects .open .chip { animation: none; stroke-opacity: .9 } #suspects .flow, #suspects .halo { animation: none }
+          }
+        </style>
+
+        <text x="380" y="18" class="big" fill="var(--bad)">tested, and it was not the cause</text>
+
+        <g class="ro d1"><rect class="chip" x="88" y="34" width="176" height="44" rx="22"/>
+          <g class="ic" transform="translate(112,56)"><rect x="-7" y="-5" width="14" height="10" rx="2"/><line x1="-12" y1="0" x2="-7" y2="0"/><line x1="7" y1="0" x2="12" y2="0"/></g>
+          <text x="190" y="61" class="big">sensor error</text><line class="cross" x1="100" y1="72" x2="252" y2="40"/></g>
+
+        <g class="ro d2"><rect class="chip" x="292" y="34" width="176" height="44" rx="22"/>
+          <g class="ic" transform="translate(316,56)"><circle cx="0" cy="0" r="8"/><path d="M0,-4 L0,0 L4,2"/></g>
+          <text x="394" y="61" class="big">rain came later</text><line class="cross" x1="304" y1="72" x2="456" y2="40"/></g>
+
+        <g class="ro d3"><rect class="chip" x="496" y="34" width="176" height="44" rx="22"/>
+          <g class="ic" transform="translate(520,56)"><path d="M-8,6 L-8,-2 M-2,6 L-2,-5 M4,6 L4,-2 M-11,6 L7,6"/></g>
+          <text x="598" y="61" class="big">farming</text><line class="cross" x1="508" y1="72" x2="660" y2="40"/></g>
+
+        <rect x="30" y="132" width="172" height="94" rx="18" fill="url(#gRain)"/>
+        <g stroke="#fff" stroke-opacity=".55" stroke-width="2" stroke-linecap="round"><line x1="104" y1="154" x2="100" y2="164"/><line x1="118" y1="151" x2="114" y2="164"/><line x1="132" y1="154" x2="128" y2="164"/></g>
+        <text x="116" y="182" class="big" style="fill:#fff;font-size:15px">monsoon rain</text>
+        <text x="116" y="201" style="fill:#fff;opacity:.9">confirmed cause</text>
+        <text x="116" y="218" style="fill:#fff;opacity:.9">explains 66% of the rise</text>
+
+        <line class="flow" x1="212" y1="179" x2="330" y2="179"/>
+        <circle class="halo" cx="400" cy="179" r="70"/>
+        <circle cx="400" cy="179" r="62" fill="url(#gCore)"/>
+        <text x="400" y="174" style="fill:#fff;font-size:27px;font-weight:700">34%</text>
+        <text x="400" y="196" style="fill:#fff;opacity:.95">cause unknown</text>
+
+        <line x1="26" y1="266" x2="252" y2="266" stroke="var(--warn)" stroke-dasharray="4 6" opacity=".45"/>
+        <line x1="508" y1="266" x2="734" y2="266" stroke="var(--warn)" stroke-dasharray="4 6" opacity=".45"/>
+        <text x="380" y="270" class="big" fill="var(--warn)">these need ground data we do not have</text>
+
+        <g class="open g1"><rect class="chip" x="25" y="294" width="164" height="44" rx="22"/>
+          <g class="ic" transform="translate(49,316)"><ellipse cx="0" cy="-3" rx="8" ry="5"/><line x1="0" y1="2" x2="0" y2="7"/></g>
+          <text x="117" y="321" class="big">Prosopis</text></g>
+
+        <g class="open g2"><rect class="chip" x="207" y="294" width="164" height="44" rx="22"/>
+          <g class="ic" transform="translate(231,316)"><path d="M-8,-7 L-8,7 M8,-7 L8,7"/><path d="M-9,2 q4.5,-4 9,0 t9,0"/></g>
+          <text x="299" y="321" class="big">groundwater</text></g>
+
+        <g class="open g3"><rect class="chip" x="389" y="294" width="164" height="44" rx="22"/>
+          <g class="ic" transform="translate(413,316)"><path d="M1,-8 L4,8"/><path d="M-9,-4 q3.5,-3 7,0"/><path d="M-9,1 q3.5,-3 7,0"/><path d="M-9,6 q3.5,-3 7,0"/></g>
+          <text x="481" y="321" class="big">dams</text></g>
+
+        <g class="open g4"><rect class="chip" x="571" y="294" width="164" height="44" rx="22"/>
+          <g class="ic" transform="translate(595,316)"><rect x="-8" y="-6" width="7" height="7" rx="1"/><rect x="2" y="0" width="6" height="6" rx="1"/><rect x="-2" y="-8" width="5" height="5" rx="1"/></g>
+          <text x="663" y="321" class="big">salinity</text></g>
+      </svg>
+    </div>
+    <p class="cap">Crossed out: tested, and it does not explain the leftover. The four below the line would need well records, dam records, field surveys or soil samples &mdash; none of which a satellite can see.</p>
+  </div>
+
+  <div class="card limits">
+    <h2>What this study cannot tell you</h2>
+    <div class="lim-grid">
+      <div class="lim">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="4" y="8" width="32" height="24" rx="3"/><path d="M13 14 h14 v12 h-14 z" opacity=".45"/><path d="M4 20 h9 M27 20 h9" opacity=".45"/></svg>
+        <div><b>A rectangle, not Banni</b><span>Much of the measured area lies outside the grassland.</span></div>
+      </div>
+      <div class="lim">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 28 v-6 M13 28 v-11 M19 28 v-8 M25 28 v-15 M31 28 v-10"/><path d="M5 32 h30" opacity=".45"/></svg>
+        <div><b>Twenty-four numbers</b><span>Enough to see a direction. Not enough to pin a cause.</span></div>
+      </div>
+      <div class="lim">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M13 10 v18 M27 10 v18"/><path d="M11 22 q4.5 -4 9 0 t9 0" opacity=".6"/><path d="M28 8 l8 8 M36 8 l-8 8" opacity=".9"/></svg>
+        <div><b>Nothing from the ground</b><span>No wells, no soil samples, no field surveys.</span></div>
+      </div>
+      <div class="lim">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 30 q3 -11 6 0 M17 30 q3 -13 6 0" opacity=".9"/><ellipse cx="31" cy="20" rx="7" ry="4.5"/><path d="M31 24.5 v5.5"/></svg>
+        <div><b>Green, not grass</b><span>The index cannot tell a shrub from a sward.</span></div>
+      </div>
+    </div>
+    <figure>
+      <svg viewBox="0 0 700 190" role="img" aria-label="Why NDVI cannot tell grass from shrub">
+        <text x="175" y="20" class="big">a pasture of grass</text>
+        <text x="525" y="20" class="big">a thicket of Prosopis</text>
+        <rect x="30" y="108" width="290" height="42" rx="6" fill="#2e7a3d"/>
+        <path d="M60 108 q7 -28 14 0 M105 108 q7 -34 14 0 M152 108 q7 -28 14 0 M200 108 q7 -36 14 0 M248 108 q7 -30 14 0" stroke="#5fd3a3" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <rect x="380" y="108" width="290" height="42" rx="6" fill="#2e7a3d"/>
+        <g fill="#2f6b38" stroke="#4e8f52" stroke-width="2"><ellipse cx="440" cy="92" rx="32" ry="20"/><ellipse cx="520" cy="86" rx="38" ry="23"/><ellipse cx="608" cy="94" rx="34" ry="20"/></g>
+        <g stroke="#5b4326" stroke-width="4" stroke-linecap="round"><line x1="440" y1="108" x2="440" y2="96"/><line x1="520" y1="108" x2="520" y2="92"/><line x1="608" y1="108" x2="608" y2="98"/></g>
+        <rect x="226" y="158" width="248" height="26" rx="13" fill="var(--card)" stroke="var(--line)"/>
+        <text x="350" y="176" text-anchor="middle" class="big">satellite reports: the same NDVI</text>
+      </svg>
+    </figure>
+  </div>
+
+  <p class="err" id="err"></p>
+</div>
+
+<script>
+(function () {
+  // ---------- settings ----------
+  var Q = new URLSearchParams(location.search);
+  var API = Q.get('api') || window.BANNI_API || '', REGION = Q.get('region') || 'banni', AGG = Q.get('agg') || 'monsoon';
+  var $ = function (id) { return document.getElementById(id); };
+  var NS = 'http://www.w3.org/2000/svg';
+
+  // theme: ?theme=light|dark, else the parent app can postMessage {type:'theme', value:'dark'}, else the OS setting
+  function setTheme(v) { document.documentElement.setAttribute('data-theme', v === 'dark' ? 'dark' : 'light'); seesaw = null; ut = null; redraw(); }
+  var mq = window.matchMedia('(prefers-color-scheme: dark)');
+  setTheme(Q.get('theme') || (mq.matches ? 'dark' : 'light'));
+  mq.addEventListener('change', function (e) { if (!Q.get('theme')) setTheme(e.matches ? 'dark' : 'light'); });
+  window.addEventListener('message', function (e) { if (e.data && e.data.type === 'theme') setTheme(e.data.value); });
+
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  function txt(p, x, y, s, cls, anchor) { var t = el('text', { x: x, y: y, 'text-anchor': anchor || 'middle' }, p); if (cls) t.setAttribute('class', cls); t.textContent = s; return t; }
+  function clear(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+
+  // ---------- statistics, written out so they can be checked ----------
+  function ols(xs, ys) {
+    var n = xs.length, sx = 0, sy = 0, sxx = 0, sxy = 0, i;
+    for (i = 0; i < n; i++) { sx += xs[i]; sy += ys[i]; sxx += xs[i] * xs[i]; sxy += xs[i] * ys[i]; }
+    var mx = sx / n, my = sy / n, b = (sxy - n * mx * my) / (sxx - n * mx * mx);
+    return { a: my - b * mx, b: b };
+  }
+  function corr(xs, ys) {
+    var n = xs.length, mx = 0, my = 0, i, sxy = 0, sxx = 0, syy = 0;
+    for (i = 0; i < n; i++) { mx += xs[i] / n; my += ys[i] / n; }
+    for (i = 0; i < n; i++) { sxy += (xs[i] - mx) * (ys[i] - my); sxx += Math.pow(xs[i] - mx, 2); syy += Math.pow(ys[i] - my, 2); }
+    return sxy / Math.sqrt(sxx * syy || 1);
+  }
+  function sen(xs, ys) {                                     // Theil-Sen: median of every pairwise slope
+    var s = [], i, j;
+    for (i = 0; i < xs.length; i++) for (j = i + 1; j < xs.length; j++) if (xs[j] !== xs[i]) s.push((ys[j] - ys[i]) / (xs[j] - xs[i]));
+    s.sort(function (p, q) { return p - q; });
+    return s.length ? s[Math.floor(s.length / 2)] : 0;
+  }
+  // ---------- state ----------
+  var D = [], S = null, stats0 = { lo: 0, hi: 0.4 }, idx = 0, playing = false, last = 0;
+
+  function url(g, v) { return API + '/api/' + g + '/timeseries?region=' + encodeURIComponent(REGION) + '&variable=' + v + '&agg=' + AGG; }
+  function adjustedUrl() { return API + '/api/statistics/rainfall-adjusted?region=' + encodeURIComponent(REGION) + '&response=ndvi&season=monsoon&rain_season=monsoon'; }
+  function checkedJson(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }
+  Promise.all([fetch(url('vegetation', 'ndvi')).then(checkedJson),
+               fetch(url('rainfall', 'precip')).then(checkedJson),
+               fetch(adjustedUrl()).then(checkedJson)])
+    .then(function (r) {
+      var a = r[0].result, b = r[1].result;
+      if (!a || !b || !a.x || !b.x) throw new Error('the API did not return a timeseries');
+      var rainBy = {}; b.x.forEach(function (y, i) { rainBy[y] = b.values[i]; });
+      D = a.x.map(function (y, i) { return { year: +y, ndvi: +a.values[i], rain: +rainBy[y] }; })
+             .filter(function (d) { return isFinite(d.ndvi) && isFinite(d.rain); }).sort(function (p, q) { return p.year - q.year; });
+      if (D.length < 5) throw new Error('only ' + D.length + ' usable years');
+      prepare(r[0].meta || {}, r[1].meta || {}, r[2].result || null);
+    })
+    .catch(function (e) { $('err').textContent = 'Could not load the data: ' + (e && e.message ? e.message : e); });
+
+  function prepare(m0, m1, adjusted) {
+    var years = D.map(function (d) { return d.year; }), nd = D.map(function (d) { return d.ndvi; }), rn = D.map(function (d) { return d.rain; });
+    var fit = ols(rn, nd);
+    D.forEach(function (d) { d.pred = fit.a + fit.b * d.rain; d.res = d.ndvi - d.pred; });
+    var res = D.map(function (d) { return d.res; });
+    var senRaw = sen(years, nd), senRes = sen(years, res);
+    var residualP = adjusted && adjusted.residual_trend && adjusted.residual_trend.hr ? adjusted.residual_trend.hr.p : null;
+    S = { fit: fit, r: corr(rn, nd), senRaw: senRaw, senRes: senRes, p: residualP,
+          share: senRaw !== 0 ? Math.max(0, Math.min(1, 1 - senRes / senRaw)) : 0,
+          rMin: Math.min.apply(null, rn), rMax: Math.max.apply(null, rn), nMin: Math.min.apply(null, nd), nMax: Math.max.apply(null, nd),
+          resMax: Math.max.apply(null, res.map(Math.abs)), years: years };
+
+    function name(m) {
+      var x = m && m.dataset; if (!x) return '';
+      if (typeof x === 'string') return x;
+      if (Array.isArray(x)) return x.map(function (v) { return name({ dataset: v }); }).filter(Boolean).join(' + ');
+      var keys = ['id', 'ee_id', 'dataset_id', 'collection', 'name', 'label', 'title', 'key'];
+      for (var i = 0; i < keys.length; i++) if (typeof x[keys[i]] === 'string' && x[keys[i]]) return x[keys[i]];
+      return '';
+    }
+    var ns = [name(m0), name(m1)].filter(Boolean);
+    $('src').textContent = 'Banni Grasslands, Kachchh · ' + years[0] + '–' + years[years.length - 1] + ' · one value per year, monsoon season'
+      + (ns.length ? ' · ' + ns.join(' and ') : '');
+
+    // the three headline numbers, in plain words
+    $('rr').childNodes[0].nodeValue = (S.r >= 0 ? '+' : '') + S.r.toFixed(2);
+    $('rrWord').textContent = '1.00 would mean the two move in perfect lock-step; 0 would mean no link at all. At '
+      + S.r.toFixed(2) + ', rain alone accounts for ' + Math.round(S.r * S.r * 100) + '% of how much Banni’s greenness swings from year to year.';
+    $('sen').childNodes[0].nodeValue = (S.senRes >= 0 ? '+' : '') + S.senRes.toFixed(4);
+    var pr = S.p == null ? 'not available' : (S.p < 0.001 ? '< 0.001' : S.p.toFixed(3));
+    $('pv').childNodes[0].nodeValue = pr;
+    var hits = S.p == null ? 0 : Math.max(1, Math.round(S.p * 1000));
+    $('pHead').textContent = hits + ' of the 1000 look like ours';
+    $('pWord').textContent = S.p != null && S.p < 0.05
+      ? 'Under 50 in 1000 is the usual line for "probably not luck". We are well under it.'
+      : 'That is more often than the usual line of 50 in 1000, so luck cannot be ruled out.';
+
+    stats0 = { lo: Math.floor(S.nMin * 20) / 20, hi: Math.ceil(S.nMax * 20) / 20 };
+    $('year').max = D.length - 1; $('year').value = D.length - 1; $('year').disabled = false;
+    $('year2').max = D.length - 1; $('year2').value = D.length - 1; $('year2').disabled = false; $('play2').disabled = false;
+    $('year3').max = D.length - 1; $('year3').value = D.length - 1; $('year3').disabled = false; $('play3').disabled = false;
+    idx = D.length - 1;
+    redraw();
+  }
+
+  // ---------- drawing ----------
+  function css(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+
+  var ut = null;
+  function drawUtube() {
+    var svg = $('utube'); if (!S) return;
+    var topY = 30, botY = 250, lx = 56, rx = 186, tw = 58, lo = topY + 18, hi = botY;
+    if (!ut) {
+      clear(svg);
+      var wall = css('--mut') || '#999';
+      var outer = 'M' + lx + ',' + topY + ' L' + lx + ',' + botY + ' Q' + lx + ',' + (botY + 30) + ' ' + (lx + 30) + ',' + (botY + 30)
+        + ' L' + (rx + tw - 30) + ',' + (botY + 30) + ' Q' + (rx + tw) + ',' + (botY + 30) + ' ' + (rx + tw) + ',' + botY + ' L' + (rx + tw) + ',' + topY;
+      var inner = 'M' + (lx + tw) + ',' + topY + ' L' + (lx + tw) + ',' + botY + ' L' + rx + ',' + botY + ' L' + rx + ',' + topY;
+      el('path', { d: 'M' + (lx + 3) + ',' + botY + ' Q' + (lx + 3) + ',' + (botY + 27) + ' ' + (lx + 33) + ',' + (botY + 27)
+        + ' L' + (rx + tw - 33) + ',' + (botY + 27) + ' Q' + (rx + tw - 3) + ',' + (botY + 27) + ' ' + (rx + tw - 3) + ',' + botY + ' Z', fill: css('--rain-soft'), id: 'uBase' }, svg);
+      el('rect', { id: 'uRain', x: lx + 3, y: botY, width: tw - 6, height: 0, fill: css('--rain'), 'fill-opacity': 0.85, rx: 2 }, svg);
+      el('rect', { id: 'uGreen', x: rx + 3, y: botY, width: tw - 6, height: 0, fill: css('--acc'), 'fill-opacity': 0.85, rx: 2 }, svg);
+      el('path', { d: outer, fill: 'none', stroke: wall, 'stroke-width': 3.5, 'stroke-opacity': 0.55, 'stroke-linejoin': 'round' }, svg);
+      el('path', { d: inner, fill: 'none', stroke: wall, 'stroke-width': 3.5, 'stroke-opacity': 0.55, 'stroke-linejoin': 'round' }, svg);
+      el('line', { id: 'uPred', x1: rx - 6, y1: botY, x2: rx + tw + 6, y2: botY, stroke: css('--txt'), 'stroke-width': 2, 'stroke-dasharray': '5 4' }, svg);
+      el('line', { id: 'uGap', x1: rx + tw + 14, y1: botY, x2: rx + tw + 14, y2: botY, stroke: css('--acc'), 'stroke-width': 3 }, svg);
+      txt(svg, lx + tw / 2, topY - 10, 'rain', 'big');
+      txt(svg, rx + tw / 2, topY - 10, 'greenness', 'big');
+      ut = { gapT: txt(svg, rx + tw + 18, botY, '', null, 'start'), note: txt(svg, 150, 296, 'dashed line = what a perfect link predicts') };
+      ut.gapT.setAttribute('id', 'uGapT');
+    }
+    var d = D[idx];
+    // the driest year still shows some water, so the tube is never empty on screen
+    var frac = function (v, a2, b2) { return 0.15 + 0.85 * (v - a2) / (b2 - a2 || 1); };
+    var levRain = hi - frac(d.rain, S.rMin, S.rMax) * (hi - lo);
+    var scaleN = function (v) { return hi - frac(v, S.nMin, S.nMax) * (hi - lo); };
+    var levNd = scaleN(d.ndvi), levPred = scaleN(d.pred);
+    $('uRain').setAttribute('y', levRain); $('uRain').setAttribute('height', Math.max(0, botY - levRain));
+    $('uGreen').setAttribute('y', levNd); $('uGreen').setAttribute('height', Math.max(0, botY - levNd));
+    $('uPred').setAttribute('y1', levPred); $('uPred').setAttribute('y2', levPred);
+    var col = d.res >= 0 ? css('--acc') : css('--bad');
+    $('uGap').setAttribute('y1', levPred); $('uGap').setAttribute('y2', levNd); $('uGap').setAttribute('stroke', col);
+    ut.gapT.setAttribute('y', (levNd + levPred) / 2 + 4); ut.gapT.setAttribute('fill', col);
+    ut.gapT.textContent = Math.abs(levNd - levPred) > 3 ? (d.res >= 0 ? 'extra' : 'short') : '';
+  }
+
+  function drawScatter() {
+    var svg = $('cScatter'); clear(svg); if (!S) return;
+    var W = 700, H = 320, pad = { l: 58, r: 20, t: 18, b: 46 };
+    var r0 = S.rMin * 0.9, r1 = S.rMax * 1.05, n0 = S.nMin * 0.92, n1 = S.nMax * 1.05;
+    var X = function (v) { return pad.l + (v - r0) / (r1 - r0) * (W - pad.l - pad.r); };
+    var Y = function (v) { return H - pad.b - (v - n0) / (n1 - n0) * (H - pad.t - pad.b); };
+    el('line', { x1: pad.l, y1: H - pad.b, x2: W - pad.r, y2: H - pad.b, stroke: css('--line') }, svg);
+    el('line', { x1: pad.l, y1: pad.t, x2: pad.l, y2: H - pad.b, stroke: css('--line') }, svg);
+    el('line', { x1: X(r0), y1: Y(S.fit.a + S.fit.b * r0), x2: X(r1), y2: Y(S.fit.a + S.fit.b * r1), stroke: css('--txt'), 'stroke-width': 2, 'stroke-opacity': 0.55 }, svg);
+    D.forEach(function (d, i) {
+      var on = i === idx;
+      el('circle', { cx: X(d.rain), cy: Y(d.ndvi), r: on ? 8 : 4.5, fill: css('--acc'), 'fill-opacity': on ? 1 : 0.5,
+                     stroke: on ? css('--txt') : 'none', 'stroke-width': 2 }, svg);
+    });
+    var d = D[idx];
+    txt(svg, X(d.rain), Y(d.ndvi) - 16, d.year, 'big');
+    txt(svg, (pad.l + W - pad.r) / 2, H - 12, 'rain that year (mm) →');
+    var g = el('g', {}, svg); g.setAttribute('transform', 'translate(16,' + (pad.t + (H - pad.t - pad.b) / 2) + ') rotate(-90)'); txt(g, 0, 0, 'greenness →');
+    txt(svg, X(r0), H - pad.b + 18, Math.round(r0) + ' mm', null, 'start');
+    txt(svg, X(r1), H - pad.b + 18, Math.round(r1) + ' mm', null, 'end');
+  }
+
+  function drawRes() {
+    var svg = $('cRes'); clear(svg); if (!S) return;
+    var W = 700, H = 250, pad = { l: 54, r: 20, t: 22, b: 34 }, m = S.resMax * 1.15;
+    var x = function (i) { return pad.l + i * (W - pad.l - pad.r) / (D.length - 1); };
+    var y = function (v) { return pad.t + (1 - (v + m) / (2 * m)) * (H - pad.t - pad.b); };
+    var bw = (W - pad.l - pad.r) / D.length * 0.55;
+    D.forEach(function (d, i) {
+      var y0 = y(0), y1 = y(d.res), on = i === idx;
+      el('rect', { x: x(i) - bw / 2, y: Math.min(y0, y1), width: bw, height: Math.abs(y1 - y0), rx: 2,
+                   fill: d.res >= 0 ? css('--acc') : css('--bad'), 'fill-opacity': on ? 1 : 0.55,
+                   stroke: on ? css('--txt') : 'none', 'stroke-width': 1.5 }, svg);
+    });
+    el('line', { x1: pad.l, y1: y(0), x2: W - pad.r, y2: y(0), stroke: css('--line'), 'stroke-width': 1.5 }, svg);
+    var sorted = D.map(function (d) { return d.res; }).sort(function (p, q) { return p - q; });
+    var med = sorted[Math.floor(sorted.length / 2)], mid = (S.years[0] + S.years[S.years.length - 1]) / 2;
+    el('line', { x1: x(0), y1: y(med + S.senRes * (S.years[0] - mid)), x2: x(D.length - 1), y2: y(med + S.senRes * (S.years[S.years.length - 1] - mid)),
+                 stroke: css('--txt'), 'stroke-width': 2, 'stroke-dasharray': '6 4' }, svg);
+    D.forEach(function (d, i) { if (i % 4 === 0 || i === D.length - 1) txt(svg, x(i), H - pad.b + 16, d.year); });
+    txt(svg, pad.l - 8, y(m * 0.85), '+' + m.toFixed(2), null, 'end');
+    txt(svg, pad.l - 8, y(0) + 4, '0', null, 'end');
+    txt(svg, pad.l - 8, y(-m * 0.85), '−' + m.toFixed(2), null, 'end');
+  }
+
+  var seesaw = null;
+  function drawSeesaw() {
+    var svg = $('seesaw'); if (!S) return;
+    var cx = 220, cy = 150, len = 150;
+    if (!seesaw) {
+      clear(svg);
+      el('path', { d: 'M' + (cx - 30) + ',' + (cy + 54) + ' L' + cx + ',' + (cy + 4) + ' L' + (cx + 30) + ',' + (cy + 54) + ' Z', fill: css('--line') }, svg);
+      var g = el('g', { id: 'beam' }, svg);
+      el('rect', { x: cx - len, y: cy - 6, width: len * 2, height: 12, rx: 6, fill: css('--txt'), 'fill-opacity': 0.45, id: 'beamBar' }, g);
+      var pL = el('circle', { cx: cx - len + 16, cy: cy - 24, r: 20, fill: css('--rain'), 'fill-opacity': 0.9 }, g);
+      var pR = el('circle', { cx: cx + len - 16, cy: cy - 24, r: 20, fill: css('--acc'), 'fill-opacity': 0.9 }, g);
+      var tL = txt(g, cx - len + 16, cy - 20, 'rain', 'big'); tL.setAttribute('style', 'fill:#fff');
+      var tR = txt(g, cx + len - 16, cy - 20, 'actual', 'big'); tR.setAttribute('style', 'fill:#fff');
+      seesaw = { g: g, bar: el('g', {}, svg), head: txt(svg, cx, 28, '', 'big'), sub: txt(svg, cx, 48, ''),
+                 foot: txt(svg, cx, cy + 92, ''), pL: pL, pR: pR, svg: svg };
+    }
+    var d = D[idx], cap = S.resMax || 1;
+    var ang = Math.max(-20, Math.min(20, -d.res / cap * 20));
+    seesaw.g.setAttribute('transform', 'rotate(' + ang.toFixed(2) + ' ' + cx + ' ' + cy + ')');
+    seesaw.pR.setAttribute('fill', d.res >= 0 ? css('--acc') : css('--bad'));
+    seesaw.head.textContent = d.year + ': ' + (d.res >= 0 ? 'greener than rain predicts' : 'less green than rain predicts');
+    seesaw.sub.textContent = 'leftover ' + (d.res >= 0 ? '+' : '\u2212') + Math.abs(d.res).toFixed(3) + ' NDVI';
+    var half = Math.floor(D.length / 2);
+    var e = D.slice(0, half).reduce(function (s2, q) { return s2 + q.res; }, 0) / half;
+    var l = D.slice(half).reduce(function (s2, q) { return s2 + q.res; }, 0) / (D.length - half);
+    seesaw.foot.textContent = 'average leftover: ' + e.toFixed(3) + ' in ' + S.years[0] + '\u2013' + S.years[half - 1]
+      + ', ' + l.toFixed(3) + ' in ' + S.years[half] + '\u2013' + S.years[S.years.length - 1];
+  }
+
+  function drawSplit() {
+    var svg = $('cSplit'); clear(svg); if (!S) return;
+    var W = 700, pad = 20, bw = W - pad * 2, w1 = bw * S.share, top = 44;
+    el('rect', { x: pad, y: top, width: w1, height: 46, fill: css('--rain'), 'fill-opacity': 0.85, rx: 6 }, svg);
+    el('rect', { x: pad + w1 + 3, y: top, width: Math.max(2, bw - w1 - 3), height: 46, fill: css('--warn'), 'fill-opacity': 0.85, rx: 6 }, svg);
+    txt(svg, pad + w1 / 2, top + 28, Math.round(S.share * 100) + '% rain', 'big').setAttribute('style', 'fill:#fff');
+    txt(svg, pad + w1 + (bw - w1) / 2, top + 28, Math.round((1 - S.share) * 100) + '% ?', 'big').setAttribute('style', 'fill:#fff');
+    txt(svg, pad, 26, 'all of Banni’s greening', 'big', 'start');
+    txt(svg, pad, top + 66, 'explained by more monsoon rain', null, 'start');
+    txt(svg, W - pad, top + 66, 'real, but cause unidentified', null, 'end');
+  }
+
+  function drawDots() {
+    var svg = $('dots'); clear(svg); if (!S) return;
+    var cols = 50, rows = 20, total = cols * rows, lit = S.p == null ? 0 : Math.max(1, Math.round(S.p * total));
+    var x0 = 14, y0 = 20, dx = (700 - 28) / cols, dy = 180 / rows;
+    for (var i = 0; i < total; i++) {
+      var on = i < lit;
+      el('circle', { cx: x0 + (i % cols) * dx + dx / 2, cy: y0 + Math.floor(i / cols) * dy + dy / 2, r: on ? 3.4 : 2,
+                     fill: on ? css('--bad') : css('--txt'), 'fill-opacity': on ? 1 : 0.18 }, svg);
+    }
+    txt(svg, 14, 12, lit + ' replays out of ' + total + ' would look like our result', 'big', 'start');
+  }
+
+  // ---------- colour ramp used by the live scene ----------
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function clamp01(t) { return Math.max(0, Math.min(1, t)); }
+  function mix(c1, c2, t) { return [lerp(c1[0], c2[0], t), lerp(c1[1], c2[1], t), lerp(c1[2], c2[2], t)]; }
+  function rgb(c) { return 'rgb(' + Math.round(c[0]) + ',' + Math.round(c[1]) + ',' + Math.round(c[2]) + ')'; }
+  var DRY = [196, 170, 110], MID = [150, 160, 80], LUSH = [46, 128, 58];
+  function groundColor(t) { return t < 0.5 ? mix(DRY, MID, t * 2) : mix(MID, LUSH, (t - 0.5) * 2); }
+
+  // Conventional NDVI bands for drylands. Boundaries vary between studies; they are a reading aid, not a measurement.
+  var BANDS = [[-1, 0.1, 'bare or salt-crusted'], [0.1, 0.2, 'very sparse'], [0.2, 0.3, 'moderate cover'], [0.3, 1, 'dense cover']];
+  function ndviClass(v) { for (var i = 0; i < BANDS.length; i++) if (v >= BANDS[i][0] && v < BANDS[i][1]) return BANDS[i][2]; return ''; }
+  function drawClasses() {
+    var g = $('sClasses'); if (!g) return; clear(g);
+    var lo = stats0.lo, hi = stats0.hi, X = function (v) { return 150 + clamp01((v - lo) / (hi - lo)) * 400; };
+    BANDS.forEach(function (b) {
+      var x0 = Math.max(150, X(b[0])), x1 = Math.min(550, X(b[1]));
+      if (x1 - x0 < 26) return;
+      if (b[0] > lo) el('line', { x1: x0, y1: 348, x2: x0, y2: 370, stroke: css('--card'), 'stroke-width': 2 }, g);
+      txt(g, (x0 + x1) / 2, 382, b[2]);
+    });
+  }
+
+  function updateScene() {
+    if (!S) return;
+    var d = D[idx], t = clamp01((d.ndvi - stats0.lo) / (stats0.hi - stats0.lo));
+    var base = groundColor(t);
+    $('sGround').setAttribute('fill', rgb(base.map(function (v) { return v * 0.92; })));
+    // bare soil -> a few tufts -> full sward, so the class change is visible on the ground
+    var shown = 1 + t * 7, col = rgb(mix([150, 140, 80], [120, 225, 163], t));
+    for (var k = 0; k < 8; k++) {
+      var g = $('sG' + k); if (!g) continue;
+      g.setAttribute('stroke', col);
+      g.setAttribute('stroke-width', (2.2 + 3.8 * t).toFixed(2));
+      g.setAttribute('opacity', clamp01(shown - k).toFixed(2));
+    }
+    $('sRed').setAttribute('stroke-width', (5.2 - 3.8 * t).toFixed(2));      // healthy canopy absorbs red
+    $('sIr').setAttribute('stroke-width', (2.6 + 6.4 * t).toFixed(2));       // and scatters infrared
+    var x = 150 + t * 400;
+    $('sMark').setAttribute('transform', 'translate(' + x.toFixed(1) + ',350)');
+    $('sVal').textContent = d.ndvi.toFixed(3) + '  ·  ' + ndviClass(d.ndvi);
+    $('sLo').textContent = stats0.lo.toFixed(2); $('sHi').textContent = stats0.hi.toFixed(2);
+    drawClasses();
+  }
+
+  function redraw() {
+    if (!S) return;
+    var d = D[idx];
+    $('yr').textContent = d.year; $('year').value = idx;
+    $('yr2').textContent = d.year; $('year2').value = idx;
+    $('yr3').textContent = d.year; $('year3').value = idx;
+    $('vRain').textContent = d.rain.toFixed(0) + ' mm'; $('vNdvi').textContent = d.ndvi.toFixed(3);
+    $('vRes').textContent = (d.res >= 0 ? '+' : '') + d.res.toFixed(3);
+    updateScene(); drawUtube(); drawScatter(); drawRes(); drawSeesaw(); drawSplit(); drawDots();
+  }
+
+  $('year').addEventListener('input', function () { idx = +this.value; redraw(); });
+  $('year2').addEventListener('input', function () { idx = +this.value; redraw(); });
+  $('year3').addEventListener('input', function () { idx = +this.value; redraw(); });
+  function togglePlay() { playing = !playing; $('play').textContent = playing ? '❚❚ Pause' : '▶ Play'; $('play2').textContent = playing ? '❚❚' : '▶'; $('play3').textContent = playing ? '❚❚' : '▶'; last = performance.now(); }
+  $('play').addEventListener('click', togglePlay);
+  $('play2').addEventListener('click', togglePlay);
+  $('play3').addEventListener('click', togglePlay);
+  (function loop(ts) { if (playing && S && ts - last > 900) { last = ts; idx = (idx + 1) % D.length; redraw(); } requestAnimationFrame(loop); })(0);
+  window.banniMethodology = { setTheme: setTheme, setYear: function (i) { idx = i; redraw(); } };
+})();
+</script>
+</body>
+</html>
