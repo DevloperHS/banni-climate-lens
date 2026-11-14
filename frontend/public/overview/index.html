@@ -117,7 +117,14 @@
         var rain = {}; b.x.forEach(function (y, i) { rain[y] = b.values[i]; });
         var series = a.x.map(function (y, i) { return { year: y, ndvi: a.values[i], rain: rain[y] }; }).filter(function (d) { return d.rain != null && d.ndvi != null; });
         var m0 = res[0].meta || {}, m1 = res[1].meta || {};
-        var ds = function (m) { return (m.dataset && (m.dataset.id || m.dataset.name || m.dataset)) || ''; };
+        var ds = function (m) {
+          var x = m && m.dataset; if (!x) return '';
+          if (typeof x === 'string') return x;
+          if (Array.isArray(x)) return x.map(function (v) { return ds({ dataset: v }); }).filter(Boolean).join(' + ');
+          var keys = ['id', 'ee_id', 'dataset_id', 'collection', 'name', 'label', 'title', 'key'];
+          for (var i = 0; i < keys.length; i++) if (typeof x[keys[i]] === 'string' && x[keys[i]]) return x[keys[i]];
+          return '';
+        };
         return { series: series, meta: {
           location: (m0.region && (m0.region.label || m0.region.name)) || (REGION.charAt(0).toUpperCase() + REGION.slice(1)),
           rainLabel: (b.aggregation || AGG) + ' rain', ndviLabel: 'NDVI (' + (a.aggregation || AGG) + ')',
@@ -271,18 +278,48 @@
     return { x: rnd(-60, W + 60), y: initial ? rnd(70, H) : rnd(62, 84), s: s, v: 0.55 + s * 0.6, land: landMin + (s - 0.35) / 1.05 * (landMax - landMin) + rnd(-12, 12) };
   }
   function syncCount(n) { while (drops.length < n) drops.push(makeDrop(true)); if (drops.length > n) drops.length = n; }
+  var WIND = -0.22;
   function drawDrop(d) {
-    var w = 1.8 * d.s, len = w * 2.6;
-    ctx.save(); ctx.globalAlpha = Math.max(0, Math.min(1, (d.y - 62) / 36)) * 0.9; ctx.translate(d.x, d.y);
-    ctx.beginPath(); ctx.moveTo(0, -len); ctx.bezierCurveTo(w * 0.9, -len * 0.35, w * 1.5, 0, 0, w * 0.9); ctx.bezierCurveTo(-w * 1.5, 0, -w * 0.9, -len * 0.35, 0, -len);
-    var g = ctx.createLinearGradient(0, -len, 0, w); g.addColorStop(0, 'rgba(235,246,255,0.5)'); g.addColorStop(1, 'rgba(150,205,245,0.75)');
-    ctx.fillStyle = g; ctx.fill(); ctx.restore();
+    var len=(4+7*d.v)*d.s, ex=d.x+WIND*len, ey=d.y+len;
+    var g=ctx.createLinearGradient(d.x,d.y,ex,ey);
+    g.addColorStop(0,'rgba(226,241,255,0)');
+    g.addColorStop(1,'rgba(226,241,255,'+Math.min(0.75,0.62*d.s).toFixed(2)+')');
+    ctx.strokeStyle=g; ctx.lineWidth=Math.max(0.6,1.15*d.s); ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(d.x,d.y); ctx.lineTo(ex,ey); ctx.stroke();
   }
   function drawSky(rainT) {
-    var top = mix([120, 170, 215], [26, 70, 125], rainT), bot = [140, 197, 238];
+    var top = mix([126, 176, 219], [24, 62, 112], rainT), bot = mix([236, 226, 198], [128, 162, 196], rainT);
     var g = ctx.createLinearGradient(0, 0, 0, horizon); g.addColorStop(0, rgb(top)); g.addColorStop(1, rgb(bot));
     ctx.fillStyle = g; ctx.fillRect(0, 0, W, horizon + 2);
-    ctx.fillStyle = 'rgba(240,238,228,0.55)'; ctx.fillRect(0, horizon - 6, W, 7);         // far salt line (Rann)
+    var sx=W*0.78, sy=horizon*0.42, gl=ctx.createRadialGradient(sx,sy,0,sx,sy,horizon*0.95);
+    gl.addColorStop(0,'rgba(255,238,190,'+(0.42*(1-rainT)).toFixed(3)+')');
+    gl.addColorStop(1,'rgba(255,238,190,0)');
+    ctx.fillStyle=gl; ctx.fillRect(0,0,W,horizon+2);
+    var RG=[[74,0.0062,0.2,[142,172,199]],[54,0.0095,0.9,[116,152,180]],[36,0.0150,1.7,[98,136,124]]];
+    for(var ri=0;ri<RG.length;ri++){
+      var R=RG[ri], hg=R[0]*(1-0.2*rainT);
+      ctx.beginPath(); ctx.moveTo(0,horizon+2);
+      for(var rx=0;rx<=W;rx+=6){
+        var ry=horizon-hg*(0.5+0.5*Math.sin(rx*R[1]+R[2])*Math.sin(rx*R[1]*0.45+R[2]*2));
+        ctx.lineTo(rx,ry);
+      }
+      ctx.lineTo(W,horizon+2); ctx.closePath();
+      var base=mix(R[3],[122,152,182],rainT*0.5);
+      var gr=ctx.createLinearGradient(0,horizon-hg,0,horizon+2);
+      gr.addColorStop(0,rgb(mix(base,[255,255,255],0.16),0.88));
+      gr.addColorStop(0.55,rgb(base,0.80));
+      gr.addColorStop(1,rgb(mix(base,[242,243,238],0.6),0.30));
+      ctx.fillStyle=gr; ctx.fill();
+    }
+    var hz=ctx.createLinearGradient(0,horizon-46,0,horizon+2);
+    hz.addColorStop(0,'rgba(226,232,238,0)');
+    hz.addColorStop(1,'rgba(226,232,238,'+(0.12+0.14*rainT).toFixed(3)+')');
+    ctx.fillStyle=hz; ctx.fillRect(0,horizon-46,W,48);
+    var sl=ctx.createLinearGradient(0,horizon-30,0,horizon+10);
+    sl.addColorStop(0,'rgba(246,244,236,0)');
+    sl.addColorStop(0.62,'rgba(248,246,240,0.22)');
+    sl.addColorStop(1,'rgba(246,244,236,0)');
+    ctx.fillStyle=sl; ctx.fillRect(0,horizon-30,W,40);         // far salt line (Rann)
   }
   function easeInOut(x) { return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
   function updateZoom(ts) {
@@ -295,9 +332,9 @@
     updateComp(t);
     ctx.save(); ctx.beginPath(); ctx.rect(0, horizon - 1, W, H - horizon + 1); ctx.clip();
     warpGround();
-    var haze = ctx.createLinearGradient(0, horizon, 0, horizon + (H - horizon) * 0.35);
-    haze.addColorStop(0, 'rgba(190,210,230,0.9)'); haze.addColorStop(1, 'rgba(190,210,230,0)');
-    ctx.fillStyle = haze; ctx.fillRect(0, horizon, W, (H - horizon) * 0.35);
+    var haze = ctx.createLinearGradient(0, horizon, 0, horizon + (H - horizon) * 0.22);
+    haze.addColorStop(0, 'rgba(198,215,232,0.42)'); haze.addColorStop(1, 'rgba(190,210,230,0)');
+    ctx.fillStyle = haze; ctx.fillRect(0, horizon, W, (H - horizon) * 0.22);
     var va = clamp01((zoom.t - 0.25) / 0.6); va = va * va;
     if (va > 0.02) {
       var green = mix([150, 140, 80], [30, 95, 45], t), shrubC = mix([80, 90, 50], [22, 70, 38], Math.max(t, 0.35));
@@ -305,6 +342,10 @@
       for (var j = 0; j < tufts.length; j++) {
         var tf = tufts[j]; if (tf.lon < VIEW.w - 0.3 || tf.lon > VIEW.e + 0.3 || tf.lat < VIEW.s - 0.05 || tf.lat > VIEW.n) continue;
         var q = proj(tf.lon, tf.lat), s = (0.9 + 1.5 * zoom.t) / q.z;
+          ctx.fillStyle='rgba(42,36,20,'+(0.16+0.12*t).toFixed(3)+')';
+          ctx.beginPath();
+          ctx.ellipse(q.x,q.y+1.2*s,(tf.shrub?8:3.2)*s,(tf.shrub?2.6:1.1)*s,0,0,Math.PI*2);
+          ctx.fill();
         if (tf.shrub) {
           ctx.fillStyle = rgb(shrubC, 0.7); ctx.beginPath(); ctx.ellipse(q.x, q.y - 3 * s, 7 * s, 4.5 * s, 0, 0, Math.PI * 2); ctx.ellipse(q.x - 5 * s, q.y - 2 * s, 5 * s, 3.5 * s, 0, 0, Math.PI * 2); ctx.ellipse(q.x + 5 * s, q.y - 2.5 * s, 5 * s, 3.5 * s, 0, 0, Math.PI * 2); ctx.fill();
         } else {
@@ -331,7 +372,8 @@
     cloudX = (cloudX + 0.25) % stripW;
     ctx.save(); ctx.globalAlpha = cloudA; ctx.drawImage(cloudStrip, -cloudX, -15, stripW, 160); ctx.drawImage(cloudStrip, stripW - cloudX, -15, stripW, 160); ctx.restore();
     for (var i = 0; i < drops.length; i++) {
-      var d = drops[i]; drawDrop(d); d.y += speed * d.v;
+      var d = drops[i]; drawDrop(d); d.y += speed * d.v; d.x += WIND * speed * d.v * 0.45;
+      if (d.x < -70) d.x = W + 70;
       if (d.y > d.land) { if (splashes.length < 90) splashes.push({ x: d.x, y: d.land, r: 1, life: 1, s: d.s }); drops[i] = makeDrop(false); }
     }
     for (var j = splashes.length - 1; j >= 0; j--) {
@@ -339,6 +381,9 @@
       ctx.beginPath(); ctx.ellipse(p.x, p.y, p.r * 2.2 * p.s, p.r * 0.8 * p.s, 0, 0, Math.PI * 2); ctx.stroke();
       p.r += 0.45; p.life -= 0.06; if (p.life <= 0) splashes.splice(j, 1);
     }
+    var vg = ctx.createRadialGradient(W / 2, H * 0.52, Math.min(W, H) * 0.34, W / 2, H * 0.52, Math.max(W, H) * 0.78);
+    vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(6,14,26,0.34)');
+    ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
     if (playing && DATA.length && ts - lastStep > 1400) { lastStep = ts; setYear((idx + 1) % DATA.length); }
     requestAnimationFrame(frame);
   }
