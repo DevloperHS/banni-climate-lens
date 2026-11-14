@@ -309,15 +309,28 @@ function EvidenceNote({ title, children }: { title: string; children: string }) 
 }
 
 function ResearchMap({ dashboard, region, source, start, end }: { dashboard: Dashboard; region: string; source: string; start: number; end: number }) {
+  const [mode, setMode] = useState<"trend" | "landcover" | "compare">("trend");
   const trend = dashboard.layers.find((l) => l.variable === "ndvi" && l.season === "monsoon");
-  const year = trend?.years.includes(end) ? end : trend?.years[trend.years.length - 1];
-  const overlay = trend && year ? [{ id: "trend", visible: true, opacity: 0.85, bounds: trend.bounds, url: downloadUrl("/spatial/pixel-trend.png", { region, source, variable: "ndvi", season: "monsoon", start, end, q: 0.05, product: "significant" }) }] : [];
+  const firstYear = trend?.years[0] ?? start;
+  const lastYear = trend?.years[trend.years.length - 1] ?? end;
+  const trendOverlay = trend ? [{ id: "trend", visible: true, opacity: 0.85, bounds: trend.bounds, url: downloadUrl("/spatial/pixel-trend.png", { region, source, variable: "ndvi", season: "monsoon", start, end, q: 0.05, product: "significant" }) }] : [];
+  const yearOverlay = (year: number) => trend ? [{ id: `ndvi-${year}`, visible: true, opacity: 0.85, bounds: trend.bounds, url: downloadUrl("/spatial/layer.png", { region, source, variable: "ndvi", season: "monsoon", year }) }] : [];
   return <div className="space-y-3">
-    <MapView boundary={BANNI_BOUNDARY} overlays={overlay} basemap="satellite" height="clamp(320px, 55vw, 560px)" />
+    <div role="tablist" aria-label="Research map layers" className="flex flex-wrap gap-2">
+      {([["trend", "Pixel NDVI trend"], ["landcover", "Land cover"], ["compare", "2001 vs 2024"]] as const).map(([value, label]) => (
+        <button key={value} role="tab" aria-selected={mode === value} className={`btn text-xs ${mode === value ? "btn-primary" : ""}`} onClick={() => setMode(value)}>{label}</button>
+      ))}
+    </div>
+    {mode === "trend" && <MapView boundary={BANNI_BOUNDARY} overlays={trendOverlay} basemap="satellite" height="clamp(320px, 55vw, 560px)" />}
+    {mode === "compare" && <div className="grid gap-3 md:grid-cols-2">
+      <div><MapView boundary={BANNI_BOUNDARY} overlays={yearOverlay(firstYear)} basemap="satellite" height="clamp(260px, 34vw, 420px)" /><p className="muted mt-1 text-xs">Before: {firstYear}. Source: MODIS MOD13Q1.</p></div>
+      <div><MapView boundary={BANNI_BOUNDARY} overlays={yearOverlay(lastYear)} basemap="satellite" height="clamp(260px, 34vw, 420px)" /><p className="muted mt-1 text-xs">After: {lastYear}. Source: MODIS MOD13Q1; Landsat where available.</p></div>
+    </div>}
+    {mode === "landcover" && <div className="rounded-lg border border-dashed border-[var(--border-hi)] bg-[var(--bg-soft)] p-5 text-sm text-[var(--muted)]">Live land-cover imagery is not available from this dashboard response. The static MCD12Q1 fallback is shown below.</div>}
     <div className="grid gap-3 sm:grid-cols-3 text-xs">
-      <div><b>Pixel NDVI trend</b><div className="muted">Sen slope; FDR-significant pixels only.</div>{trend && <Legend title={trend.label} unit={trend.unit} vmin={trend.vmin ?? -1} vmax={trend.vmax ?? 1} cmap={trend.cmap} />}</div>
-      <div><b>Land cover</b><div className="muted">Grassland, shrubland, and water shares.</div></div>
-      <div><b>2001 vs 2024</b><div className="muted">Use the report's before/after imagery when available.</div></div>
+      <div><b>Pixel NDVI trend</b><div className="muted">Sen slope; FDR-significant pixels only. Source: MODIS MOD13Q1.</div>{trend && <Legend title={trend.label} unit={trend.unit} vmin={trend.vmin ?? -1} vmax={trend.vmax ?? 1} cmap={trend.cmap} />}</div>
+      <div><b>Land cover</b><div className="muted">Grassland, shrubland, and water shares. Source: MODIS MCD12Q1.</div></div>
+      <div><b>2001 vs 2024</b><div className="muted">NDVI comparison. Source: MODIS MOD13Q1; Landsat where available.</div></div>
     </div>
     <p className="muted text-xs">Rectangle: {BANNI_BBOX.west.toFixed(2)}–{BANNI_BBOX.east.toFixed(2)}°E, {BANNI_BBOX.south.toFixed(2)}–{BANNI_BBOX.north.toFixed(2)}°N. Source: MODIS MOD13Q1 / MCD12Q1; Landsat where available.</p>
     <StaticMapFallback />
