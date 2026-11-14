@@ -51,7 +51,7 @@ export function ChartFrame({ title, subtitle, meta, filename, children, height =
           <button className="btn" onClick={() => downloadChartPng(ref.current, filename + ".png", meta?.synthetic)} aria-label={`Download chart ${filename}`}>⬇ PNG</button>
         </div>
       </div>
-      <div ref={ref} style={{ width: "100%", height }} data-testid="chart">
+      <div ref={ref} style={{ width: "100%", height: `clamp(180px, 42vw, ${height}px)` }} data-testid="chart">
         <ResponsiveContainer width="100%" height="100%">{children as React.ReactElement}</ResponsiveContainer>
       </div>
     </div>

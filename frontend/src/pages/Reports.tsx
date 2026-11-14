@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPanel, PageHeader, Panel, Q, SectionHeader, Select, SyntheticBadge, useApi, useScope, fmt } from "../components/ui";
+import { PageHeader, Panel, Q, SectionHeader, Select, SyntheticBadge, useApi, useScope } from "../components/ui";
 import { Dashboard, Wrapped, downloadUrl } from "../lib/api";
 import MapView, { Legend } from "../components/MapView";
 import { BANNI_BOUNDARY, BANNI_BBOX } from "../components/BanniMap";

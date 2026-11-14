@@ -345,21 +345,6 @@ body {
 }
 
 /* ── Trend dashboards: rain animated over the map (intensity scales with the year's monsoon total) ── */
-.rain-layer {
-  position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 450; border-radius: inherit;
-}
-.rain-drop {
-  position: absolute; top: -12%; width: 2px; height: 18px; border-radius: 1px;
-  background: linear-gradient(to bottom, rgba(186, 230, 253, 0), rgba(186, 230, 253, 0.95));
-  box-shadow: 0 0 2px rgba(14, 165, 233, 0.6);
-  animation: rain-fall linear infinite;
-}
-@keyframes rain-fall {
-  to { transform: translate3d(-18px, 115vh, 0); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .rain-drop { animation: none; display: none; }
-}
 .swipe-frame { position: relative; overflow: hidden; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--bg-soft); }
 .swipe-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; image-rendering: pixelated; }
 .swipe-handle { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--amber); box-shadow: 0 0 0 1px rgba(0,0,0,0.35); pointer-events: none; }

@@ -22,58 +22,28 @@ describe("navigation", () => {
     renderApp("/");
     const nav = await screen.findByRole("navigation", { name: "Main navigation" });
     const labels = within(nav).getAllByRole("link").map((a) => a.textContent);
-    expect(labels).toEqual(["Overview", "Trend Dashboards", "Regions", "Satellite Explorer", "Vegetation", "Climate", "Water Resources", "Spatial Analysis", "Statistical Analysis", "Research Reports", "Methodology", "Settings"]);
-    expect(NAV).toHaveLength(12);
-    await userEvent.click(within(nav).getByRole("link", { name: "Methodology" }));
-    expect(await screen.findByRole("heading", { name: "Methodology", level: 1 })).toBeInTheDocument();
-    await userEvent.click(within(nav).getByRole("link", { name: "Regions" }));
-    expect(await screen.findByRole("heading", { name: "Regions", level: 1 })).toBeInTheDocument();
+    expect(labels).toEqual(["Overview", "Research"]);
+    expect(NAV).toHaveLength(2);
+    await userEvent.click(within(nav).getByRole("link", { name: "Research" }));
+    expect(await screen.findByTitle("Research Report")).toBeInTheDocument();
   });
 });
 
-describe("overview dashboard", () => {
-  it("shows region, period, area and honest empty state when nothing is processed", async () => {
-    mockApi({
-      "/api/datasets": { body: { items: [{ key: "ndvi", label: "NDVI", available: false, ee_id: "MODIS/061/MOD13Q1", provider: "NASA", spatial_resolution: "250 m", temporal_resolution: "16-day", processing_period: null, kind: null }], total: 1, earth_engine: { project_configured: false, verified: false } } },
-      "/api/reports/insights": { body: { findings: [], notes: ["No processed series"], synthetic: false, question: "q" } },
-    });
+describe("overview", () => {
+  it("renders the embedded overview without loading dashboard APIs", async () => {
+    mockApi({});
     renderApp("/");
-    expect(await screen.findByRole("heading", { name: "Banni Grasslands", level: 1 })).toBeInTheDocument();
-    expect(screen.getByText("2001–2024")).toBeInTheDocument();
-    expect(screen.getByText(/9,751/)).toBeInTheDocument();
-    expect(await screen.findByText(/No findings yet/)).toBeInTheDocument();
-    expect(screen.getByText("not processed")).toBeInTheDocument();
-    expect(screen.getByText(/Earth Engine is not configured/)).toBeInTheDocument();
-  });
-
-  it("renders computed findings and flags synthetic data", async () => {
-    localStorage.setItem("gcl.demo", "1"); localStorage.setItem("gcl.source", "sample");
-    mockApi({
-      "/api/datasets": { body: { items: [], total: 0, earth_engine: {} } },
-      "/api/reports/insights": { body: { question: "q", synthetic: true, synthetic_warning: "SYNTHETIC warn", notes: [], findings: [{ id: "a", title: "Vegetation greenness trend", statement: "NDVI shows increasing", evidence: {} }] } },
-    });
-    renderApp("/");
-    expect(await screen.findByText("Vegetation greenness trend")).toBeInTheDocument();
-    expect(screen.getByText("SYNTHETIC warn")).toBeInTheDocument();
-    expect(screen.getAllByText(/SYNTHETIC SAMPLE DATA/)[0]).toBeInTheDocument();       // global banner
-  });
-
-  it("shows a clear error when the API fails", async () => {
-    mockApi({ "/api/reports/insights": { status: 500, body: { error: { code: "internal_error", message: "boom" } } }, "/api/datasets": { status: 500, body: { error: { code: "internal_error", message: "boom" } } } });
-    renderApp("/");
-    // 5xx responses are retried once (1 s back-off) before the error is shown
-    expect((await screen.findAllByRole("alert", {}, { timeout: 5000 }))[0]).toHaveTextContent(/boom/);
+    const iframe = await screen.findByTitle("Banni Overview");
+    expect(iframe).toHaveAttribute("src", "/overview/index.html");
+    expect(iframe).toHaveAttribute("style", expect.stringContaining("border: 0"));
   });
 });
 
 describe("geometry honesty", () => {
-  it("labels the rectangle as an analysis window and flags the pending grassland polygon", async () => {
-    mockApi({ "/api/datasets": { body: { items: [], total: 0, earth_engine: {} } }, "/api/reports/insights": { body: { findings: [], notes: [], synthetic: false, question: "q" } } });
+  it("keeps the Overview route limited to the embedded document", async () => {
+    mockApi({});
     renderApp("/");
-    expect(await screen.findByText("Analysis rectangle area")).toBeInTheDocument();
-    expect(screen.getByText(/9,751 km²/)).toBeInTheDocument();
-    expect(screen.getByText(/NOT the grassland/)).toBeInTheDocument();
-    expect(screen.getByTestId("pending-geometry")).toHaveTextContent("Statistics currently use the handover rectangle");
+    expect(await screen.findByTitle("Banni Overview")).toBeInTheDocument();
   });
 });
 
@@ -123,22 +93,22 @@ describe("region and period selection", () => {
     expect(await screen.findByRole("button", { name: /Banni Grasslands/ })).toHaveAttribute("aria-pressed", "true");
     await userEvent.selectOptions(screen.getByLabelText("From", { exact: true }), "2010");
     await userEvent.selectOptions(screen.getByLabelText("To", { exact: true }), "2020");
-    await userEvent.click(within(screen.getByRole("navigation")).getByRole("link", { name: "Vegetation" }));
-    await waitFor(() => expect(f.mock.calls.some(([u]) => String(u).includes("/vegetation/trend") && String(u).includes("start=2010") && String(u).includes("end=2020"))).toBe(true));
+    expect(screen.getByLabelText("From", { exact: true })).toHaveValue("2010");
+    expect(screen.getByLabelText("To", { exact: true })).toHaveValue("2020");
+    expect(f.mock.calls.some(([u]) => String(u).includes("/regions"))).toBe(true);
   });
   it("hides the synthetic sample from the default experience", async () => {
     mockApi({});
     renderApp("/");
-    await screen.findByRole("heading", { name: "Banni Grasslands", level: 1 });
+    await screen.findByTitle("Banni Overview");
     expect(screen.queryByLabelText("Data source")).not.toBeInTheDocument();
     expect(screen.queryByText(/SYNTHETIC SAMPLE DATA/)).not.toBeInTheDocument();
   });
   it("ignores a stale 'sample' source unless demonstration mode is on", async () => {
     localStorage.setItem("gcl.source", "sample");
-    const f = mockApi({ "/api/datasets": { body: { items: [], total: 0, earth_engine: {} } }, "/api/reports/insights": { body: { findings: [], notes: [], synthetic: false, question: "q" } } });
+    const f = mockApi({});
     renderApp("/");
-    await screen.findByRole("heading", { name: "Banni Grasslands", level: 1 });
-    await waitFor(() => expect(f.mock.calls.some(([u]) => String(u).includes("/reports/insights"))).toBe(true));
+    await screen.findByTitle("Banni Overview");
     expect(f.mock.calls.filter(([u]) => String(u).includes("source=sample"))).toHaveLength(0);
   });
   it("swaps the data source and shows the synthetic banner in demonstration mode", async () => {
@@ -277,7 +247,7 @@ describe("trend dashboards", () => {
   });
   const datasets = { body: { items: [{ key: "ndvi", label: "NDVI", available: true }], total: 1, earth_engine: {} } };
 
-  it("shows result cards, the shaded rain gap, the trust box and sources; the shared slider drives the rain and readout", async () => {
+  it("shows concise result cards, the trust box and sources; the shared slider drives the readout", async () => {
     mockApi({ "/api/datasets": datasets, "/api/dashboards/rain_green": { body: body("rain_green") } });
     renderApp("/dashboards");
     expect(await screen.findByRole("heading", { name: "Trend Dashboards", level: 1 })).toBeInTheDocument();
@@ -286,14 +256,12 @@ describe("trend dashboards", () => {
     expect(screen.getByText("Residuals increase.", { exact: false })).toBeInTheDocument();
     expect(screen.getByRole("note", { name: "Before you trust this" })).toHaveTextContent("cannot tell grass from shrub");
     expect(screen.getByRole("link", { name: "MODIS/061/MOD13Q1" })).toHaveAttribute("href", expect.stringContaining("MODIS_061_MOD13Q1"));
-    // study period runs to 2024; years beyond the data have no rain value -> no rain overlay
     const slider = screen.getByRole("slider", { name: "Dashboard year" });
     fireEvent.change(slider, { target: { value: "2002" } });
     expect(screen.getByTestId("dash-year")).toHaveTextContent("2002");
-    expect(screen.getByTestId("rain")).toHaveAttribute("data-drops", "140");                 // wettest year in the record
     fireEvent.change(slider, { target: { value: "2001" } });
-    expect(screen.getByTestId("rain")).toHaveAttribute("data-drops", "8");                   // driest year
     expect(screen.getByTestId("year-readout")).toHaveTextContent("100.000");
+    expect(screen.queryByTestId("rain")).not.toBeInTheDocument();
   });
 
   it("shows the Aqua and EVI checks with their agreement, and names a check that is not yet available", async () => {
