@@ -1,6 +1,8 @@
 <div align="center">
 
-#  <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/a6800aac-ecfa-4589-afc4-126f8d611a42" />
+#<img src="https://github.com/user-attachments/assets/a6800aac-ecfa-4589-afc4-126f8d611a42" width="300" alt="GlobalClimateLens" />
+
+# GlobalClimateLens
 GlobalClimateLens
 
 **Earth-observation analytics for long-term environmental change**
