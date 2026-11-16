@@ -1,28 +1,3 @@
-# **GlobalClimateLens**
-<div align="center">
-
-<img src="https://github.com/user-attachments/assets/3ddc6615-d9dc-4428-bf78-fdd257fdb6d8" width="300" alt="GlobalClimateLens" />
-
-**Earth-observation analytics for long-term environmental change**
-
-First research case: **Banni Grasslands, Kutch, Gujarat, India (2001 to 2024)**
-
-[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-build-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Google Earth Engine](https://img.shields.io/badge/Google%20Earth%20Engine-data-4285F4?logo=google&logoColor=white)](https://earthengine.google.com/)
-
-[![Study period](https://img.shields.io/badge/study%20period-2001%20to%202024-2E7D32)](#-project-status)
-[![Data](https://img.shields.io/badge/data-NASA%20MODIS%20%7C%20GPM%20IMERG%20%7C%20GLDAS%20%7C%20Landsat-0B3D91)](docs/DATASETS.md)
-[![Tests](https://img.shields.io/badge/tests-pytest%20%7C%20Vitest%20%7C%20Playwright-6E9F18)](#6-tests)
-[![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)](#7-docker-optional)
-
-</div>
-
----
-
 <div align="center">
 
 <img src="https://github.com/user-attachments/assets/3ddc6615-d9dc-4428-bf78-fdd257fdb6d8" width="300" alt="GlobalClimateLens" />
@@ -112,5 +87,4 @@ Full item-by-item status: [docs/FINAL_COMPLETION_REPORT.md](docs/FINAL_COMPLETIO
 
 **Team Aryavart** — NASA Space Apps 2026 · Earth System Trend Detective
 
-</div><img width="1600" height="723" alt="arch-system" src="https://github.com/user-attachments/assets/bdbfc5d4-7283-4d52-a216-460411985585" />
-<img width="1680" height="623" alt="arch-pipeline" src="https://github.com/user-attachments/assets/ab27eb63-98fd-4cf1-8c81-b87eecb4cb52" />
+</div>
