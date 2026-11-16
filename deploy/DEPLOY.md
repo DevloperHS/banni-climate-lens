@@ -1,6 +1,6 @@
 # Azure deploy cheat sheet (Student account)
 
-## Naam yaad rakho
+## Names to remember
 - Resource group: banni-rg
 - Container app: banni-app
 - Environment: banni-env
@@ -9,18 +9,18 @@
 - Image: bannilens32078.azurecr.io/banni-climate-lens:<tag>
 - URL: https://banni-app.livelygrass-8df5f932.centralindia.azurecontainerapps.io
 
-## Student account ki 4 zaroori baatein
-1. `az acr build` yahan kaam nahi karta (TasksOperationsNotAllowed). Image local docker se build karke push karo.
-2. Har deploy par NAYA tag use karo (v5, v6...). Purana tag dobara mat do.
-3. Build mein `--provenance=false --sbom=false` lagao, warna Container Apps image "not found" bol sakta hai.
-4. Terminal mein EK BAAR MEIN EK HI BLOCK paste karo. `az login` ke "Select a subscription" prompt par sirf Enter dabao, warna paste kiye commands "Invalid selection" bankar kho jaate hain.
+## 4 things that matter on a Student account
+1. `az acr build` does not work here (TasksOperationsNotAllowed). Build the image locally with docker and push it.
+2. Use a NEW tag on every deploy (v5, v6...). Never reuse an old tag.
+3. Add `--provenance=false --sbom=false` to the build, otherwise Container Apps may say the image is "not found".
+4. Paste ONLY ONE BLOCK AT A TIME in the terminal. At the `az login` "Select a subscription" prompt, just press Enter — otherwise pasted commands get swallowed as an "Invalid selection".
 
-## Naye Codespace mein pehli baar
-Azure CLI install:
+## First time in a new Codespace
+Install Azure CLI:
 
     curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
-Login (prompt aaye toh sirf Enter):
+Login (if prompted, just press Enter):
 
     az login --use-device-code
 
@@ -29,23 +29,23 @@ Check:
     az account show --query "{name:name, id:id}" -o table
     az acr list -g banni-rg --query "[0].name" -o tsv
 
-## Roz ka kaam: code badla, ab deploy karna hai
+## Daily work: code changed, now deploy
 
-1. Pehle code commit + push (specific folders add karo, `git add -A` nahi):
+1. First commit + push (add specific folders, not `git add -A`):
 
         cd /workspaces/banni-climate-lens
         git status --short
         git add frontend backend deploy
-        git commit -m "kya badla"
+        git commit -m "what changed"
         git push origin research-two-modes
 
-2. Deploy (naya tag do):
+2. Deploy (give a new tag):
 
         ./deploy/deploy.sh v5
 
-   Script yeh karta hai: tag check, docker build, ACR login, push, containerapp update, health check.
+   The script does: tag check, docker build, ACR login, push, containerapp update, health check.
 
-## Manual tareeka (script ke bina)
+## Manual way (without the script)
 
         ACR=bannilens32078
         docker build --provenance=false --sbom=false -t $ACR.azurecr.io/banni-climate-lens:v5 .
@@ -53,11 +53,11 @@ Check:
         az acr credential show -n $ACR --query "passwords[0].value" -o tsv | docker login $ACR.azurecr.io -u $ACR --password-stdin
         docker push $ACR.azurecr.io/banni-climate-lens:v5
 
-Push poora hone ke baad hi:
+Only after the push fully completes:
 
         az containerapp update -g banni-rg -n banni-app --image $ACR.azurecr.io/banni-climate-lens:v5
 
-## Deploy ke baad check
+## Check after deploy
 
     URL=https://banni-app.livelygrass-8df5f932.centralindia.azurecontainerapps.io
     curl -s $URL/api/health; echo
@@ -65,44 +65,44 @@ Push poora hone ke baad hi:
     curl -s -o /dev/null -w "reports: %{http_code}\n" $URL/reports
     az containerapp logs show -g banni-rg -n banni-app --tail 100 | grep -iE "Traceback|500"
 
-Phir browser mein Ctrl+Shift+R karo. Azure par purana CSS/JS cache mein reh jata hai.
+Then do Ctrl+Shift+R in the browser. Azure keeps old CSS/JS in cache.
 
 Expected:
 - health: "status":"ok", "auth_required_for_writes":true
 - x-frame-options: SAMEORIGIN, frame-ancestors 'self'
-- /reports: 200, logs mein Traceback nahi
+- /reports: 200, no Traceback in logs
 
-## Rollback (naya version kharab nikla)
+## Rollback (new version turned out bad)
 
     az acr repository show-tags -n bannilens32078 --repository banni-climate-lens -o tsv
     az containerapp update -g banni-rg -n banni-app --image bannilens32078.azurecr.io/banni-climate-lens:v2
 
-(v2 ki jagah koi purana kaam karta hua tag likho.)
+(Replace v2 with any older tag that works.)
 
-## Galtiyan jo pehle ho chuki hain
-- `az acr build` -> TasksOperationsNotAllowed. Local build+push karo.
-- Failed `update` app ke template mein kharab tag likh deta hai. Chalta revision serve hota rehta hai, par agla badlav usi tag par atakta hai. Pehle `update` se known-good tag wapas lagao.
-- Paste ke beech commands prompt mein ghus gaye -> `500`, `banni-test`, `leep 15` jaisi stray files ban gayi. `git add -A` ki jagah specific folders add karo.
-- Variable khaali hona ($ACR) -> "expected one argument" error. Pehle `echo $ACR` karo, khaali ho toh:
+## Mistakes that have already happened
+- `az acr build` -> TasksOperationsNotAllowed. Build + push locally instead.
+- A failed `update` writes a bad tag into the app's template. The running revision keeps serving, but the next change gets stuck on that tag. First run `update` to put a known-good tag back.
+- Commands slipping in between pastes -> `500`, `banni-test`, `leep 15` and other stray files got created. Add specific folders instead of `git add -A`.
+- An empty variable ($ACR) -> "expected one argument" error. First run `echo $ACR`; if it's empty:
 
         ACR=$(az acr list -g banni-rg --query "[0].name" -o tsv)
 
 ## Token (secret `gcl-token`)
-Lambai check (token dikhe bina, ~49 aana chahiye):
+Length check (without printing the token, should be about 49):
 
     az containerapp secret show -g banni-rg -n banni-app --secret-name gcl-token --query value -o tsv | wc -c
 
-Naya token banana:
+Create a new token:
 
     az containerapp secret set -g banni-rg -n banni-app --secrets gcl-token=$(openssl rand -hex 24)
     az containerapp update -g banni-rg -n banni-app --revision-suffix r$RANDOM
 
-Token ya password kabhi chat, GitHub issue ya screenshot mein mat bhejo.
+Never send a token or password in chat, a GitHub issue, or a screenshot.
 
-## Credit bachana
-- `--min-replicas 1` ka matlab app hamesha chalta hai aur credit khata hai.
-- Kuch din kaam nahi hai: `az containerapp update -g banni-rg -n banni-app --min-replicas 0`
-- Demo/submission ke baad sab hatao: `az group delete -n banni-rg --yes`
+## Saving credit
+- `--min-replicas 1` means the app always runs and keeps spending credit.
+- Nothing to do for a few days: `az containerapp update -g banni-rg -n banni-app --min-replicas 0`
+- After the demo/submission, remove everything: `az group delete -n banni-rg --yes`
 
 ## Auto-deploy (GitHub Actions)
-`.github/workflows/deploy.yml` abhi nahi hai. Banate waqt `az acr build` nahi, docker build + push use karna. `workflow_dispatch` ka button tabhi dikhega jab file main branch par ho.
+`.github/workflows/deploy.yml` does not exist yet. When creating it, use docker build + push, not `az acr build`. The `workflow_dispatch` button only shows once the file is on the main branch.
