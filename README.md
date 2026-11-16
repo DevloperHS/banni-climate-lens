@@ -1,11 +1,12 @@
- <div align="center">
-#GlobalClimateLens
+<div align="center">
 
-Earth-observation analytics for long-term environmental change
+<img src="https://github.com/user-attachments/assets/3ddc6615-d9dc-4428-bf78-fdd257fdb6d8" width="300" alt="GlobalClimateLens" />
 
+# **GlobalClimateLens**
 
-# <img width="300" height="220" alt="globe_earth_lens_grip" src="https://github.com/user-attachments/assets/3ddc6615-d9dc-4428-bf78-fdd257fdb6d8" />
-First research case: **Banni Grasslands, Kutch, Gujarat, India (2001 to 2024)
+**Earth-observation analytics for long-term environmental change**
+
+First research case: **Banni Grasslands, Kutch, Gujarat, India (2001 to 2024)**
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
