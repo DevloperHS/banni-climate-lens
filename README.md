@@ -1,15 +1,6 @@
 <div align="center">
 
-<<<<<<< HEAD
-<!-- live-link -->
-**Live app:** https://banni-app.livelygrass-8df5f932.centralindia.azurecontainerapps.io  
-**Deploy guide:** [deploy/DEPLOY.md](deploy/DEPLOY.md)
-<!-- /live-link -->
-
-Earth-observation analytics for long-term environmental change. First research case: **Banni Grasslands, Kutch, Gujarat (2001-2024)**.
-=======
 # 🌍 GlobalClimateLens
->>>>>>> origin/main
 
 **Earth-observation analytics for long-term environmental change**
 
@@ -42,34 +33,6 @@ Select a region and period, retrieve satellite-derived series from **Google Eart
 
 ## 📑 Contents
 
-<<<<<<< HEAD
-| Area | State |
-|---|---|
-| Frontend (11 pages), backend API, statistics engine, pixel analysis, exports, reports | Implemented and tested (see *Tests*) |
-| Earth Engine extraction (`backend/app/gee/extract.py`) | Implemented. Stored series include `retrieval_date` and `kind=observed`; the repository has no independent Earth Engine execution log. |
-| Stored Banni series | Stored under `data/processed/` (git-ignored). `python -m app.cli reproduce` reproduces all 9 handover figures from the stored series. |
-| Trend dashboards (`/dashboards`) | Rain and Green, Water and Heat, Where It Changed: one map and one year slider, a result card per factor, a 'before you trust this' box and a sources panel, all computed from stored data (`/api/dashboards/{id}`). |
-| Handover reproduction | Implemented (`/api/statistics/handover-reproduction`); all 9 handover figures reproduce from the real data (`python -m app.cli reproduce`). |
-| Aqua / EVI checks (brief s.7) | Aqua NDVI (`MODIS/061/MYD13Q1`) and Terra EVI (`MOD13Q1`) extracted with the handover protocol; trend and rain-removed tests repeated over the common years 2002-2024 (`python -m app.cli checks`, `/api/statistics/sensor-index-checks`, *Sensor and index checks* panel on Rain and Green). On the real data both agree with Terra NDVI in the monsoon and the dry season. |
-| Geometry | Handover rectangle (9,751 km2) used; **no verified grassland polygon found** - support for supplying one is built. |
-| Landsat species-level classification | **Not attempted** (no ground-truth labels). Landsat NDVI comparison with MODIS is implemented. |
-| Groundwater | No automatic CGWB/India-WRIS download (the portal requires a sign-in with CAPTCHA); measured levels are analysed from a CSV upload (`lat`/`lon` columns place wells on the Water and Heat map). |
-| Salinity | No satellite product integrated; reported as such in the UI. |
-| Final phase (security, pipeline, report generator, new analyses, deployment assets) | Implemented and tested; see `docs/FINAL_COMPLETION_REPORT.md` for item-by-item status (COMPLETE / BLOCKED / NOT IMPLEMENTED) |
-| Database | File-based store (JSON + GeoTIFF) rather than PostgreSQL/PostGIS; see `docs/ARCHITECTURE.md`. |
-
-## Known limitations
-
-- The analysis window is a rectangle, not a verified Banni grassland polygon: 23.20–23.95 °N, 68.80–69.95 °E (about 9,751 km²).
-- No groundwater/well observations are included in the repository.
-- `handover_water_table_*.json` contains ET and GLDAS soil moisture, not wells or depth-to-water.
-- Salinity is an unvalidated SI1 proxy, not field-EC data.
-- NDVI cannot distinguish *Prosopis* from native grass.
-- The headline trend uses `ndvi` (no SummaryQA filter and no water mask).
-- Demonstration mode is off by default.
-
-## Quick start (Windows PowerShell; adapt paths on macOS/Linux)
-=======
 - [How it works](#-how-it-works)
 - [Project status](#-project-status)
 - [Commands](#-commands)
@@ -150,7 +113,6 @@ cd banni-climate-lens
 ### 2. Install
 
 **Requirements:** Python 3.11+ and Node 20+.
->>>>>>> origin/main
 
 ```powershell
 python -m venv .venv
@@ -392,29 +354,3 @@ The app is then served on <http://127.0.0.1:8000>. See [`docs/DEPLOYMENT.md`](do
 ├── data-templates/      CSV templates for wells, field EC and ground truth
 └── docs/                documentation
 ```
-
-<!-- deploy-section -->
-## Run with Docker
-
-    docker build -t banni-climate-lens:local .
-    docker run --rm -d --name banni-test -p 8001:8000 -e GCL_API_TOKEN=change-me banni-climate-lens:local
-
-Open http://localhost:8001. The container serves the React frontend, the static pages (`/overview/`, `/report/`, `/methodology/`) and the API from one origin. Writes to the API need the `GCL_API_TOKEN` bearer token.
-
-## Deploy to Azure (Container Apps)
-
-Live app: https://banni-app.livelygrass-8df5f932.centralindia.azurecontainerapps.io
-
-The app runs on Azure Container Apps (`banni-app` in resource group `banni-rg`, region `centralindia`) with the image stored in Azure Container Registry. On an Azure for Students subscription `az acr build` is blocked (`TasksOperationsNotAllowed`), so the image is built locally and pushed:
-
-    az login --use-device-code
-    ./deploy/deploy.sh v5
-
-Use a new tag for every deploy. The script builds with `--provenance=false --sbom=false`, pushes to ACR, updates the container app and runs a health check. See `deploy/DEPLOY.md` for the full cheat sheet, rollback steps and known pitfalls.
-
-## Security notes
-
-- Responses carry `X-Frame-Options: SAMEORIGIN` and a Content-Security-Policy with `frame-ancestors 'self'`, so the app can embed its own pages in iframes and nothing else can.
-- The static pages (`/overview/`, `/report/`, `/methodology/`) have a CSP that allows their one inline script. All other routes use `script-src 'self'`.
-- The API token is stored as the Container App secret `gcl-token`. Never commit it.
-<!-- /deploy-section -->
