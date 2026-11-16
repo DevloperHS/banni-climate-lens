@@ -17,7 +17,7 @@ interface Props {
   basemap: Basemap;
   onClick?: (lat: number, lon: number) => void;
   marker?: { lat: number; lon: number } | null;
-  height?: number;
+  height?: number | string;
   onCursor?: (lat: number, lon: number) => void;
   points?: MapPoint[];
 }

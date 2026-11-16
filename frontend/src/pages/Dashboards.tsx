@@ -64,22 +64,13 @@ function YearControl({ years, year, setYear }: { years: number[]; year: number; 
   );
 }
 
-/** Rain drawn over the map; drop count and speed scale with the selected year's monsoon total within the record's range. */
-function RainOverlay({ intensity }: { intensity: number | null }) {
-  const drops = useMemo(() => Array.from({ length: 140 }, (_, i) => ({ left: (i * 37.3) % 100, delay: ((i * 0.618) % 1) * 1.4, len: 14 + ((i * 7) % 12) })), []);
-  if (intensity === null) return null;
-  const n = Math.round(8 + intensity * 132);
-  const dur = 1.25 - intensity * 0.6;
-  return (
-    <div className="rain-layer" aria-hidden="true" data-testid="rain" data-drops={n}>
-      {drops.slice(0, n).map((d, i) => (
-        <span key={i} className="rain-drop" style={{ left: `${d.left}%`, height: d.len, animationDuration: `${dur}s`, animationDelay: `${d.delay}s` }} />
-      ))}
-    </div>
-  );
-}
-
 /* ------------------------------------------------------------------ result cards */
+
+const RAINFALL_NOTE = "This indicates the trend is (or is not) explained by rainfall alone within this simple model; it does not identify the cause or the vegetation type.";
+
+function withoutRainfallNote(text: string) {
+  return text.replace(RAINFALL_NOTE, "").replace(/\s{2,}/g, " ").trim();
+}
 
 function ResultCard({ c }: { c: DashCard }) {
   const tone = c.direction === "increasing" ? "var(--green)" : c.direction === "decreasing" ? "var(--amber)" : "var(--muted)";
@@ -105,26 +96,30 @@ function ResultCard({ c }: { c: DashCard }) {
           {c.p !== undefined && (
             <div>
               <span className="muted">p = </span>
-              <b className="font-mono text-[var(--text)]">{fmtP(c.p)}</b>{" "}
-              <span className="muted">· n={c.n} · {c.period}</span>
+              <b className="font-mono text-[var(--text)]">{fmtP(c.p)}</b>
             </div>
           )}
-          {c.year_term && (
+        </>
+      ) : (
+        <>
+          <div className="font-semibold text-[var(--amber)]">Not available</div>
+        </>
+      )}
+      <details className="pt-1 border-t border-[var(--border)]">
+        <summary className="cursor-pointer muted">Details</summary>
+        <div className="pt-2 space-y-1">
+          {c.available && c.year_term && (
             <div className="muted">
               Second method (… ~ rain + year): <span className="font-mono text-[var(--text)]">{c.year_term.coef >= 0 ? "+" : ""}{fmt(c.year_term.coef, 4)}</span>/yr,
               p = <span className="font-mono text-[var(--text)]">{fmtP(c.year_term.p)}</span>
             </div>
           )}
-          <div className="muted font-mono text-[10.5px] pt-1 border-t border-[var(--border)] break-all">{c.dataset}</div>
+          {c.available && <div className="muted text-[10.5px]">n={c.n} · {c.period}</div>}
+          {!c.available && <p className="muted leading-relaxed">{c.reason}</p>}
+          <div className="muted font-mono text-[10.5px] break-all">{c.dataset}</div>
           <div className="muted text-[10.5px]">{c.test}</div>
-        </>
-      ) : (
-        <>
-          <div className="font-semibold text-[var(--amber)]">Not available</div>
-          <p className="muted leading-relaxed">{c.reason}</p>
-          <div className="muted font-mono text-[10.5px] pt-1 border-t border-[var(--border)] break-all">{c.dataset}</div>
-        </>
-      )}
+        </div>
+      </details>
     </div>
   );
 }
@@ -177,7 +172,7 @@ function RainGreenPanels({ d, year, meta }: { d: Dashboard; year: number; meta: 
               <ChartFrame title={`NDVI (${c.aggregation === "summer" ? "dry season, Mar–May" : "monsoon, Jun–Sep"})`} meta={meta} filename={`${c.key}_${c.aggregation}_gap`} height={250}>
                 <GapChart years={c.series.years} observed={c.series.observed} predicted={c.series.predicted} unit="NDVI" markYear={year} obsName="Actual NDVI" predName="Predicted from rainfall" />
               </ChartFrame>
-              {c.verdict && <p className="text-xs sm:text-sm text-[var(--text-2)]"><b className="text-[var(--text)]">Result.</b> {c.verdict}</p>}
+              {c.verdict && <p className="text-xs sm:text-sm text-[var(--text-2)]"><b className="text-[var(--text)]">Result.</b> {withoutRainfallNote(c.verdict)}</p>}
               {c.r2_rain !== undefined && <p className="muted text-xs">Rainfall explains R² = <span className="font-mono">{fmt(c.r2_rain, 2)}</span> of the year-to-year variation.</p>}
             </div>
           ) : (
@@ -219,9 +214,10 @@ function SensorIndexChecksPanel({ checks }: { checks: Dashboard["checks"] }) {
   return (
     <Panel
       title="Sensor and index checks"
-      subtitle={`Same tests on a second satellite (Aqua) and a second index (EVI), all over ${c.period}. ${c.note}`}
+      subtitle={`Same tests on a second satellite (Aqua) and a second index (EVI), all over ${c.period}.`}
     >
       <div className="space-y-5" data-testid="sensor-checks">
+        {c.seasons[0]?.agreement.text && <p className="text-xs sm:text-sm text-[var(--text-2)]">{c.seasons[0].agreement.text}</p>}
         {c.seasons.map((s) => (
           <div key={s.season} className="space-y-2">
             <div className="flex flex-wrap items-center justify-between gap-2">
@@ -257,7 +253,6 @@ function SensorIndexChecksPanel({ checks }: { checks: Dashboard["checks"] }) {
                 </tbody>
               </table>
             </div>
-            <p className="text-xs sm:text-sm text-[var(--text-2)]">{s.agreement.text}</p>
           </div>
         ))}
         {c.terra_aqua_monsoon && (
@@ -407,16 +402,6 @@ export default function Dashboards() {
     return [{ id: "dash", visible: true, opacity, bounds: layer.bounds, url: downloadUrl("/spatial/layer.png", { region: sc.region, source: sc.source, variable: layer.variable, season: layer.season, year: layerYear }) }];
   }, [d, layer, layerYear, mapMode, opacity, sc.region, sc.source, sc.start, sc.end]);
 
-  const rain = d?.yearly.columns["precip:monsoon"];
-  const intensity = useMemo(() => {
-    if (!d || d.id !== "rain_green" || !rain) return null;
-    const vals = rain.filter((v): v is number => v !== null);
-    const v = rain[d.yearly.years.indexOf(year)];
-    if (v === null || v === undefined || !vals.length) return null;
-    const lo = Math.min(...vals), hi = Math.max(...vals);
-    return hi > lo ? (v - lo) / (hi - lo) : 0.5;
-  }, [d, rain, year]);
-
   const wells: MapPoint[] = useMemo(() => {
     const w = d?.cards.find((c) => c.key === "groundwater")?.wells ?? [];
     return w.filter((x) => x.lat !== null && x.lon !== null).map((x) => ({
@@ -468,7 +453,6 @@ export default function Dashboards() {
                   >
                     <div className="relative">
                       <MapView boundary={region?.boundary} overlays={overlays} basemap={basemap} height={460} points={dd.id === "water_heat" ? wells : undefined} />
-                      {dd.id === "rain_green" && <RainOverlay intensity={intensity} />}
                     </div>
                   </MapPanel>
 
@@ -524,8 +508,9 @@ export default function Dashboards() {
                 )}
                 {dd.id === "where_changed" && <WhereChangedPanels d={dd} year={year} meta={w.meta} />}
 
-                <TrustBox limits={dd.limits} />
+                <TrustBox limits={dd.limits.slice(0, 4)} />
                 <Sources items={dd.sources} />
+                <p className="muted text-xs">{RAINFALL_NOTE}</p>
               </>
             );
           }}

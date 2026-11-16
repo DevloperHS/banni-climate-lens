@@ -24,6 +24,8 @@ backups/
 # local tooling
 .claude/
 *.log
+*.bak*
+deploy/DEPLOY.md
 
 # Prosopis RF research: imagery chips cut from Esri World Imagery (not redistributable); regenerate with 02_make_chips.py
 research/prosopis_rf/labelling/sheets/

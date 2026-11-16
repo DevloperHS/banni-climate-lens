@@ -1,0 +1,38 @@
+name: Deploy to Azure Container Apps
+on:
+  push:
+    branches: [main, research-two-modes]
+  workflow_dispatch:
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+env:
+  IMAGE: banni-climate-lens
+  APP: banni-app
+  RG: banni-rg
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Azure login
+        env:
+          AZ_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        run: |
+          az login --service-principal -u 64148ec9-1672-48f1-8154-9268bbf3e095 -p "$AZ_SECRET" --tenant 6b93996a-aa0d-44c4-88a5-8d62171066c8
+          az account set --subscription b87ff7b3-4883-4407-8aee-e17fb5d6bf6d
+      - name: Build and push image
+        run: |
+          az acr login -n bannilens32078
+          IMG=bannilens32078.azurecr.io/$IMAGE:${{ github.sha }}
+          docker build -t $IMG .
+          docker push $IMG
+      - name: Update container app
+        run: |
+          az containerapp update -n $APP -g $RG \
+            --image bannilens32078.azurecr.io/$IMAGE:${{ github.sha }}
+      - name: Health check
+        run: |
+          sleep 30
+          FQDN=$(az containerapp show -n $APP -g $RG --query properties.configuration.ingress.fqdn -o tsv)
+          curl -fsS https://$FQDN/api/health

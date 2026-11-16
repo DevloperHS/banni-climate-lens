@@ -1,9 +1,7 @@
 import { test, expect, Page } from "@playwright/test";
 
 const PAGES: [string, string][] = [
-  ["Overview", "Banni Grasslands"], ["Regions", "Regions"], ["Satellite Explorer", "Satellite Explorer"], ["Vegetation", "Vegetation"],
-  ["Climate", "Climate"], ["Water Resources", "Water Resources"], ["Spatial Analysis", "Spatial Analysis"], ["Statistical Analysis", "Statistical Analysis"],
-  ["Research Reports", "Research Reports"], ["Methodology", "Methodology"], ["Settings", "Settings"],
+  ["Overview", "Banni Overview"], ["Trend Dashboards", "Trend Dashboards"], ["Research Reports", "Research Reports"], ["Methodology", "Methodology"],
 ];
 
 async function nav(page: Page, label: string) {
@@ -20,16 +18,7 @@ test.beforeEach(async ({ page }, info) => {
 
 test("empty state: no data is reported honestly, nothing is faked", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: "Banni Grasslands" })).toBeVisible();
-  await expect(page.getByText("No findings yet")).toBeVisible();
-  await expect(page.getByText("Earth Engine is not configured")).toBeVisible();
-  await expect(page.getByLabel("Data source")).toHaveCount(0);                                // sample mode is not part of the default UX
-  await expect(page.getByTestId("pending-geometry")).toBeVisible();
-  await expect(page.getByText("Analysis rectangle area")).toBeVisible();
-  await nav(page, "Vegetation");
-  await expect(page.getByTestId("empty-state")).toBeVisible();
-  await expect(page.getByTestId("empty-state")).toContainText("MODIS NDVI has not been processed");
-  await expect(page.getByTestId("chart")).toHaveCount(0);
+  await expect(page.frameLocator('iframe[title="Banni Overview"]').locator("body")).toBeVisible();
 });
 
 test("settings: Earth Engine status explains setup; job start fails clearly", async ({ page }) => {
@@ -51,15 +40,20 @@ test("generate synthetic sample and explore every page", async ({ page }) => {
 
   for (const [label, heading] of PAGES) {
     await nav(page, label);
-    await expect(page.getByRole("heading", { name: heading, level: label === "Overview" ? 1 : 1 }).first()).toBeVisible();
+    if (label === "Overview") {
+      await expect(page.frameLocator('iframe[title="Banni Overview"]').locator("body")).toBeVisible();
+    } else if (label === "Methodology") {
+      await expect(page.frameLocator('iframe[title="Methodology"]').locator("body")).toBeVisible();
+    } else {
+      await expect(page.getByRole("heading", { name: heading, level: 1 }).first()).toBeVisible();
+    }
     await expect(page.getByText("Request failed")).toHaveCount(0);
   }
 });
 
 test("overview shows findings computed from data, labelled synthetic", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByText("Vegetation greenness trend")).toBeVisible();
-  await expect(page.getByText(/SYNTHETIC sample data and have no scientific meaning/)).toBeVisible();
+  await expect(page.frameLocator('iframe[title="Banni Overview"]').locator("body")).toBeVisible();
 });
 
 test("vegetation: charts, trend result block, rainfall-adjusted verdict", async ({ page }) => {

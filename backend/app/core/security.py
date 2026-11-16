@@ -38,7 +38,10 @@ def require_write(authorization: str | None = Header(default=None)) -> None:
 # 'unsafe-inline' only because React/Recharts emit style attributes; it does not allow inline <script>.
 CSP = ("default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; "
        "img-src 'self' data: blob: https://tile.openstreetmap.org https://server.arcgisonline.com; font-src 'self'; connect-src 'self'; "
-       "object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'")
+       "object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'")
+# Our own static pages (iframed by the React app) use one inline <script>; allow it only on these paths.
+CSP_STATIC = CSP.replace("script-src 'self';", "script-src 'self' 'unsafe-inline';")
+STATIC_PAGES = ("/overview/", "/report/", "/methodology/")
 CSP_EXEMPT = ("/docs", "/redoc", "/openapi.json")       # Swagger UI loads scripts from a CDN and uses inline script
 
 
@@ -46,9 +49,9 @@ class SecurityHeaders(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
         resp = await call_next(request)
         if not request.url.path.startswith(CSP_EXEMPT):
-            resp.headers.setdefault("Content-Security-Policy", CSP)
+            resp.headers.setdefault("Content-Security-Policy", CSP_STATIC if request.url.path.startswith(STATIC_PAGES) else CSP)
         resp.headers.setdefault("X-Content-Type-Options", "nosniff")
-        resp.headers.setdefault("X-Frame-Options", "DENY")
+        resp.headers.setdefault("X-Frame-Options", "SAMEORIGIN")
         resp.headers.setdefault("Referrer-Policy", "no-referrer")
         resp.headers.setdefault("Permissions-Policy", "geolocation=(), camera=(), microphone=()")
         if request.url.path.startswith("/api/"):
