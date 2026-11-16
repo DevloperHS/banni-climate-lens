@@ -1,11 +1,6 @@
 <div align="center">
-
-# <img width="420" height="300" alt="globe_earth_lens_grip" src="https://github.com/user-attachments/assets/3ddc6615-d9dc-4428-bf78-fdd257fdb6d8" />
-
-
 # GlobalClimateLens
-GlobalClimateLens
-
+# <img width="420" height="300" alt="globe_earth_lens_grip" src="https://github.com/user-attachments/assets/3ddc6615-d9dc-4428-bf78-fdd257fdb6d8" />
 **Earth-observation analytics for long-term environmental change**
 
 First research case: **Banni Grasslands, Kutch, Gujarat, India (2001 to 2024)**
