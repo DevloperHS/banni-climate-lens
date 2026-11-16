@@ -62,18 +62,19 @@ All 11 platform pages consume unified, reusable primitives:
 ### 3.2 Overview (Mission Landing Dashboard)
 - **Study Area Map**: Displays the Banni Grasslands reference boundary in Kutch, Gujarat with Satellite, Streets, and Grid basemaps.
 - **Core Research Question**: Features an executive framing callout defining the 24-year eco-hydrological investigation.
-- **Four Validated Research KPIs**:
-  - MODIS NDVI 24-yr Trend: $+0.0019/\text{yr}$ ($p < 0.001$).
-  - Monsoon Precipitation: $+14.2\text{ mm}/\text{yr}$ ($p = 0.02$).
-  - Rainfall-Adjusted Trend: $+0.0011/\text{yr}$ ($p = 0.004$), proving greening persists beyond rainfall alone.
-  - Surface Temperature (LST): $+0.08^\circ\text{C}/\text{yr}$ ($p = 0.041$).
+- **Reproduced Research KPIs**:
+  - MODIS NDVI 24-yr Trend: $+0.00470/\text{yr}$ ($p = 0.0000277$; stored `ndvi`, `backend/app/services.py::build_insights`, `backend/app/science/stats.py::trend_report`).
+  - Monsoon NDVI: $+0.00495/\text{yr}$ ($p = 0.0000627$; `backend/app/science/handover.py::handover_annual`).
+  - Monsoon Precipitation: $+15.7\text{ mm}/\text{yr}$ ($p = 0.056$, not significant at 0.05; `backend/app/science/handover.py::handover_annual`).
+  - Rainfall-Adjusted NDVI: $+0.0017/\text{yr}$ ($p = 0.0059$; Hamed-Rao MK + Sen on the OLS residual, `backend/app/science/handover.py::handover_annual`).
+  - Surface Temperature (LST): $-0.0932^\circ\text{C}/\text{yr}$ ($p = 0.00920$; stored `lst_day`, `backend/app/services.py::build_insights`, `backend/app/science/stats.py::trend_report`).
 - **Integrated Findings**: Time-series charts for NDVI, rainfall regression, evapotranspiration, root-zone soil moisture, and a complete dataset catalogue table.
 
 ### 3.3 Regions (Geospatial Centerpiece)
 - **Map-Centric Architecture**: Redesigned so that an interactive Leaflet canvas occupies **68% of the viewport width** (600px height).
 - **Cartographic Honesty**:
   - Distinguishes between the **Reference Bounding Box Area** ($9,751\text{ km}^2$) and the **Actual Grassland Area** ($2,497\text{ km}^2$).
-  - Displays bounding coordinates: $23.30^\circ\text{N}–23.85^\circ\text{N}, 69.10^\circ\text{E}–70.50^\circ\text{E}$.
+  - The stale/unused alternate box ($23.30$–$23.85^\circ$N, $69.10$–$70.50^\circ$E) is not the analysis box. The active box is $23.20$–$23.95^\circ$N, $68.80$–$69.95^\circ$E (about $9,751\text{ km}^2$).
   - Clearly badges the status: *Grassland polygon pending (Requires formal Survey of India / Forest Department digital boundary)*.
 
 ### 3.4 Satellite Explorer (Earth Observation Workspace)

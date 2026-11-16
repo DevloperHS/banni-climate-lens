@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Banni Overview</title>
+<style>
+  :root { box-sizing: border-box; --ui: rgba(8, 16, 28, 0.72); --txt: #e8f1f8; --mut: #9fb3c8; --acc: #5fd3a3; }
+  *, *::before, *::after { box-sizing: inherit; }
+  html, body { height: 100%; margin: 0; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: #0b1220; color: var(--txt); overflow: hidden; position: relative; }
+  canvas#scene { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+  .info { position: fixed; top: 14px; left: 14px; z-index: 3; background: var(--ui); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 12px 16px; min-width: 230px; max-width: calc(100vw - 28px); }
+  .info .year { font-size: 46px; font-weight: 300; line-height: 1; letter-spacing: 1px; }
+  .info .mode { font-size: 11px; color: var(--acc); text-transform: uppercase; letter-spacing: 1.4px; margin-top: 4px; }
+  .kv { display: grid; grid-template-columns: auto auto; gap: 3px 14px; margin-top: 10px; font-size: 13px; }
+  .kv b { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .kv span { color: var(--mut); }
+  .note { margin-top: 8px; font-size: 11px; color: var(--mut); line-height: 1.45; max-width: 270px; min-height: 16px; }
+
+  .legend { position: fixed; top: 14px; right: 14px; z-index: 3; background: var(--ui); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 10px 12px; font-size: 11px; color: var(--mut); width: 190px; }
+  .legend .bar { height: 10px; border-radius: 5px; margin: 6px 0 4px; }
+  .legend .ends { display: flex; justify-content: space-between; font-variant-numeric: tabular-nums; }
+
+  #tip { position: fixed; z-index: 4; pointer-events: none; display: none; background: rgba(8,16,28,0.86); color: #fff; border: 1px solid rgba(255,255,255,0.14); border-radius: 10px; padding: 8px 11px; font-size: 12px; line-height: 1.45; max-width: 240px; box-shadow: 0 6px 20px rgba(0,0,0,0.35); }
+  #tip b { display: block; font-size: 13px; margin-bottom: 2px; }
+  #tip small { color: var(--mut); }
+
+  .controls { position: fixed; left: 0; right: 0; bottom: 0; z-index: 3; padding: 10px 14px calc(env(safe-area-inset-bottom, 0px) + 10px); background: linear-gradient(to top, rgba(6,12,22,0.92), rgba(6,12,22,0.55)); backdrop-filter: blur(8px); display: grid; gap: 8px; }
+  .row { display: flex; align-items: center; gap: 10px; font-size: 13px; flex-wrap: wrap; }
+  .row input[type=range] { flex: 1; min-width: 140px; accent-color: var(--acc); }
+  button, .toggle { background: rgba(255,255,255,0.12); color: var(--txt); border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; padding: 7px 14px; font-size: 13px; cursor: pointer; user-select: none; }
+  button:disabled { opacity: 0.45; cursor: default; }
+  button:active { background: rgba(255,255,255,0.25); }
+  .toggle.on { background: rgba(95,211,163,0.22); border-color: var(--acc); color: #d9fff0; }
+  .strip { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px; height: 22px; margin-bottom: 12px; }
+  .strip div { border-radius: 3px; cursor: pointer; position: relative; transition: background 0.4s; background: rgba(255,255,255,0.08); }
+  .strip div.sel { outline: 2px solid #fff; outline-offset: 1px; }
+  .strip div::after { content: attr(data-y); position: absolute; top: 100%; left: 50%; transform: translateX(-50%); font-size: 9px; color: var(--mut); margin-top: 2px; }
+  .src { font-size: 10px; color: #6f839a; line-height: 1.4; min-height: 12px; }
+  @media (max-width: 560px) {
+    .info .year { font-size: 36px; }
+    .legend { display: none; }
+    .strip div::after { display: none; }
+    .strip { margin-bottom: 2px; }
+  }
+</style>
+<style id="gcl-scrollbar">
+/* ---- Professional scrollbars ---- */
+html { scrollbar-gutter: stable; }
+*::-webkit-scrollbar { width: 14px; height: 14px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background-color: var(--border-hi, #94a3b8);
+  border: 3px solid transparent;
+  background-clip: content-box;
+  border-radius: 999px;
+  min-height: 48px;
+}
+*::-webkit-scrollbar-thumb:hover { background-color: #10b981; }
+*::-webkit-scrollbar-corner { background: transparent; }
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-width: auto; scrollbar-color: var(--border-hi, #94a3b8) transparent; }
+}
+
+/* scrollbar v2: visible on both themes */
+*::-webkit-scrollbar-track { background: rgba(148,163,184,.12); }
+*::-webkit-scrollbar-thumb { background-color: rgba(148,163,184,.6); }
+*::-webkit-scrollbar-thumb:hover { background-color: #10b981; }
+*::-webkit-scrollbar-button { display: none; }
+</style>
+</head>
+<body>
+<canvas id="scene"></canvas>
+<div id="tip"></div>
+
+<div class="info">
+  <div class="year" id="yr">—</div>
+  <div class="mode" id="modeLbl">Observed: rain + greenness</div>
+  <div class="kv">
+    <span>Monsoon rain</span><b id="rainV">—</b>
+    <span>NDVI</span><b id="ndviV">—</b>
+    <span>Rain-removed NDVI</span><b id="resV">—</b>
+    <span>Residual vs rain fit</span><b id="dV">—</b>
+  </div>
+  <div class="note" id="note"></div>
+</div>
+
+<div class="legend">
+  <div id="legT">Ground colour = NDVI</div>
+  <div class="bar" id="legBar"></div>
+  <div class="ends"><span id="legL">—</span><span id="legR">—</span></div>
+</div>
+
+<div class="controls">
+  <div class="strip" id="strip"></div>
+  <div class="row">
+    <button id="play" disabled>▶ Play</button>
+    <input id="year" type="range" min="0" max="0" value="0" step="1" disabled>
+    <span class="toggle" id="toggle">Remove rain effect</span>
+    <button id="zoom" title="Zoom ground">⤢ Zoom out</button>
+  </div>
+  <div class="src" id="src"></div>
+</div>
+
+<script>
+(function () {
+  /* ------------------------------------------------------------------------------------------------
+     DATA: nothing is hard-coded here. The page starts empty and fills when the backend provides:
+       series: [{ year, rain, ndvi }, ...]            rain = monsoon total (mm), ndvi = monsoon mean NDVI
+       meta  : { location, source, rainLabel, ndviLabel }   (all optional strings)
+       wind  : { speed, direction }                  optional wind speed (m/s) and meteorological direction (degrees)
+     Ways to feed it (any one):
+       1) ?src=/api/overview            -> GET returns {series, meta} or just the array
+       2) window.BANNI_SERIES_URL = '/api/overview' set before this script
+       3) parent page: iframe.contentWindow.postMessage({ type: 'banni:data', series: [...], meta: {...} }, '*')
+       4) window.banniOverview.setData({ series, meta, wind })
+  ------------------------------------------------------------------------------------------------ */
+  var DATA = [], META = { location: '', source: '', rainLabel: 'Monsoon rain', ndviLabel: 'NDVI' }, stats = null;
+  var WIND = { speed: 0, direction: 0 };
+  var Q = new URLSearchParams(location.search);
+  var SRC = Q.get('src') || window.BANNI_SERIES_URL || null;                      // single endpoint returning {series, meta}
+  var API = Q.get('api') || window.BANNI_API || '';                               // backend base, '' = same origin
+  var REGION = Q.get('region') || 'banni', AGG = Q.get('agg') || 'monsoon';
+  var VIEW_WIDE = { w: 68.55, e: 70.75, s: 22.98, n: 24.00 };
+  var VIEW_CLOSE = { w: 69.45, e: 69.85, s: 23.47, n: 23.75 };
+  var VIEW = { w: VIEW_WIDE.w, e: VIEW_WIDE.e, s: VIEW_WIDE.s, n: VIEW_WIDE.n };
+  var BANNI = [[69.15,23.60],[69.20,23.72],[69.35,23.78],[69.55,23.80],[69.75,23.79],[69.95,23.76],[70.10,23.70],[70.17,23.60],[70.10,23.50],[69.95,23.43],[69.75,23.40],[69.55,23.38],[69.35,23.40],[69.20,23.45]];
+  var KUTCH = [[68.55,23.70],[68.75,23.82],[69.0,23.86],[69.3,23.9],[69.7,23.92],[70.0,23.88],[70.3,23.9],[70.6,23.85],[70.9,23.75],[70.95,23.45],[70.8,23.15],[70.45,23.05],[70.2,23.0],[69.9,22.9],[69.6,22.82],[69.3,22.85],[69.0,22.95],[68.75,23.2],[68.55,23.45]];
+  var RANN = [[68.2,24.3],[71.2,24.3],[71.2,23.3],[70.95,23.45],[70.9,23.75],[70.6,23.85],[70.3,23.9],[70.0,23.88],[69.7,23.92],[69.3,23.9],[69.0,23.86],[68.75,23.82],[68.55,23.70],[68.2,23.75]];
+  var PLACES = [{ n: 'Bhuj', lon: 69.667, lat: 23.242 }, { n: 'Khavda', lon: 69.72, lat: 23.85 }];
+
+  // Default loader: the platform's own two timeseries endpoints, merged on year.
+  function loadFromApi() {
+    var u = function (g, v) { return API + '/api/' + g + '/timeseries?region=' + encodeURIComponent(REGION) + '&variable=' + v + '&agg=' + AGG; };
+    function checkedJson(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }
+    return Promise.all([fetch(u('vegetation', 'ndvi')).then(checkedJson),
+                        fetch(u('rainfall', 'precip')).then(checkedJson)])
+      .then(function (res) {
+        var a = res[0].result || {}, b = res[1].result || {};
+        if (!a.x || !b.x) throw new Error((res[0].error && res[0].error.message) || (res[1].error && res[1].error.message) || 'bad payload');
+        var rain = {}; b.x.forEach(function (y, i) { rain[y] = b.values[i]; });
+        var series = a.x.map(function (y, i) { return { year: y, ndvi: a.values[i], rain: rain[y] }; }).filter(function (d) { return d.rain != null && d.ndvi != null; });
+        var m0 = res[0].meta || {}, m1 = res[1].meta || {};
+        var ds = function (m) {
+          var x = m && m.dataset; if (!x) return '';
+          if (typeof x === 'string') return x;
+          if (Array.isArray(x)) return x.map(function (v) { return ds({ dataset: v }); }).filter(Boolean).join(' + ');
+          var keys = ['id', 'ee_id', 'dataset_id', 'collection', 'name', 'label', 'title', 'key'];
+          for (var i = 0; i < keys.length; i++) if (typeof x[keys[i]] === 'string' && x[keys[i]]) return x[keys[i]];
+          return '';
+        };
+        return { series: series, meta: {
+          location: (m0.region && (m0.region.label || m0.region.name)) || (REGION.charAt(0).toUpperCase() + REGION.slice(1)),
+          rainLabel: (b.aggregation || AGG) + ' rain', ndviLabel: 'NDVI (' + (a.aggregation || AGG) + ')',
+          source: [ds(m0), ds(m1)].filter(Boolean).join(' · ') + (a.unit ? '' : '') } };
+      });
+  }
+
+  function derive() {
+    var n = DATA.length; if (n < 3) { stats = null; return; }
+    var sx = 0, sy = 0, sxx = 0, sxy = 0, i;
+    for (i = 0; i < n; i++) { sx += DATA[i].rain; sy += DATA[i].ndvi; sxx += DATA[i].rain * DATA[i].rain; sxy += DATA[i].rain * DATA[i].ndvi; }
+    var mx = sx / n, my = sy / n, b = (sxy - n * mx * my) / (sxx - n * mx * mx), a = my - b * mx;
+    for (i = 0; i < n; i++) { DATA[i].res = DATA[i].ndvi - (a + b * DATA[i].rain); DATA[i].rr = my + DATA[i].res; }
+    var rains = DATA.map(function (d) { return d.rain; }), nd = DATA.map(function (d) { return d.ndvi; }), sl = [];
+    for (i = 0; i < n; i++) for (var j = i + 1; j < n; j++) if (DATA[j].year !== DATA[i].year) sl.push((DATA[j].res - DATA[i].res) / (DATA[j].year - DATA[i].year));
+    sl.sort(function (p, q) { return p - q; });
+    var xs = DATA.map(function (d) { return d.year; }), ys = DATA.map(function (d) { return d.ndvi; }), r = 0, vx = 0, vy = 0, mxx = sx / n;
+    var mr = rains.reduce(function (s, v) { return s + v; }, 0) / n;
+    for (i = 0; i < n; i++) { r += (rains[i] - mr) * (nd[i] - my); vx += (rains[i] - mr) * (rains[i] - mr); vy += (nd[i] - my) * (nd[i] - my); }
+    stats = { my: my, rMin: Math.min.apply(null, rains), rMax: Math.max.apply(null, rains), nMin: Math.min.apply(null, nd), nMax: Math.max.apply(null, nd), sen: sl[Math.floor(sl.length / 2)] || 0, corr: r / Math.sqrt(vx * vy || 1) };
+  }
+
+  // ---------- colours ----------
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function clamp01(t) { return Math.max(0, Math.min(1, t)); }
+  function mix(c1, c2, t) { return [lerp(c1[0], c2[0], t), lerp(c1[1], c2[1], t), lerp(c1[2], c2[2], t)]; }
+  function rgb(c, a) { return 'rgba(' + Math.round(c[0]) + ',' + Math.round(c[1]) + ',' + Math.round(c[2]) + ',' + (a == null ? 1 : a) + ')'; }
+  var DRY = [196, 170, 110], MID = [150, 160, 80], LUSH = [46, 128, 58];
+  function groundColor(t) { return t < 0.5 ? mix(DRY, MID, t * 2) : mix(MID, LUSH, (t - 0.5) * 2); }
+  function tOf(d, mode) { if (!stats) return 0.45; if (mode === 'obs') return clamp01((d.ndvi - stats.nMin) / (stats.nMax - stats.nMin || 1)); var span = 0.05; return clamp01((d.rr - (stats.my - span)) / (2 * span)); }
+
+  // ---------- scene ----------
+  var canvas = document.getElementById('scene'), ctx = canvas.getContext('2d');
+  var W, H, dpr, horizon, cloudStrip, stripW, tufts = [];
+  var drops = [], splashes = [], cloudX = 0;
+  var cur = { t: 0.45, rainT: 0.35, density: 0, px: 0 }, target = { t: 0.45, rainT: 0.35, px: 0 };
+  var zoom = { t: 0, target: 1, from: 0, start: 0, dur: 3600 };
+  var ZFAR = 1.7, SPREAD = 1.7, STRIPS = 140;
+  var flat = null, fx = null, comp = null, cx2 = null, mask = null, ovl = null;
+  var fw = 0, fh = 0, ox = 0, oy = 0, compT = -1;
+  var idx = -1, mode = 'obs', playing = false, lastStep = 0;
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+  function mk(w, h) { var c = document.createElement('canvas'); c.width = w * dpr; c.height = h * dpr; var x = c.getContext('2d'); x.setTransform(dpr, 0, 0, dpr, 0, 0); return { c: c, x: x }; }
+
+  function puff(x, cx, cy, rx, ry, style) {
+    x.save(); x.translate(cx, cy); x.scale(rx, ry);
+    var g = x.createRadialGradient(-0.22, -0.28, 0.04, 0, 0, 1);
+    if (style === 'shadow') { g.addColorStop(0, 'rgba(74,94,116,0.68)'); g.addColorStop(0.55, 'rgba(62,82,104,0.42)'); g.addColorStop(1, 'rgba(52,72,94,0)'); }
+    else if (style === 'mid') { g.addColorStop(0, 'rgba(205,220,234,0.85)'); g.addColorStop(0.58, 'rgba(162,184,204,0.55)'); g.addColorStop(1, 'rgba(135,160,184,0)'); }
+    else { g.addColorStop(0, 'rgba(250,253,255,0.95)'); g.addColorStop(0.52, 'rgba(222,234,245,0.72)'); g.addColorStop(1, 'rgba(188,208,226,0)'); }
+    x.fillStyle = g; x.beginPath(); x.arc(0, 0, 1, 0, Math.PI * 2); x.fill(); x.restore();
+  }
+  function buildClouds() {
+    stripW = W + 300;
+    var s = mk(stripW, 160), x = s.x, clusters = [], step = 135;
+    for (var i = 0; i < Math.ceil(stripW / step); i++) clusters.push({ cx: i * step + rnd(-22, 22), cy: rnd(46, 72), sc: rnd(0.75, 1.12) });
+    ['shadow', 'mid', 'light'].forEach(function (st) { clusters.forEach(function (c) { [-stripW, 0, stripW].forEach(function (off) { var bx = c.cx + off, k = c.sc;
+      if (st === 'shadow') { puff(x, bx, c.cy + 18 * k, 68 * k, 24 * k, st); puff(x, bx - 32 * k, c.cy + 20 * k, 46 * k, 19 * k, st); puff(x, bx + 34 * k, c.cy + 19 * k, 48 * k, 20 * k, st); }
+      else if (st === 'mid') { puff(x, bx - 36 * k, c.cy + 6 * k, 42 * k, 24 * k, st); puff(x, bx + 36 * k, c.cy + 7 * k, 44 * k, 23 * k, st); puff(x, bx, c.cy + 4 * k, 56 * k, 28 * k, st); }
+      else { puff(x, bx, c.cy - 8 * k, 42 * k, 28 * k, st); puff(x, bx - 28 * k, c.cy - 2 * k, 32 * k, 22 * k, st); puff(x, bx + 26 * k, c.cy - 3 * k, 34 * k, 23 * k, st); } }); }); });
+    cloudStrip = s.c;
+  }
+  function merc(lon, lat) { var n = Math.pow(2, 9) * 256, s = Math.sin(lat * Math.PI / 180); return { x: (lon + 180) / 360 * n, y: (0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI)) * n }; }
+  function flatXY(lon, lat) { var m = merc(lon, lat); return [m.x - ox, m.y - oy]; }
+  function flatPath(x, poly) { x.beginPath(); poly.forEach(function (p, i) { var q = flatXY(p[0], p[1]); if (i === 0) x.moveTo(q[0], q[1]); else x.lineTo(q[0], q[1]); }); x.closePath(); }
+  function inPoly(lon, lat, poly) {
+    var inside = false;
+    for (var i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+      var xi = poly[i][0], yi = poly[i][1], xj = poly[j][0], yj = poly[j][1];
+      if (((yi > lat) !== (yj > lat)) && lon < (xj - xi) * (lat - yi) / (yj - yi) + xi) inside = !inside;
+    }
+    return inside;
+  }
+  function noiseCanvas(w, h, seed) {
+    var gridSize = 48, grid = [], state = seed;
+    function random() { state = (state * 1664525 + 1013904223) >>> 0; return state / 4294967296; }
+    for (var i = 0; i < (gridSize + 1) * (gridSize + 1); i++) grid.push(random());
+    var c = document.createElement('canvas'); c.width = w; c.height = h;
+    var x = c.getContext('2d'), image = x.createImageData(w, h), data = image.data;
+    function value(u, v) {
+      var gx = u * gridSize, gy = v * gridSize, x0 = Math.floor(gx), y0 = Math.floor(gy), fxv = gx - x0, fyv = gy - y0;
+      fxv = fxv * fxv * (3 - 2 * fxv); fyv = fyv * fyv * (3 - 2 * fyv);
+      var a = grid[y0 * (gridSize + 1) + x0], b = grid[y0 * (gridSize + 1) + x0 + 1], c0 = grid[(y0 + 1) * (gridSize + 1) + x0], d = grid[(y0 + 1) * (gridSize + 1) + x0 + 1];
+      return lerp(lerp(a, b, fxv), lerp(c0, d, fxv), fyv);
+    }
+    for (var y = 0; y < h; y++) for (var xx = 0; xx < w; xx++) {
+      var u = xx / w, v = y / h, n = 0.55 * value(u, v) + 0.3 * value((u * 3.1) % 1, (v * 3.1) % 1) + 0.15 * value((u * 9.7) % 1, (v * 9.7) % 1);
+      var k = (y * w + xx) * 4, q = Math.round(n * 255); data[k] = q; data[k + 1] = q; data[k + 2] = q; data[k + 3] = 255;
+    }
+    x.putImageData(image, 0, 0); return c;
+  }
+  function drawTexture() {
+    fx.fillStyle = '#c8b58a'; fx.fillRect(0, 0, fw, fh);
+    flatPath(fx, KUTCH); fx.fillStyle = '#b89e6e'; fx.fill();
+    flatPath(fx, RANN); fx.fillStyle = '#ebe7dc'; fx.fill();
+    fx.save(); fx.globalCompositeOperation = 'multiply'; fx.globalAlpha = 0.55; fx.drawImage(noiseCanvas(fw, fh, 20261114), 0, 0); fx.restore();
+    fx.save(); fx.globalCompositeOperation = 'screen'; fx.globalAlpha = 0.25; fx.drawImage(noiseCanvas(Math.max(2, Math.floor(fw / 2)), Math.max(2, Math.floor(fh / 2)), 777), 0, 0, fw, fh); fx.restore();
+  }
+  function buildMask() {
+    mask = document.createElement('canvas'); mask.width = fw; mask.height = fh;
+    var mx = mask.getContext('2d'), center = { x: 0, y: 0 };
+    BANNI.forEach(function (p) { var q = flatXY(p[0], p[1]); center.x += q[0] / BANNI.length; center.y += q[1] / BANNI.length; });
+    for (var k = 0; k < 18; k++) {
+      var scale = 0.86 + k * 0.016; mx.save(); mx.translate(center.x, center.y); mx.scale(scale, scale); mx.translate(-center.x, -center.y);
+      flatPath(mx, BANNI); mx.fillStyle = 'rgba(255,255,255,0.09)'; mx.fill(); mx.restore();
+    }
+    try { var blurred = document.createElement('canvas'); blurred.width = fw; blurred.height = fh; var bx = blurred.getContext('2d'); bx.filter = 'blur(22px)'; bx.drawImage(mask, 0, 0); mask = blurred; } catch (e) {}
+  }
+  function loadGroundTexture() {
+    var a = merc(VIEW_WIDE.w, VIEW_WIDE.n), b = merc(VIEW_WIDE.e, VIEW_WIDE.s);
+    fw = Math.max(2, Math.ceil(b.x - a.x)); fh = Math.max(2, Math.ceil(b.y - a.y)); ox = a.x; oy = a.y;
+    flat = document.createElement('canvas'); flat.width = fw; flat.height = fh; fx = flat.getContext('2d');
+    comp = document.createElement('canvas'); comp.width = fw; comp.height = fh; cx2 = comp.getContext('2d');
+    drawTexture(); buildMask();
+  }
+  function updateComp(t) {
+    if (Math.abs(t - compT) < 0.004 && comp) return;
+    compT = t; if (!ovl) { ovl = document.createElement('canvas'); ovl.width = fw; ovl.height = fh; }
+    var o = ovl.getContext('2d'); o.clearRect(0, 0, fw, fh); o.globalCompositeOperation = 'source-over'; o.fillStyle = rgb(groundColor(t)); o.fillRect(0, 0, fw, fh);
+    o.globalCompositeOperation = 'destination-in'; o.drawImage(mask, 0, 0);
+    cx2.clearRect(0, 0, fw, fh); cx2.drawImage(flat, 0, 0); cx2.globalAlpha = 0.8; cx2.drawImage(ovl, 0, 0); cx2.globalAlpha = 1;
+  }
+  function proj(lon, lat) {
+    var u = (lon - VIEW.w) / (VIEW.e - VIEW.w), v = (lat - VIEW.s) / (VIEW.n - VIEW.s), zc = 1 + (ZFAR - 1) * v;
+    return { x: W / 2 + (u - 0.5) * W * SPREAD / zc, y: horizon + (H - horizon) * (1 / zc - 1 / ZFAR) / (1 - 1 / ZFAR), z: zc };
+  }
+  function warpGround() {
+    for (var k = 0; k < STRIPS; k++) {
+      var la = VIEW.s + (VIEW.n - VIEW.s) * k / STRIPS, lb = VIEW.s + (VIEW.n - VIEW.s) * (k + 1) / STRIPS, lm = (la + lb) / 2;
+      var top = flatXY(VIEW.w, lb)[1], bottom = flatXY(VIEW.w, la)[1], left = flatXY(VIEW.w, lm)[0], right = flatXY(VIEW.e, lm)[0];
+      var dTop = proj(VIEW.w, lb).y, dBottom = proj(VIEW.w, la).y, dLeft = proj(VIEW.w, lm).x, dRight = proj(VIEW.e, lm).x;
+      var sourceW = Math.max(1, right - left), destW = Math.max(W, dRight - dLeft) * 1.2;
+      ctx.drawImage(comp, left - sourceW * 0.1, top, sourceW * 1.2, Math.max(1, bottom - top), (dLeft + dRight) / 2 - destW / 2, dTop - 1, destW, dBottom - dTop + 2);
+    }
+  }
+  function buildTufts() {
+    tufts = []; var tries = 0;
+    while (tufts.length < 900 && tries++ < 20000) {
+      var lon = rnd(69.12, 70.2), lat = rnd(23.36, 23.82);
+      if (inPoly(lon, lat, BANNI)) tufts.push({ lon: lon, lat: lat, shrub: Math.random() < 0.22, k: Math.random() });
+    }
+    tufts.sort(function (a, b) { return b.lat - a.lat; });
+  }
+  function resize() {
+    dpr = window.devicePixelRatio || 1; W = window.innerWidth; H = window.innerHeight;
+    canvas.width = W * dpr; canvas.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    horizon = H * 0.44; buildClouds(); if (!flat) loadGroundTexture(); if (!tufts.length) buildTufts();
+  }
+  var DS = 0.65;
+  function makeDrop(initial) {
+    return {
+      x: rnd(-20, W + 20),
+      y: initial ? rnd(70, H) : rnd(62, 84),
+      s: DS,
+      v: 6 + Math.random() * 4,
+      sway: (Math.random() - 0.5) * 0.3,
+      a: 0.55 + Math.random() * 0.45,
+      land: rnd(horizon + 10, H - 70)
+    };
+  }
+  function syncCount(n) { while (drops.length < n) drops.push(makeDrop(true)); if (drops.length > n) drops.length = n; }
+  function setWind(wind) {
+    if (!wind || !isFinite(+wind.speed) || !isFinite(+wind.direction)) {
+      WIND.speed = 0; WIND.direction = 0; return;
+    }
+    WIND.speed = Math.max(0, +wind.speed);
+    WIND.direction = ((+wind.direction % 360) + 360) % 360;
+  }
+  function windDrift() {
+    var radians = (WIND.direction + 180) * Math.PI / 180;
+    return Math.sin(radians) * Math.min(1.8, WIND.speed / 10 * 1.8);
+  }
+  function drawDrop(d) {
+    var r = 5 * d.s, h = r * 2.6;
+    ctx.save(); ctx.translate(d.x, d.y); ctx.globalAlpha = d.a;
+    ctx.beginPath(); ctx.moveTo(0, -h);
+    ctx.bezierCurveTo(r * 0.3, -h * 0.45, r * 1.15, -r * 0.2, r, r * 0.5);
+    ctx.arc(0, r * 0.5, r, 0, Math.PI, false);
+    ctx.bezierCurveTo(-r * 1.15, -r * 0.2, -r * 0.3, -h * 0.45, 0, -h);
+    ctx.closePath();
+    var g = ctx.createLinearGradient(-r, -h, r, r * 1.5);
+    g.addColorStop(0, '#cfe6ff'); g.addColorStop(0.5, '#5d9be0'); g.addColorStop(1, '#2a5fae');
+    ctx.fillStyle = g; ctx.fill();
+    ctx.lineWidth = 0.6; ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(-r * 0.35, r * 0.2, r * 0.22, r * 0.45, 0, 0, 7);
+    ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fill();
+    ctx.restore();
+  }
+  function drawSky(rainT) {
+    var top = mix([126, 176, 219], [24, 62, 112], rainT), bot = mix([236, 226, 198], [128, 162, 196], rainT);
+    var g = ctx.createLinearGradient(0, 0, 0, horizon); g.addColorStop(0, rgb(top)); g.addColorStop(1, rgb(bot));
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, horizon + 2);
+    var sx=W*0.78, sy=horizon*0.42, gl=ctx.createRadialGradient(sx,sy,0,sx,sy,horizon*0.95);
+    gl.addColorStop(0,'rgba(255,238,190,'+(0.42*(1-rainT)).toFixed(3)+')');
+    gl.addColorStop(1,'rgba(255,238,190,0)');
+    ctx.fillStyle=gl; ctx.fillRect(0,0,W,horizon+2);
+    var RG=[[74,0.0062,0.2,[142,172,199]],[54,0.0095,0.9,[116,152,180]],[36,0.0150,1.7,[98,136,124]]];
+    for(var ri=0;ri<RG.length;ri++){
+      var R=RG[ri], hg=R[0]*(1-0.2*rainT);
+      ctx.beginPath(); ctx.moveTo(0,horizon+2);
+      for(var rx=0;rx<=W;rx+=6){
+        var ry=horizon-hg*(0.5+0.5*Math.sin(rx*R[1]+R[2])*Math.sin(rx*R[1]*0.45+R[2]*2));
+        ctx.lineTo(rx,ry);
+      }
+      ctx.lineTo(W,horizon+2); ctx.closePath();
+      var base=mix(R[3],[122,152,182],rainT*0.5);
+      var gr=ctx.createLinearGradient(0,horizon-hg,0,horizon+2);
+      gr.addColorStop(0,rgb(mix(base,[255,255,255],0.16),0.88));
+      gr.addColorStop(0.55,rgb(base,0.80));
+      gr.addColorStop(1,rgb(mix(base,[242,243,238],0.6),0.30));
+      ctx.fillStyle=gr; ctx.fill();
+    }
+    var hz=ctx.createLinearGradient(0,horizon-46,0,horizon+2);
+    hz.addColorStop(0,'rgba(226,232,238,0)');
+    hz.addColorStop(1,'rgba(226,232,238,'+(0.12+0.14*rainT).toFixed(3)+')');
+    ctx.fillStyle=hz; ctx.fillRect(0,horizon-46,W,48);
+    var sl=ctx.createLinearGradient(0,horizon-30,0,horizon+10);
+    sl.addColorStop(0,'rgba(246,244,236,0)');
+    sl.addColorStop(0.62,'rgba(248,246,240,0.22)');
+    sl.addColorStop(1,'rgba(246,244,236,0)');
+    ctx.fillStyle=sl; ctx.fillRect(0,horizon-30,W,40);         // far salt line (Rann)
+  }
+  function easeInOut(x) { return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+  function updateZoom(ts) {
+    if (!zoom.start) zoom.start = ts + 1400;
+    var k = clamp01((ts - zoom.start) / zoom.dur), e = easeInOut(k);
+    zoom.t = zoom.from + (zoom.target - zoom.from) * e;
+    ['w', 'e', 's', 'n'].forEach(function (q) { VIEW[q] = VIEW_WIDE[q] + (VIEW_CLOSE[q] - VIEW_WIDE[q]) * zoom.t; });
+  }
+  function drawGround(t, rainT) {
+    updateComp(t);
+    ctx.save(); ctx.beginPath(); ctx.rect(0, horizon - 1, W, H - horizon + 1); ctx.clip();
+    warpGround();
+    var haze = ctx.createLinearGradient(0, horizon, 0, horizon + (H - horizon) * 0.22);
+    haze.addColorStop(0, 'rgba(198,215,232,0.42)'); haze.addColorStop(1, 'rgba(190,210,230,0)');
+    ctx.fillStyle = haze; ctx.fillRect(0, horizon, W, (H - horizon) * 0.22);
+    var va = clamp01((zoom.t - 0.25) / 0.6); va = va * va;
+    if (va > 0.02) {
+      var green = mix([150, 140, 80], [30, 95, 45], t), shrubC = mix([80, 90, 50], [22, 70, 38], Math.max(t, 0.35));
+      ctx.save(); ctx.globalAlpha = va;
+      for (var j = 0; j < tufts.length; j++) {
+        var tf = tufts[j]; if (tf.lon < VIEW.w - 0.3 || tf.lon > VIEW.e + 0.3 || tf.lat < VIEW.s - 0.05 || tf.lat > VIEW.n) continue;
+        var q = proj(tf.lon, tf.lat), s = (0.9 + 1.5 * zoom.t) / q.z;
+          ctx.fillStyle='rgba(42,36,20,'+(0.16+0.12*t).toFixed(3)+')';
+          ctx.beginPath();
+          ctx.ellipse(q.x,q.y+1.2*s,(tf.shrub?8:3.2)*s,(tf.shrub?2.6:1.1)*s,0,0,Math.PI*2);
+          ctx.fill();
+        if (tf.shrub) {
+          ctx.fillStyle = rgb(shrubC, 0.7); ctx.beginPath(); ctx.ellipse(q.x, q.y - 3 * s, 7 * s, 4.5 * s, 0, 0, Math.PI * 2); ctx.ellipse(q.x - 5 * s, q.y - 2 * s, 5 * s, 3.5 * s, 0, 0, Math.PI * 2); ctx.ellipse(q.x + 5 * s, q.y - 2.5 * s, 5 * s, 3.5 * s, 0, 0, Math.PI * 2); ctx.fill();
+        } else {
+          ctx.strokeStyle = rgb(green, 0.45 + 0.5 * t); ctx.lineWidth = Math.max(0.7, s); ctx.beginPath();
+          for (var b = -2; b <= 2; b++) { ctx.moveTo(q.x, q.y); ctx.lineTo(q.x + b * 1.8 * s, q.y - (4 + 3 * t) * s); } ctx.stroke();
+        }
+      }
+      ctx.restore();
+    }
+    ctx.save(); ctx.shadowColor = 'rgba(0,0,0,0.75)'; ctx.shadowBlur = 6; ctx.fillStyle = '#fff'; ctx.textAlign = 'center';
+    ctx.textAlign = 'left'; ctx.globalAlpha = 1 - clamp01(zoom.t * 1.6); var r = proj(68.9, 23.95); ctx.font = 'italic 12px system-ui'; ctx.fillText('Great Rann of Kachchh (salt desert)', Math.max(16, r.x), Math.max(horizon + 16, r.y + 14));
+    PLACES.forEach(function (pl) { var q = proj(pl.lon, pl.lat); ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(q.x, q.y, 3.5, 0, Math.PI * 2); ctx.fill(); ctx.font = '12px system-ui'; ctx.fillText(pl.n, q.x + 7, q.y + 4); });
+    ctx.restore(); ctx.restore();
+  }
+  function frame(ts) {
+    updateZoom(ts);
+    cur.t += (target.t - cur.t) * 0.06; cur.rainT += (target.rainT - cur.rainT) * 0.06; cur.px += (target.px - cur.px) * 0.08;
+    var wantDrops = mode === 'obs' ? Math.round(15 + 285 * clamp01(cur.rainT * (0.75 + 0.5 * cur.t))) : 0;
+    cur.density += (wantDrops - cur.density) * 0.08; syncCount(Math.round(cur.density));
+    var rt = mode === 'obs' ? cur.rainT : 0.15;
+    ctx.clearRect(0, 0, W, H);
+    drawSky(rt); drawGround(cur.t, rt);
+    var cloudA = mode === 'obs' ? 0.25 + 0.75 * cur.rainT : 0.2;
+    cloudX = (cloudX + 0.25) % stripW;
+    ctx.save(); ctx.globalAlpha = cloudA; ctx.drawImage(cloudStrip, -cloudX, -15, stripW, 160); ctx.drawImage(cloudStrip, stripW - cloudX, -15, stripW, 160); ctx.restore();
+    for (var i = 0; i < drops.length; i++) {
+      var d = drops[i]; drawDrop(d); d.y += d.v; d.x += d.sway + windDrift();
+      if (d.y > d.land) { if (splashes.length < 90) splashes.push({ x: d.x, y: d.land, r: 1, life: 1, s: d.s }); drops[i] = makeDrop(false); }
+    }
+    for (var j = splashes.length - 1; j >= 0; j--) {
+      var p = splashes[j]; ctx.strokeStyle = 'rgba(235,248,255,' + (p.life * 0.6) + ')'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.ellipse(p.x, p.y, p.r * 2.2 * p.s, p.r * 0.8 * p.s, 0, 0, Math.PI * 2); ctx.stroke();
+      p.r += 0.45; p.life -= 0.06; if (p.life <= 0) splashes.splice(j, 1);
+    }
+    var vg = ctx.createRadialGradient(W / 2, H * 0.52, Math.min(W, H) * 0.34, W / 2, H * 0.52, Math.max(W, H) * 0.78);
+    vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(6,14,26,0.34)');
+    ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
+    if (playing && DATA.length && ts - lastStep > 1400) { lastStep = ts; setYear((idx + 1) % DATA.length); }
+    requestAnimationFrame(frame);
+  }
+
+  // ---------- hover tooltip (location shows only while the pointer is over the ground), parallax, zoom ----------
+  var tip = document.getElementById('tip');
+  function overGround(x, y) { return y > horizon && y < H - 120; }
+  function showTip(x, y) {
+    var d = idx >= 0 ? DATA[idx] : null, loc = META.location || '—';
+    tip.innerHTML = '<b>' + loc + '</b>' + (d ? (d.year + ' · ' + META.rainLabel + ' ' + d.rain.toFixed(0) + ' mm · ' + META.ndviLabel + ' ' + d.ndvi.toFixed(3)) : '<small>waiting for data</small>') + '<br><small>scroll / + − to zoom the ground</small>';
+    tip.style.display = 'block'; tip.style.left = Math.min(x + 14, W - 250) + 'px'; tip.style.top = Math.min(y + 14, H - 90) + 'px';
+  }
+  function hideTip() { tip.style.display = 'none'; }
+  window.addEventListener('mousemove', function (e) {
+    target.px = (e.clientX / W - 0.5) * 36;
+    if (overGround(e.clientX, e.clientY) && !e.target.closest('.info,.legend,.controls')) showTip(e.clientX, e.clientY); else hideTip();
+  });
+  window.addEventListener('mouseleave', hideTip); document.addEventListener('mouseleave', hideTip);
+  window.addEventListener('touchstart', function (e) { var t = e.touches[0]; if (overGround(t.clientX, t.clientY)) showTip(t.clientX, t.clientY); else hideTip(); }, { passive: true });
+  window.addEventListener('touchend', hideTip);
+  function zoomBy(k) {
+    zoom.from = zoom.t; zoom.target = clamp01(zoom.target + k); zoom.start = performance.now(); zoom.dur = 900;
+  }
+  window.addEventListener('wheel', function (e) { if (e.target.closest('.controls,.info,.legend')) return; zoomBy(e.deltaY < 0 ? 0.06 : -0.06); e.preventDefault(); }, { passive: false });
+  window.addEventListener('keydown', function (e) { if (e.key === '+' || e.key === '=') zoomBy(0.08); else if (e.key === '-' || e.key === '_') zoomBy(-0.08); });
+
+  // ---------- UI ----------
+  var $ = function (id) { return document.getElementById(id); }, strip = $('strip');
+  function fmt(v, n) { return (v >= 0 ? '+' : '') + v.toFixed(n); }
+  function paintStrip() {
+    strip.innerHTML = '';
+    var n = DATA.length || 24;
+    for (var i = 0; i < n; i++) (function (i) {
+      var el = document.createElement('div'), d = DATA[i];
+      if (d) { el.style.background = rgb(groundColor(tOf(d, mode))); el.setAttribute('data-y', (i % 3 === 0) ? d.year : ''); el.title = d.year + ': ' + d.rain.toFixed(0) + ' mm, NDVI ' + d.ndvi.toFixed(3); el.addEventListener('click', function () { setYear(i); }); }
+      if (i === idx) el.className = 'sel';
+      strip.appendChild(el);
+    })(i);
+  }
+  function setYear(i) {
+    if (!DATA.length) return;
+    idx = i; var d = DATA[i];
+    target.t = tOf(d, mode); target.rainT = clamp01((d.rain - stats.rMin) / (stats.rMax - stats.rMin || 1));
+    $('yr').textContent = d.year; $('year').value = i;
+    $('rainV').textContent = d.rain.toFixed(0) + ' mm'; $('ndviV').textContent = d.ndvi.toFixed(3); $('resV').textContent = d.rr.toFixed(3); $('dV').textContent = fmt(d.res, 3);
+    var rel = d.rain / stats.rMax;
+    $('note').textContent = mode === 'obs'
+      ? (rel < 0.3 ? 'Weak monsoon year: ground stays pale. ' : rel > 0.75 ? 'Strong monsoon year: ground greens up. ' : '') + 'Rain and greenness move together (r ≈ ' + stats.corr.toFixed(2) + ').'
+      : 'Rain effect removed: colour shows NDVI after subtracting the rain fit. Residual trend ≈ ' + fmt(stats.sen * 1000, 2) + ' ×10⁻³ per year.';
+    var kids = strip.children; for (var k = 0; k < kids.length; k++) kids[k].className = k === i ? 'sel' : '';
+  }
+  function setMode(m) {
+    mode = m; $('toggle').className = 'toggle' + (m === 'res' ? ' on' : ''); $('toggle').textContent = m === 'res' ? 'Rain effect removed ✓' : 'Remove rain effect';
+    $('modeLbl').textContent = m === 'res' ? 'Residual: greenness after removing rain' : 'Observed: rain + greenness';
+    $('legT').textContent = m === 'res' ? 'Ground colour = rain-removed NDVI (scale ±0.05 around mean)' : 'Ground colour = NDVI';
+    if (stats) { $('legL').textContent = m === 'res' ? (stats.my - 0.05).toFixed(2) : stats.nMin.toFixed(2); $('legR').textContent = m === 'res' ? (stats.my + 0.05).toFixed(2) : stats.nMax.toFixed(2); }
+    paintStrip(); if (idx >= 0) setYear(idx);
+  }
+  function setData(payload) {
+    var arr = Array.isArray(payload) ? payload : (payload && payload.series) || [];
+    setWind(payload && (payload.wind || (payload.meta && payload.meta.wind)));
+    if (payload && payload.meta) for (var k in payload.meta) if (payload.meta[k] != null) META[k] = String(payload.meta[k]);
+    DATA = arr.filter(function (d) { return d && isFinite(+d.year) && isFinite(+d.rain) && isFinite(+d.ndvi); })
+              .map(function (d) { return { year: +d.year, rain: +d.rain, ndvi: +d.ndvi }; }).sort(function (p, q) { return p.year - q.year; });
+    derive();
+    $('src').textContent = META.source || '';
+    document.querySelectorAll('.kv span')[0].textContent = META.rainLabel; document.querySelectorAll('.kv span')[1].textContent = META.ndviLabel;
+    if (!stats) { idx = -1; $('play').disabled = true; $('year').disabled = true; $('year').max = 0; $('note').textContent = DATA.length ? 'Need at least 3 years of data.' : ''; paintStrip(); return; }
+    $('play').disabled = false; $('year').disabled = false; $('year').max = DATA.length - 1;
+    idx = DATA.length - 1; setMode(mode);
+  }
+  $('legBar').style.background = 'linear-gradient(to right,' + rgb(DRY) + ',' + rgb(MID) + ',' + rgb(LUSH) + ')';
+  $('year').addEventListener('input', function () { setYear(Number(this.value)); });
+  $('toggle').addEventListener('click', function () { setMode(mode === 'obs' ? 'res' : 'obs'); });
+  $('play').addEventListener('click', function () { if (!DATA.length) return; playing = !playing; this.textContent = playing ? '❚❚ Pause' : '▶ Play'; lastStep = performance.now(); });
+  $('zoom').addEventListener('click', function () {
+    zoom.from = zoom.t; zoom.target = zoom.target === 1 ? 0 : 1; zoom.start = performance.now(); zoom.dur = 2200;
+    this.textContent = zoom.target === 1 ? '⤢ Zoom out' : '⤡ Zoom in';
+  });
+  window.addEventListener('resize', resize);
+  window.addEventListener('message', function (e) { if (e.data && e.data.type === 'banni:data') setData(e.data); });
+  window.banniOverview = { setData: setData, setWind: setWind, setYear: setYear, setMode: setMode, getState: function () { return { year: idx >= 0 ? DATA[idx].year : null, mode: mode, n: DATA.length }; } };
+
+  resize(); paintStrip(); syncCount(60); requestAnimationFrame(frame);
+  (SRC ? fetch(SRC).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }) : loadFromApi())
+    .then(setData)
+    .catch(function (e) { $('note').textContent = 'Could not load data' + (SRC ? ' from ' + SRC : ' from the API') + ': ' + (e && e.message ? e.message : e); });
+  if (window.parent && window.parent !== window) { try { window.parent.postMessage({ type: 'banni:ready' }, '*'); } catch (e) {} }
+})();
+</script>
+</body>
+</html>

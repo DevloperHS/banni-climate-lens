@@ -9,6 +9,7 @@ RUN npm run build
 
 # --- 2. runtime: API + built frontend in one process
 FROM python:3.12-slim AS runtime
+RUN apt-get update && apt-get install -y --no-install-recommends libexpat1 && rm -rf /var/lib/apt/lists/*
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1 \
     GCL_DATA_DIR=/data GCL_STATIC_DIR=/app/static GCL_LOG_JSON=true
 RUN useradd --create-home --uid 10001 gcl && mkdir -p /data /app/static && chown -R gcl:gcl /data
@@ -18,6 +19,9 @@ COPY backend/requirements.txt backend/requirements.lock ./
 RUN pip install -r requirements.lock || pip install -r requirements.txt
 COPY backend/app ./app
 COPY --from=web /web/dist /app/static
+# extracted data ships inside the image (about 167 MB)
+COPY --chown=gcl:gcl data/processed /data/processed
+COPY --chown=gcl:gcl data/raw /data/raw
 USER gcl
 VOLUME ["/data"]
 EXPOSE 8000

@@ -6,17 +6,7 @@ import { EEStatus } from "../lib/api";
 
 export const NAV = [
   { to: "/", label: "Overview", end: true, icon: "overview" },
-  { to: "/dashboards", label: "Trend Dashboards", icon: "dashboards" },
-  { to: "/regions", label: "Regions", icon: "regions" },
-  { to: "/satellite", label: "Satellite Explorer", icon: "satellite" },
-  { to: "/vegetation", label: "Vegetation", icon: "vegetation" },
-  { to: "/climate", label: "Climate", icon: "climate" },
-  { to: "/water", label: "Water Resources", icon: "water" },
-  { to: "/spatial", label: "Spatial Analysis", icon: "spatial" },
-  { to: "/statistics", label: "Statistical Analysis", icon: "statistics" },
-  { to: "/reports", label: "Research Reports", icon: "reports" },
-  { to: "/methodology", label: "Methodology", icon: "methodology" },
-  { to: "/settings", label: "Settings", icon: "settings" },
+  { to: "/reports", label: "Research", icon: "reports" },
 ];
 
 function NavIcon({ name }: { name: string }) {
@@ -180,9 +170,8 @@ export default function Layout() {
           <Logo />
         </div>
 
-        {/* ── Main Navigation: Grouped into Observations, Research, Platform ── */}
+        {/* ── Main Navigation ── */}
         <nav aria-label="Main navigation" className="flex flex-col gap-1 flex-1">
-          {/* Mission & Overview Links */}
           <div className="text-[10.5px] font-bold uppercase tracking-wider px-3 pt-1 pb-1.5 text-[var(--muted)] opacity-70">
             Domain
           </div>
@@ -196,107 +185,12 @@ export default function Layout() {
             <span>Overview</span>
           </NavLink>
           <NavLink
-            to="/dashboards"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={() => setOpen(false)}
-          >
-            <NavIcon name="dashboards" />
-            <span>Trend Dashboards</span>
-          </NavLink>
-          <NavLink
-            to="/regions"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={() => setOpen(false)}
-          >
-            <NavIcon name="regions" />
-            <span>Regions</span>
-          </NavLink>
-
-          {/* Observations Group */}
-          <div className="text-[10.5px] font-bold uppercase tracking-wider px-3 pt-4 pb-1.5 text-[var(--muted)] opacity-70">
-            Observations
-          </div>
-          <NavLink
-            to="/satellite"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={() => setOpen(false)}
-          >
-            <NavIcon name="satellite" />
-            <span>Satellite Explorer</span>
-          </NavLink>
-          <NavLink
-            to="/vegetation"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={() => setOpen(false)}
-          >
-            <NavIcon name="vegetation" />
-            <span>Vegetation</span>
-          </NavLink>
-          <NavLink
-            to="/climate"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={() => setOpen(false)}
-          >
-            <NavIcon name="climate" />
-            <span>Climate</span>
-          </NavLink>
-          <NavLink
-            to="/water"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={() => setOpen(false)}
-          >
-            <NavIcon name="water" />
-            <span>Water Resources</span>
-          </NavLink>
-
-          {/* Research Group */}
-          <div className="text-[10.5px] font-bold uppercase tracking-wider px-3 pt-4 pb-1.5 text-[var(--muted)] opacity-70">
-            Research
-          </div>
-          <NavLink
-            to="/spatial"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={() => setOpen(false)}
-          >
-            <NavIcon name="spatial" />
-            <span>Spatial Analysis</span>
-          </NavLink>
-          <NavLink
-            to="/statistics"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={() => setOpen(false)}
-          >
-            <NavIcon name="statistics" />
-            <span>Statistical Analysis</span>
-          </NavLink>
-          <NavLink
             to="/reports"
             className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
             onClick={() => setOpen(false)}
           >
             <NavIcon name="reports" />
-            <span>Research Reports</span>
-          </NavLink>
-
-          {/* Platform Group */}
-          <div className="text-[10.5px] font-bold uppercase tracking-wider px-3 pt-4 pb-1.5 text-[var(--muted)] opacity-70">
-            Platform
-          </div>
-          <NavLink
-            to="/methodology"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={() => setOpen(false)}
-          >
-            <NavIcon name="methodology" />
-            <span>Methodology</span>
-          </NavLink>
-          <NavLink
-            to="/settings"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={() => setOpen(false)}
-          >
-            <NavIcon name="settings" />
-            <span>Settings</span>
+            <span>Research</span>
           </NavLink>
         </nav>
 
@@ -456,18 +350,6 @@ export default function Layout() {
               DEMO
             </span>
             SYNTHETIC SAMPLE DATA: generated by a toy model for software testing. Nothing shown is a satellite observation or a scientific result.
-          </div>
-        )}
-
-        {/* EE Not Configured Status Note */}
-        {source === "processed" && ee.data && !ee.data.verified && !ee.data.project_configured && (
-          <div
-            className="px-6 py-2 text-xs border-b border-[var(--border-subtle)] flex items-center justify-between text-[var(--muted)] bg-[var(--bg-elev)]"
-          >
-            <span>
-              Earth Engine is not configured, so live retrieval is disabled; only previously processed datasets can be explored.
-            </span>
-            <span className="font-mono text-[10.5px]">Local Datastore</span>
           </div>
         )}
 

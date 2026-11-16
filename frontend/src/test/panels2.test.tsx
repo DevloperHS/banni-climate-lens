@@ -28,7 +28,7 @@ describe("availability strip & global period", () => {
 
   it("header period selector feeds every request", async () => {
     const f = mockApi({ "/api/datasets": { body: { items: [], total: 0, earth_engine: {} } }, "/api/reports/insights": { body: { findings: [], notes: [], synthetic: false, question: "q" } } });
-    renderApp("/");
+    renderApp("/reports");
     await waitFor(() => expect(screen.getByLabelText("Period start")).toHaveValue("2001"));      // options exist once the region has loaded
     await userEvent.selectOptions(screen.getByLabelText("Period start"), "2010");
     await userEvent.selectOptions(screen.getByLabelText("Period end"), "2020");

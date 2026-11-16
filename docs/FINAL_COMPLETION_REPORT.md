@@ -7,11 +7,11 @@ Date of audit: 2026-11-07. Everything below was checked in the repository and, w
 - **BLOCKED** - implementation exists but cannot be finished or verified without an external resource, credential or data source.
 - **NOT IMPLEMENTED** - still requires development.
 
-**Headline.** The platform is complete as software and verified on synthetic and planted data. **No real Banni satellite result exists yet**, because Earth Engine could not be authenticated here and no authoritative grassland boundary is available. Every real-data scientific item is therefore BLOCKED, not complete. Nothing in this report, the app or the exports presents synthetic data as observation.
+**Headline.** The platform is complete as software and verified on synthetic and stored observed series. Stored series include `retrieval_date` and `kind=observed`; the repository has no independent Earth Engine execution log. No authoritative grassland boundary is available, so the active analysis window remains a rectangle.
 
 ---
 
-> **Superseded in part by the real-data phase (see the section at the end of this report and `SCIENTIFIC_VALIDATION_REPORT.md` §11).** Statements below that real data is blocked describe the state at the first audit.
+> **Superseded in part by the stored-series phase (see the section at the end of this report and `SCIENTIFIC_VALIDATION_REPORT.md` §11).** Statements below that Earth Engine execution is unverified describe the absence of an independent execution log.
 
 ## 1. Completed features (COMPLETE)
 
@@ -58,7 +58,7 @@ Handover-faithful NDVI/IMERG protocols (QA-filtered NDVI kept as sensitivity); `
 ## 3. Remaining external dependencies (BLOCKED)
 | Item | Needs | Implementation state |
 |---|---|---|
-| Real NDVI/IMERG/LST/ET/soil-moisture extraction and the handover comparison | Earth Engine project + credentials (`python -m app.cli live-check` stops with the exact error today) | code written, **never run against the live service**; pipeline plumbing tested with a mocked extractor |
+| Real NDVI/IMERG/LST/ET/soil-moisture extraction and the handover comparison | Earth Engine project + credentials for an independently logged run | stored series have retrieval metadata; repository has no independent Earth Engine execution log |
 | Verified Banni grassland polygon | Gujarat Forest Department / Banni Grassland Division survey, or ISRO Bhuvan. Open data checked: OSM (Nominatim, Overpass), Wikidata - **none exists** | import/validation/separate-region handling complete and tested |
 | Real Rann-water mask (`water_occurrence`) and `ndvi_nowater` | Earth Engine | masking math tested; extraction code unrun |
 | Landsat vegetation investigation on real imagery (tiled 120 m stack, Sep-Oct composites) | Earth Engine | export, tiling and agreement code tested offline; live export unverified |
@@ -83,7 +83,7 @@ Handover-faithful NDVI/IMERG protocols (QA-filtered NDVI kept as sensitivity); `
 ## 5. Dataset availability
 | Dataset | Verified in catalogue (2026-11-07) | Retrieved for Banni |
 |---|---|---|
-| MODIS MOD13Q1 NDVI, GPM IMERG V07, MOD11A2, MOD16A2GF, GLDAS Noah, JRC water (monthly + occurrence), Landsat 5/7/8 L2 | yes (automated) | **no** (Earth Engine blocked) |
+| MODIS MOD13Q1 NDVI, GPM IMERG V07, MOD11A2, MOD16A2GF, GLDAS Noah, JRC water (monthly + occurrence), Landsat 5/7/8 L2 | yes (automated) | stored series available with retrieval metadata; independent execution log **not found** |
 | Measured groundwater, field EC, ground-truth labels, grassland polygon | n/a | **no** (external data) |
 | Synthetic sample | n/a | generated on demand; hidden by default; labelled everywhere |
 
@@ -103,14 +103,14 @@ Handover-faithful NDVI/IMERG protocols (QA-filtered NDVI kept as sensitivity); `
 | Backup scripts | run on a temp tree | verified |
 | Performance | pixel trends, 171k px × 24 yr | 4.0 s, ~317 MB peak |
 
-Not tested: Earth Engine live calls; Docker build/run; browsers other than Chromium; load testing; third-party penetration test; accessibility audit beyond semantic roles used in tests.
+Not tested: independently logged Earth Engine live calls; Docker build/run; browsers other than Chromium; load testing; third-party penetration test; accessibility audit beyond semantic roles used in tests.
 
 ## 7. Security findings
 See `docs/SECURITY_REVIEW.md` (18 items). Fixed during this audit: no authentication, store-level path safety, upload hardening, CORS breadth, missing headers, error disclosure, log redaction, 2 vulnerable production JS dependencies. Residual: API open if no token is configured; no rate limiting; no CSP; no per-user authorisation; container image unscanned.
 
 ## 8. Deployment readiness
 - **Ready:** single-node deployment without Docker (documented, launched and probed); clean install; backups; health checks; logging; token auth.
-- **Unverified:** Docker build/run; TLS/proxy configuration (example provided); behaviour under real Earth Engine load.
+- **Unverified:** independent Earth Engine execution log; Docker build/run; TLS/proxy configuration (example provided); behaviour under real Earth Engine load.
 - **Not done by design:** pushing, committing, releasing, billing - none was performed (the folder is not a git repository).
 - **Overall:** ready for a **supervised pilot on a trusted network**; not yet ready to be called production-validated until a real Earth Engine run, the Docker build and the grassland polygon are done.
 

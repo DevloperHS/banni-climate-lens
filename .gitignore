@@ -24,3 +24,6 @@ backups/
 # local tooling
 .claude/
 *.log
+*.bak*
+*.bak*
+deploy/DEPLOY.md
