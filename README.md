@@ -77,6 +77,15 @@ Full item-by-item status: [docs/FINAL_COMPLETION_REPORT.md](docs/FINAL_COMPLETIO
 **Frontend** React 18 · TypeScript · Vite · Recharts · Leaflet
 **Data** Google Earth Engine  **Tests** pytest · Vitest · Playwright
 
+## Efficiency by design
+
+GlobalClimateLens is built to do the least compute necessary:
+
+- Results are cached by data-file mtime — repeated views never recompute.
+- Earth Engine is called only by explicit extraction jobs; the running app never hits it.
+- A lightweight file store (JSON + GeoTIFF) replaces a heavy database.
+- Per-pixel trends run vectorised in NumPy.
+
 ## Documentation
 
 [Setup](docs/SETUP.md) · [Architecture](docs/ARCHITECTURE.md) · [Datasets](docs/DATASETS.md) · [Methodology](docs/METHODOLOGY.md) · [API](docs/API_DOCUMENTATION.md) · [Deployment](docs/DEPLOYMENT.md) · [Contributing](docs/CONTRIBUTING.md)
