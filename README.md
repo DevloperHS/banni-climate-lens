@@ -1,6 +1,7 @@
 <div align="center">
 
-# 🌍 GlobalClimateLens
+#  <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/a6800aac-ecfa-4589-afc4-126f8d611a42" />
+GlobalClimateLens
 
 **Earth-observation analytics for long-term environmental change**
 
